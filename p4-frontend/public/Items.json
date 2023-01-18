@@ -1,0 +1,70 @@
+{
+  "items": {
+    "responsive": [
+      {
+        "id": 1,
+        "title": "Watch",
+        "text": "a cool watch",
+        "imageUrl": "/images/1.jpg"
+      },
+      {
+        "id": 2,
+        "title": "headphones",
+        "text": "black headphones",
+        "imageUrl": "/images/2.jpg"
+      },
+      {
+        "id": 3,
+        "title": "polaroid camera",
+        "text": "a camera for making polaroids",
+        "imageUrl": "/images/3.jpg"
+      },
+      {
+        "id": 4,
+        "title": "stool",
+        "text": "sturdy wooden stool",
+        "imageUrl": "/images/4.jpg"
+      },
+      {
+        "id": 5,
+        "title": "decorative plant",
+        "text": "A plant to decorate your living space",
+        "imageUrl": "/images/5.jpg"
+      }
+    ]
+  },
+  "items2": {
+    "responsive": [
+      {
+        "id": 1,
+        "title": "Watch",
+        "text": "a cool watch",
+        "imageUrl": "/images/3.jpg"
+      },
+      {
+        "id": 2,
+        "title": "headphones",
+        "text": "black headphones",
+        "imageUrl": "/images/3.jpg"
+      },
+      {
+        "id": 3,
+        "title": "polaroid camera",
+        "text": "a camera for making polaroids",
+        "imageUrl": "/images/3.jpg"
+      },
+      {
+        "id": 4,
+        "title": "stool",
+        "text": "sturdy wooden stool",
+        "imageUrl": "/images/3.jpg"
+      },
+      {
+        "id": 5,
+        "title": "decorative plant",
+        "text": "A plant to decorate your living space",
+        "imageUrl": "/images/3.jpg"
+      }
+    ]
+  }
+}
