@@ -25,23 +25,23 @@ pipelines:
               # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
               - pipe: atlassian/git-secrets-scan:0.5.1
   branches:
-     master:
-      - stage:
-        name: security test 1
-        steps:
-          - step:
-              name: Security Scan
-              script:
-              # Run a security scan for sensitive data.
-              # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
-              - pipe: atlassian/git-secrets-scan:0.5.1
-      - stage:
-         name: infrastructure_master
-         steps:
-          - step:
-                trigger:
-                  include: terraform/bitbucket-pipelines.yml
-                  strategy: depend
+    #  master:
+    #   - stage:
+    #     name: security test 1
+    #     steps:
+    #       - step:
+    #           name: Security Scan
+    #           script:
+    #           # Run a security scan for sensitive data.
+    #           # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+    #           - pipe: atlassian/git-secrets-scan:0.5.1
+    #   - stage:
+    #      name: infrastructure_master
+    #      steps:
+    #       - step:
+    #             trigger:
+    #               include: terraform/bitbucket-pipelines.yml
+    #               strategy: depend
             # backend:
             #   stage: backend
             #   trigger:
