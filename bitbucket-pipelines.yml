@@ -27,7 +27,7 @@ pipelines:
   branches:
      master:
       - stage:
-        name: security test 2
+        name: security test 1
         steps:
           - step:
               name: Security Scan
@@ -36,7 +36,7 @@ pipelines:
               # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
               - pipe: atlassian/git-secrets-scan:0.5.1
       - stage:
-         name: infrastructure
+         name: infrastructure_master
          steps:
           - step:
                 trigger:
@@ -63,7 +63,7 @@ pipelines:
               # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
               - pipe: atlassian/git-secrets-scan:0.5.1
       - stage:
-         name: infrastructure
+         name: infrastructure_development
          steps:
           - step:
                 trigger:
