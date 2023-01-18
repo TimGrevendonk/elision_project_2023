@@ -53,15 +53,15 @@ pipelines:
             #     include: p4-frontend/bitbucket-pipelines.yml
             #     strategy: depend
      development:
-      - stage:
-        name: security test 2
-        steps:
-          - step:
-              name: Security Scan
-              script:
-              # Run a security scan for sensitive data.
-              # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
-              - pipe: atlassian/git-secrets-scan:0.5.1
+      # - stage:
+      #   name: security test 2
+      #   steps:
+      #     - step:
+      #         name: Security Scan
+      #         script:
+      #         # Run a security scan for sensitive data.
+      #         # See more security tools at https://bitbucket.org/product/features/pipelines/integrations?&category=security
+      #         - pipe: atlassian/git-secrets-scan:0.5.1
       - stage:
          name: infrastructure_development
          steps:
