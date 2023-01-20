@@ -14,35 +14,38 @@ import fact.it.p4_backend.model.User;
 @RestController
 @RequestMapping("/api")
 /**
- * CRUD for user data.
+ * Controller to allow CRUD functionality via standard REST queries.
  */
 public class UserController {
     @Autowired
     private UserService userService;
 
     @GetMapping("/user")
+    /**
+     * Query the repository for all users and sort them by name (Ascended).
+     * @return responseEntity 200 OK with the users.
+     */
     public ResponseEntity<List<User>> getAllUsersOrderedByNameAscending() {
-// //        use of sql that is not connected.
         List<User> usersResponse = userService.getAllUsersOrderedByNameAscending();
-
-        System.out.print(usersResponse);
-//        not null/Empty check with return of User and OK status.
         if (!usersResponse.isEmpty()) {
             return new ResponseEntity<>(usersResponse, HttpStatus.OK);
         }
-//        Default return
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/user/{number}")
+    /**
+     * Query the repository for a single user by their id.
+     * @param userId the id of the requested user.
+     * @return ResponseEntity 200 OK with the user.
+     */
     public ResponseEntity<User> getTrainingById(@PathVariable("number") Long userId) {
         Optional<User> userResponse = userService.findById(userId);
-//        Value check with return of User and OK status.
-        if (userResponse.isPresent()) {
-            return new ResponseEntity<>(userResponse.get(), HttpStatus.OK);
-        }
-//        Default return
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return userResponse.map(user ->
+                        new ResponseEntity<>(user, HttpStatus.OK))
+                .orElseGet(() ->
+                        new ResponseEntity<>(HttpStatus.NOT_FOUND)
+                );
     }
 
 }
