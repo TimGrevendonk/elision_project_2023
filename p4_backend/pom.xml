@@ -17,6 +17,25 @@
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+<!--		Contentful -->
+<!--		<dependency>-->
+<!--			<groupId>com.contentful.java</groupId>-->
+<!--			<artifactId>cma-sdk</artifactId>-->
+<!--			<version>3.4.7</version>-->
+<!--		</dependency>-->
+		<dependency>
+			<groupId>com.contentful.java</groupId>
+			<artifactId>java-sdk</artifactId>
+			<version>10.5.11</version>
+		</dependency>
+<!--		end Contentful-->
+<!--		jackson Json-->
+<!--		<dependency>-->
+<!--			<groupId>com.fasterxml.jackson.core</groupId>-->
+<!--			<artifactId>jackson-databind</artifactId>-->
+<!--			<version>2.14.1</version>-->
+<!--		</dependency>-->
+<!--		jackson Json-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
