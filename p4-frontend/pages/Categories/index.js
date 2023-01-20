@@ -17,7 +17,7 @@ export default function CategoriesPage(props) {
 }
 
 export async function getStaticProps() {
-  const categories = await getAllCategories();
+  const categories = getAllCategories();
 
   return {
     props: {
