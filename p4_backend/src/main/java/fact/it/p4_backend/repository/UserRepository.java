@@ -1,16 +1,20 @@
 package fact.it.p4_backend.repository;
 
-import java.util.List;
-
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-
 import fact.it.p4_backend.model.User;
+import jakarta.annotation.PostConstruct;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
-public interface UserRepository extends JpaRepository<User, Long> {
+@Component
+public abstract class UserRepository implements UserRepositoryInterface {
+    private final UserRepository userRepository;
 
-    @Query("select u from User u order by u.name ASC")
-    List<User> getAllUsersOrderedByNameAscending();
 
-    
+    public UserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public UserRepository getUserRepository() {
+        return userRepository;
+    }
 }
