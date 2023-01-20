@@ -3,19 +3,13 @@ package fact.it.p4_backend.controller;
 import java.util.List;
 import java.util.Optional;
 
-import fact.it.p4_backend.repository.UserRepositoryInterface;
 import fact.it.p4_backend.services.UserService;
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import fact.it.p4_backend.model.User;
-//import fact.it.p4_backend.repository.UserRepository;
-
-// import org.springframework.web.bind.annotation.RequestParam;
-
 
 @RestController
 @RequestMapping("/api")

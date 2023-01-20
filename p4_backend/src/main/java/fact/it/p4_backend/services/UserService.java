@@ -27,10 +27,7 @@ public class UserService {
         return userRepository.getAllUsersOrderedByNameAscending();
     }
 
-
     public Optional<User> findById(Long userId){
         return userRepository.findById(userId);
     }
-
-
 }
