@@ -8,14 +8,13 @@ import java.util.Objects;
 
 @Entity
 public class User {
-
-
-    private @Id @GeneratedValue Long id;
+    @Id
+    @GeneratedValue
+    private
+    Long id;
     private String name;
 
-    // Constructors:
     public User() {
-
     }
 
     public User(Long id, String name) {
@@ -27,36 +26,19 @@ public class User {
         this.name = name;
     }
 
-    // Getters:
     public Long getId() {
         return id;
     }
+
     public String getName() {
         return name;
     }
-    // Setters:
-    public void setid(Long id) {
-        this.id = id;
-    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    @Override
-    public boolean equals(Object object) {
-        if (this == object) return true;
-        if (object == null || getClass() != object.getClass()) return false;
-        User user = (User) object;
-        return Objects.equals(id, user.id) && Objects.equals(name, user.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", name='" + name + '\'' + '}';
+    public void setid(Long id) {
+        this.id = id;
     }
 }
