@@ -1,10 +1,9 @@
 package fact.it.p4_backend.controller;
 
 import java.util.List;
-import java.util.Optional;
 
-import fact.it.p4_backend.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import fact.it.p4_backend.service.UserService;
+import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,15 +16,19 @@ import fact.it.p4_backend.model.User;
  * Controller to allow CRUD functionality via standard REST queries.
  */
 public class UserController {
-    @Autowired
-    private UserService userService;
+
+    final private UserService userService;
+
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/user")
     /**
      * Query the repository for all users and sort them by name (Ascended).
      * @return responseEntity 200 OK with the users.
      */
-    public ResponseEntity<List<User>> getAllUsersOrderedByNameAscending() {
+    public ResponseEntity<List<User>> getAllUsersOrderedByNameAscending() throws Exception {
         List<User> usersResponse = userService.getAllUsersOrderedByNameAscending();
         if (!usersResponse.isEmpty()) {
             return new ResponseEntity<>(usersResponse, HttpStatus.OK);
@@ -39,13 +42,15 @@ public class UserController {
      * @param userId the id of the requested user.
      * @return ResponseEntity 200 OK with the user.
      */
-    public ResponseEntity<User> getTrainingById(@PathVariable("number") Long userId) {
-        Optional<User> userResponse = userService.findById(userId);
-        return userResponse.map(user ->
-                        new ResponseEntity<>(user, HttpStatus.OK))
-                .orElseGet(() ->
-                        new ResponseEntity<>(HttpStatus.NOT_FOUND)
-                );
+    public ResponseEntity<User> getUserById(@PathVariable("number") Long userId) throws Exception {
+        User user = userService.findById(userId);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
+
+//    @PostMapping("/user")
+//    public ResponseEntity createUser(@RequestBody User user) {
+//        return userService;
+//    }
 
 }

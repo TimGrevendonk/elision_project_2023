@@ -1,6 +1,8 @@
-package fact.it.p4_backend.services;
+package fact.it.p4_backend.service;
 
+import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
+import fact.it.p4_backend.repository.UserRepository;
 import fact.it.p4_backend.repository.UserRepositoryInterface;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,12 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserService {
-    @Autowired
-    private UserRepositoryInterface userRepository;
+public class UserService{
+    private final UserRepositoryInterface userRepository;
+
+    public UserService(UserRepositoryInterface userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @PostConstruct
     public void fillDatabaseTemporary() {
@@ -27,7 +32,13 @@ public class UserService {
         return userRepository.getAllUsersOrderedByNameAscending();
     }
 
-    public Optional<User> findById(Long userId){
-        return userRepository.findById(userId);
+    public User findById(Long userId) throws UserNotFoundException {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()){
+            throw new UserNotFoundException();
+        }
+        return userOptional.get();
     }
+
+
 }
