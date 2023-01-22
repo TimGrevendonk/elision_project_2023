@@ -1,5 +1,6 @@
 package fact.it.p4_backend.service;
 
+import fact.it.p4_backend.controller.CheckOptionalUserNotEmpty;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.repository.UserRepository;
@@ -11,8 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
-public class UserService{
+public class UserService {
     private final UserRepositoryInterface userRepository;
 
     public UserService(UserRepositoryInterface userRepository) {
@@ -28,17 +30,24 @@ public class UserService{
         userRepository.save(new User(5L, "Tim G"));
     }
 
-    public List<User> getAllUsersOrderedByNameAscending(){
-        return userRepository.getAllUsersOrderedByNameAscending();
+    public List<User> getAllUsersOrderedByNameAscending() throws UserNotFoundException {
+        return CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.getAllUsersOrderedByNameAscending()).get();
+//        if (usersOptional.isEmpty()) {
+//            throw new UserNotFoundException();
+//        }
+//        return usersOptional.get();
     }
 
     public User findById(Long userId) throws UserNotFoundException {
         Optional<User> userOptional = userRepository.findById(userId);
-        if (userOptional.isEmpty()){
+        if (userOptional.isEmpty()) {
             throw new UserNotFoundException();
         }
         return userOptional.get();
     }
 
-
+    public User createNewuser(User newUser) throws UserNotFoundException {
+        CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.save(newUser));
+        return CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.findById(newUser.getId())).get();
+    }
 }

@@ -44,13 +44,13 @@ public class UserServiceTest {
      * @throws Exception will return an exception to be handled.
      */
     @Test
-    public void when_service_getUserById_notFound() throws Exception {
+    public void when_service_getUserById_notFoundException() throws Exception {
         UserService userService = new UserService(userRepositoryMock);
         Optional<User> userMock = Optional.empty();
         when(userRepositoryMock.findById(1L)).thenReturn(userMock);
 
         assertThrows(UserNotFoundException.class, () -> {
-            User foundUser = userService.findById(1L);
+            userService.findById(1L);
         });
         verify(userRepositoryMock, times(1)).findById(1L);
         verify(userRepositoryMock).findById(1L);

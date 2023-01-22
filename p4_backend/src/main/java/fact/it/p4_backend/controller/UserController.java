@@ -2,6 +2,7 @@ package fact.it.p4_backend.controller;
 
 import java.util.List;
 
+import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.service.UserService;
 import jakarta.annotation.PostConstruct;
 import org.springframework.http.HttpStatus;
@@ -26,31 +27,35 @@ public class UserController {
     /**
      * Query the repository for all users and sort them by name (Ascended).
      * @return responseEntity 200 OK with the users.
+     * @throws UserNotFoundException handled if the user is not found.
      */
     @GetMapping("/user")
     public ResponseEntity<List<User>> getAllUsersOrderedByNameAscending() throws Exception {
         List<User> usersResponse = userService.getAllUsersOrderedByNameAscending();
-        if (!usersResponse.isEmpty()) {
-            return new ResponseEntity<>(usersResponse, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(usersResponse, HttpStatus.OK);
     }
 
     /**
      * Query the repository for a single user by their id.
      * @param userId the id of the requested user.
      * @return ResponseEntity 200 OK with the user.
+     * @throws UserNotFoundException handled if the user is not found.
      */
-    @GetMapping("/user/{number}")
-    public ResponseEntity<User> getUserById(@PathVariable("number") Long userId) throws Exception {
+    @GetMapping("/user/{stringUserId}")
+    public ResponseEntity<User> getUserById(@PathVariable("stringUserId") Long userId) throws Exception {
         User user = userService.findById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
-
     }
 
-//    @PostMapping("/user")
-//    public ResponseEntity createUser(@RequestBody User user) {
-//        return userService;
-//    }
-
+    /**
+     * add the user in the repository and return the same use for later interaction.
+     * @param newUser the body of the to be created user.
+     * @return ResponseEntity 200 OK with the user.
+     * @throws UserNotFoundException handled if the user is not found or saved incorrectly.
+     */
+    @PostMapping("/user/create")
+    public ResponseEntity<User> createUser(@RequestBody User newUser) throws Exception {
+        User user = userService.createNewuser(newUser);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
 }

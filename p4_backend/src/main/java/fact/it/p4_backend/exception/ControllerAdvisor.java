@@ -17,5 +17,4 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     ) {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
 }
