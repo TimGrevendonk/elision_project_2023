@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 import fact.it.p4_backend.model.User;
 
-@RestController
-@RequestMapping("/api")
 /**
  * Controller to allow CRUD functionality via standard REST queries.
  */
+@RestController
+@RequestMapping("/api")
 public class UserController {
 
     final private UserService userService;
@@ -23,11 +23,11 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping("/user")
     /**
      * Query the repository for all users and sort them by name (Ascended).
      * @return responseEntity 200 OK with the users.
      */
+    @GetMapping("/user")
     public ResponseEntity<List<User>> getAllUsersOrderedByNameAscending() throws Exception {
         List<User> usersResponse = userService.getAllUsersOrderedByNameAscending();
         if (!usersResponse.isEmpty()) {
@@ -36,12 +36,12 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/user/{number}")
     /**
      * Query the repository for a single user by their id.
      * @param userId the id of the requested user.
      * @return ResponseEntity 200 OK with the user.
      */
+    @GetMapping("/user/{number}")
     public ResponseEntity<User> getUserById(@PathVariable("number") Long userId) throws Exception {
         User user = userService.findById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
