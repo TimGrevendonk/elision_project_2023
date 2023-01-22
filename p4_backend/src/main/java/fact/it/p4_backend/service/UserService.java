@@ -31,13 +31,10 @@ public class UserService {
     }
 
     public List<User> getAllUsersOrderedByNameAscending() throws UserNotFoundException {
-        return CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.getAllUsersOrderedByNameAscending()).get();
-//        if (usersOptional.isEmpty()) {
-//            throw new UserNotFoundException();
-//        }
-//        return usersOptional.get();
+//        Use optional method orElseThrow which will return the value of the optional if present or throw the error.
+        return userRepository.getAllUsersOrderedByNameAscending().orElseThrow(UserNotFoundException::new);
     }
-
+//        Manually check if the Optional is empty, and throw the error if so.
     public User findById(Long userId) throws UserNotFoundException {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
@@ -45,9 +42,9 @@ public class UserService {
         }
         return userOptional.get();
     }
-
-    public User createNewuser(User newUser) throws UserNotFoundException {
-        CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.save(newUser));
-        return CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.findById(newUser.getId())).get();
+//        Check via custom checker, Optional not allowed in general method???
+    public User createNewUser(User newUser) throws UserNotFoundException {
+        userRepository.save(newUser);
+        return CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.findById(newUser.getId()));
     }
 }
