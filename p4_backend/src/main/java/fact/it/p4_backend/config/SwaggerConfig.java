@@ -20,7 +20,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("fact.it.backend"))
-                .paths(PathSelectors.regex("/api*"))
+                .paths(PathSelectors.regex("/.*"))
                 .build();
     }
 
