@@ -35,8 +35,7 @@ export async function getAllCategories() {
     .getEntries({ content_type: "category" })
     .then((response) => {
       return response.items.map((category) => {
-          console.log(`category ${category}`),
-            categoryClient.push(category);
+        console.log(`category ${category}`), categoryClient.push(category);
       });
     })
     .catch(console.error);
@@ -52,4 +51,15 @@ export async function getCategoryById(id) {
     .catch(console.error);
 
   return info;
+}
+
+export async function getAboutPageInfo() {
+  const aboutUsInfo = await client
+    .getEntry("3XDWTQ6OUSaoMUIoT9243u")
+    .then((response) => {
+      console.log(response);
+      return response.fields;
+    })
+    .catch(console.error);
+  return aboutUsInfo;
 }
