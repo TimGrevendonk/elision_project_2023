@@ -18,8 +18,11 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -38,26 +41,30 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    List<User> usersMock = List.of(
+            new User(1L, "testUser"),
+            new User(2L, "demoUser")
+    );
+
     /**
      * Get a user by its id from the service.
      * @throws Exception will return an exception to be handled.
      */
     @Test
     public void when_user_GetById_userReturned() throws Exception {
-        User userMock = new User(1L, "testUser");
-        when(userServiceImplMock.getById(1L)).thenReturn(userMock);
+        when(userServiceImplMock.getById(1L)).thenReturn(this.usersMock.get(0));
         User resultUser = userServiceImplMock.getById(1L);
 
         assertThat(resultUser)
                 .isNotNull()
                 .usingRecursiveComparison()
-                .isEqualTo(userMock);
+                .isEqualTo(this.usersMock.get(0));
         Mockito.verify(userServiceImplMock, times(1)).getById(1L);
         Mockito.verifyNoMoreInteractions(userServiceImplMock);
     }
 
     /**
-     * preform rest query and trigger repository findById through service and throws exception.
+     * Rest query and trigger repository getById in service and throws exception.
      * @throws UserNotFoundException the user is not found.
      */
     @Test
@@ -66,9 +73,53 @@ public class UserControllerTest {
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/api/user/1")
                 .accept(MediaType.APPLICATION_JSON);
-        ResultActions resultUser = mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
+        ResultActions resultUser = mockMvc.perform(requestBuilder)
+                .andExpect(status().isNotFound());
         assertThat(resultUser.andReturn())
                 .isNotNull();
         verify(userServiceImplMock).getById(1L);
+    }
+
+    /**
+     * Rest query and trigger repository getAll() in service.
+     * throws exception to parent.
+     * @throws UserNotFoundException the user is not found.
+     */
+    @Test
+    public void when_allUserQuery_allUsersReturned() throws Exception {
+        when(userServiceImplMock.getAll()).thenReturn(this.usersMock);
+        List<User> resultUsers = userServiceImplMock.getAll();
+
+        assertThat(resultUsers)
+                .isNotNull()
+                .isEqualTo(this.usersMock);
+        verify(userServiceImplMock, times(1)).getAll();
+    }
+
+    /**
+     * Rest query and trigger repository create() in service.
+     * throws exception to parent.
+     * @throws UserNotFoundException the user is not found.
+     */
+    @Test
+    public void when_createUser_UserCreatedAndReturned() throws Exception {
+        User createUserMock = new User("testUser");
+        createUserMock.setid(1L);
+        User noIdUserMock = new User("testUser");
+        createUserMock.setid(1L);
+        when(userServiceImplMock.create(noIdUserMock)).thenReturn(createUserMock);
+        System.out.println(createUserMock.getName());
+        System.out.println(createUserMock.getId());
+        System.out.println(noIdUserMock.getName());
+        System.out.println(noIdUserMock.getId());
+// TODO: fix me plz
+        ResultActions resultUser = mockMvc.perform(post("/api/user/create"));
+//                .andExpect(status().isOk());
+        System.out.println(resultUser);
+        assertThat(resultUser.andReturn())
+                .isNotNull()
+                .isEqualTo(createUserMock);
+        verify(userServiceImplMock, times(1)).create(noIdUserMock);
+
     }
 }

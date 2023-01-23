@@ -46,19 +46,23 @@ public class UserServiceImpl implements UserService<User> {
     @Override
     public User create(User newUser) throws UserNotFoundException {
 //        Check via custom checker, Optional not allowed in general method???
-        userRepository.save(newUser);
-        return CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.findById(newUser.getId()));
+        User buildUser = new User();
+        buildUser.setName(newUser.getName());
+        userRepository.save(buildUser);
+        return CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.findById(buildUser.getId()));
     }
 
     @Override
-    public void update(User user) throws UserNotFoundException {
+    public User update(User user) throws UserNotFoundException {
         this.getById(user.getId());
         userRepository.save(user);
+        return user;
     }
 
     @Override
-    public void deleteById(Long userId) throws UserNotFoundException {
+    public User deleteById(Long userId) throws UserNotFoundException {
         User foundUser = this.getById(userId);
         userRepository.delete(foundUser);
+        return foundUser;
     }
 }

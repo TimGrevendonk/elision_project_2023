@@ -40,14 +40,14 @@ public class UserController {
      * @return ResponseEntity 200 OK with the user.
      * @throws UserNotFoundException handled if the user is not found.
      */
-    @GetMapping("/user/{stringUserId}")
-    public ResponseEntity<User> getUserById(@PathVariable("stringUserId") Long userId) throws Exception {
+    @GetMapping("/user/{UserId}")
+    public ResponseEntity<User> getUserById(@PathVariable("UserId") Long userId) throws Exception {
         User user = userServiceImpl.getById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     /**
-     * add the user in the repository and return the same use for later interaction.
+     * add the user in the repository and return the same user for later interaction.
      * @param newUser the body of the to be created user.
      * @return ResponseEntity 200 OK with the user.
      * @throws UserNotFoundException handled if the user is not found or saved incorrectly.
@@ -56,5 +56,28 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User newUser) throws Exception {
         User user = userServiceImpl.create(newUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+    /**
+     * update the user in the repository and return the same user for later interaction.
+     * @param updateUser the body of the to be updated user.
+     * @return ResponseEntity 200 OK with the user.
+     * @throws UserNotFoundException handled if the user is not found or saved incorrectly.
+     */
+    @PutMapping("/user/update")
+    public ResponseEntity<User> updateUser(@RequestBody User updateUser) throws Exception {
+        User user = userServiceImpl.update(updateUser);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    /**
+     * delete the user in the repository and return the same user for later interaction.
+     * @param userId the id of the to be deleted user.
+     * @return ResponseEntity 200 OK with the user.
+     * @throws UserNotFoundException handled if the user is not found or saved incorrectly.
+     */
+    @DeleteMapping("/user/{userId}")
+    public ResponseEntity<User> deleteUser(@PathVariable("userId") Long userId) throws Exception {
+        User deletedUser = userServiceImpl.deleteById(userId);
+        return new ResponseEntity<>(deletedUser, HttpStatus.OK);
     }
 }
