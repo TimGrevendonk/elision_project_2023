@@ -8,13 +8,16 @@ export default function ProductDetailPage(props) {
     <div className="p-3">
       <div className="bg-slate-600 h-full w-full flex justify-center">
         <h1 className="font-bold text-xl">
-          {id}: {info.title}
+          {info.title}
         </h1>
       </div>
       <div className="bg-slate-400 h-full w-full flex justify-center">
         <img src="/1.jpg" className="aspect-square object-cover w-1/3 h-1/3" />
         <p className="p-5">
-          <span>Description:</span>
+          {info.price.toFixed(2)}
+        </p>
+        <p className="p-5">
+          Description:
           <br />
           {info.description}
         </p>

@@ -1,4 +1,5 @@
 import { getCategoryById, getAllCategories } from "@/data/querries";
+import Link from "next/link";
 
 export default function CategoryDetailPage(props) {
   const id = props.categoryID;
@@ -7,9 +8,7 @@ export default function CategoryDetailPage(props) {
   return (
     <div className="p-3">
       <div className="bg-slate-600 h-full w-full flex justify-center">
-        <h1 className="font-bold text-xl">
-          Browsing {info.title}
-        </h1>
+        <h1 className="font-bold text-xl">Browsing {info.title}</h1>
       </div>
       <div className="bg-slate-400 h-full w-full flex justify-center">
         <img src="/1.jpg" className="aspect-square object-cover w-1/3 h-1/3" />
@@ -18,6 +17,18 @@ export default function CategoryDetailPage(props) {
           <br />
           {info.description}
         </p>
+      </div>
+      <div>
+        <h1 className="text-3xl font-bold">Products</h1>
+        <ul>
+          {info.products.map((product) => (
+            <li key={product.sys.id}>
+              <Link href={`/products/${product.sys.id}`}>
+                {product.fields.title}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   );
@@ -38,7 +49,9 @@ export async function getStaticProps(context) {
 
 export async function getStaticPaths() {
   const categories = await getAllCategories();
-  const paths = categories.map((category) => ({ params: { categoryId: category.sys.id } }));
+  const paths = categories.map((category) => ({
+    params: { categoryId: category.sys.id },
+  }));
 
   return {
     paths: paths,
