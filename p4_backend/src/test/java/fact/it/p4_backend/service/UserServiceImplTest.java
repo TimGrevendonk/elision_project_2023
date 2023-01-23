@@ -18,8 +18,8 @@ import static org.mockito.Mockito.*;
  * Mock and use UserService and UserRepository.
  * <p>WebMvcTest to mock Http requests.</p>
  */
-@WebMvcTest(UserService.class)
-public class UserServiceTest {
+@WebMvcTest(UserServiceImpl.class)
+public class UserServiceImplTest {
     @MockBean
     private UserRepositoryInterface userRepositoryMock;
 
@@ -29,10 +29,10 @@ public class UserServiceTest {
      */
     @Test
     public void when_service_getUserById_userReturned() throws Exception {
-        UserService userService = new UserService(userRepositoryMock);
+        UserServiceImpl userServiceImpl = new UserServiceImpl(userRepositoryMock);
         Optional<User> userMock = Optional.of(new User(1L, "testUser"));
         when(userRepositoryMock.findById(1L)).thenReturn(userMock);
-        User resultUser = userService.findById(1L);
+        User resultUser = userServiceImpl.findById(1L);
 
         assertThat(resultUser)
                 .isNotNull()
@@ -45,12 +45,12 @@ public class UserServiceTest {
      */
     @Test
     public void when_service_getUserById_notFoundException() throws Exception {
-        UserService userService = new UserService(userRepositoryMock);
+        UserServiceImpl userServiceImpl = new UserServiceImpl(userRepositoryMock);
         Optional<User> userMock = Optional.empty();
         when(userRepositoryMock.findById(1L)).thenReturn(userMock);
 
         assertThrows(UserNotFoundException.class, () -> {
-            userService.findById(1L);
+            userServiceImpl.findById(1L);
         });
         verify(userRepositoryMock, times(1)).findById(1L);
         verify(userRepositoryMock).findById(1L);

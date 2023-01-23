@@ -3,8 +3,7 @@ package fact.it.p4_backend.controller;
 import java.util.List;
 
 import fact.it.p4_backend.exception.UserNotFoundException;
-import fact.it.p4_backend.service.UserService;
-import jakarta.annotation.PostConstruct;
+import fact.it.p4_backend.service.UserServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +17,10 @@ import fact.it.p4_backend.model.User;
 @RequestMapping("/api")
 public class UserController {
 
-    final private UserService userService;
+    final private UserServiceImpl userServiceImpl;
 
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public UserController(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
     /**
@@ -31,7 +30,7 @@ public class UserController {
      */
     @GetMapping("/user")
     public ResponseEntity<List<User>> getAllUsersOrderedByNameAscending() throws Exception {
-        List<User> usersResponse = userService.getAllUsersOrderedByNameAscending();
+        List<User> usersResponse = userServiceImpl.getAll();
         return new ResponseEntity<>(usersResponse, HttpStatus.OK);
     }
 
@@ -43,7 +42,7 @@ public class UserController {
      */
     @GetMapping("/user/{stringUserId}")
     public ResponseEntity<User> getUserById(@PathVariable("stringUserId") Long userId) throws Exception {
-        User user = userService.findById(userId);
+        User user = userServiceImpl.getById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -55,7 +54,7 @@ public class UserController {
      */
     @PostMapping("/user/create")
     public ResponseEntity<User> createUser(@RequestBody User newUser) throws Exception {
-        User user = userService.createNewUser(newUser);
+        User user = userServiceImpl.create(newUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

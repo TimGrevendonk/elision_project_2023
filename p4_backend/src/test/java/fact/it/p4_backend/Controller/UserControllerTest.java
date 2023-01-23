@@ -3,15 +3,13 @@ package fact.it.p4_backend.Controller;
 import fact.it.p4_backend.controller.UserController;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
-import fact.it.p4_backend.service.UserService;
+import fact.it.p4_backend.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -34,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
     @MockBean
-    private UserService userServiceMock;
+    private UserServiceImpl userServiceImplMock;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
@@ -47,15 +45,15 @@ public class UserControllerTest {
     @Test
     public void when_user_GetById_userReturned() throws Exception {
         User userMock = new User(1L, "testUser");
-        when(userServiceMock.findById(1L)).thenReturn(userMock);
-        User resultUser = userServiceMock.findById(1L);
+        when(userServiceImplMock.findById(1L)).thenReturn(userMock);
+        User resultUser = userServiceImplMock.findById(1L);
 
         assertThat(resultUser)
                 .isNotNull()
                 .usingRecursiveComparison()
                 .isEqualTo(userMock);
-        Mockito.verify(userServiceMock, times(1)).findById(1L);
-        Mockito.verifyNoMoreInteractions(userServiceMock);
+        Mockito.verify(userServiceImplMock, times(1)).findById(1L);
+        Mockito.verifyNoMoreInteractions(userServiceImplMock);
     }
 
     /**
@@ -64,13 +62,13 @@ public class UserControllerTest {
      */
     @Test
     public void when_userQuery_getUserByID_notFound() throws Exception {
-        when(userServiceMock.findById(1L)).thenThrow(new UserNotFoundException());
+        when(userServiceImplMock.findById(1L)).thenThrow(new UserNotFoundException());
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/api/user/1")
                 .accept(MediaType.APPLICATION_JSON);
         ResultActions resultUser = mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
         assertThat(resultUser.andReturn())
                 .isNotNull();
-        verify(userServiceMock).findById(1L);
+        verify(userServiceImplMock).findById(1L);
     }
 }
