@@ -3,7 +3,7 @@ import { getProductById, getProducts } from "@/data/querries";
 export default function ProductDetailPage(props) {
   const id = props.productID;
   const info = props.productInfo;
-  console.log(info);
+  console.log(info.thumbnails);
   return (
     <div className="p-3">
       <div className="bg-slate-600 h-full w-full flex justify-center">
@@ -12,7 +12,13 @@ export default function ProductDetailPage(props) {
         </h1>
       </div>
       <div className="bg-slate-400 h-full w-full flex justify-center">
-        <img src="/1.jpg" className="aspect-square object-cover w-1/3 h-1/3" />
+        {info.thumbnails.map((image) => (
+          <img
+            src={image.fields.file.url}
+            key={image.fields.file.url}
+            className="aspect-square object-cover w-1/3 h-1/3"
+          />
+        ))}
         <p className="p-5">
           {info.price.toFixed(2)}
         </p>
