@@ -32,7 +32,7 @@ public class UserServiceImplTest {
         UserServiceImpl userServiceImpl = new UserServiceImpl(userRepositoryMock);
         Optional<User> userMock = Optional.of(new User(1L, "testUser"));
         when(userRepositoryMock.findById(1L)).thenReturn(userMock);
-        User resultUser = userServiceImpl.findById(1L);
+        User resultUser = userServiceImpl.getById(1L);
 
         assertThat(resultUser)
                 .isNotNull()
@@ -50,7 +50,7 @@ public class UserServiceImplTest {
         when(userRepositoryMock.findById(1L)).thenReturn(userMock);
 
         assertThrows(UserNotFoundException.class, () -> {
-            userServiceImpl.findById(1L);
+            userServiceImpl.getById(1L);
         });
         verify(userRepositoryMock, times(1)).findById(1L);
         verify(userRepositoryMock).findById(1L);

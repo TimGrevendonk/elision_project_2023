@@ -45,14 +45,14 @@ public class UserControllerTest {
     @Test
     public void when_user_GetById_userReturned() throws Exception {
         User userMock = new User(1L, "testUser");
-        when(userServiceImplMock.findById(1L)).thenReturn(userMock);
-        User resultUser = userServiceImplMock.findById(1L);
+        when(userServiceImplMock.getById(1L)).thenReturn(userMock);
+        User resultUser = userServiceImplMock.getById(1L);
 
         assertThat(resultUser)
                 .isNotNull()
                 .usingRecursiveComparison()
                 .isEqualTo(userMock);
-        Mockito.verify(userServiceImplMock, times(1)).findById(1L);
+        Mockito.verify(userServiceImplMock, times(1)).getById(1L);
         Mockito.verifyNoMoreInteractions(userServiceImplMock);
     }
 
@@ -62,13 +62,13 @@ public class UserControllerTest {
      */
     @Test
     public void when_userQuery_getUserByID_notFound() throws Exception {
-        when(userServiceImplMock.findById(1L)).thenThrow(new UserNotFoundException());
+        when(userServiceImplMock.getById(1L)).thenThrow(new UserNotFoundException());
         RequestBuilder requestBuilder = MockMvcRequestBuilders
                 .get("/api/user/1")
                 .accept(MediaType.APPLICATION_JSON);
         ResultActions resultUser = mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
         assertThat(resultUser.andReturn())
                 .isNotNull();
-        verify(userServiceImplMock).findById(1L);
+        verify(userServiceImplMock).getById(1L);
     }
 }

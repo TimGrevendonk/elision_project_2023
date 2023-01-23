@@ -19,14 +19,14 @@ public class UserServiceImpl implements UserService<User> {
         this.userRepository = userRepository;
     }
 
-    @PostConstruct
-    public void fillDatabaseTemporary() {
-        userRepository.save(new User(1L, "Brent D"));
-        userRepository.save(new User(2L, "Bogdan L"));
-        userRepository.save(new User(3L, "Raf B"));
-        userRepository.save(new User(4L, "Rune M"));
-        userRepository.save(new User(5L, "Tim G"));
-    }
+//    @PostConstruct
+//    public void fillDatabaseTemporary() {
+//        userRepository.save(new User(1L, "Brent D"));
+//        userRepository.save(new User(2L, "Bogdan L"));
+//        userRepository.save(new User(3L, "Raf B"));
+//        userRepository.save(new User(4L, "Rune M"));
+//        userRepository.save(new User(5L, "Tim G"));
+//    }
 
     @Override
     public  List<User> getAll() throws UserNotFoundException {
