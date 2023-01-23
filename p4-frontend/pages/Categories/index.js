@@ -1,3 +1,4 @@
+import { getAllCategories } from "@/data/querries";
 import Link from "next/link";
 
 export default function CategoriesPage(props) {
@@ -17,16 +18,11 @@ export default function CategoriesPage(props) {
   );
 }
 
-const client = require("contentful").createClient({
-  space: process.env.CONTENTFUL_SPACE_ID,
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
-});
-
 export async function getStaticProps() {
-  const categories = await client.getEntries({content_type: 'category'});
+  const categoryList = await getAllCategories();
   return {
     props: {
-      categories: categories.items,
+      categories: categoryList,
     }
   };
 }

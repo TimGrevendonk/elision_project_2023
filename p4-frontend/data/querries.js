@@ -1,9 +1,7 @@
-const contentful = require("contentful");
-
-export const client = contentful.createClient({
-  space: "n80dqssuk9ot",
-  environment: "master", // defaults to 'master' if not set
-  accessToken: "oxbuUp5Nh3Rd9EV2mhBj_QFF_IkcdWsRuYagNQi0iHs",
+const client = require("contentful").createClient({
+  space: process.env.CONTENTFUL_SPACE_ID,
+  environment: "master",
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
 });
 
 export async function getProducts() {
@@ -21,6 +19,31 @@ export async function getProducts() {
 }
 
 export async function getProductById(id) {
+  const info = client
+    .getEntry(id)
+    .then((entry) => {
+      return entry.fields;
+    })
+    .catch(console.error);
+
+  return info;
+}
+
+export async function getAllCategories() {
+  const categoryClient = [];
+  await client
+    .getEntries({ content_type: "category" })
+    .then((response) => {
+      return response.items.map((category) => {
+          console.log(`category ${category}`),
+            categoryClient.push(category);
+      });
+    })
+    .catch(console.error);
+  return categoryClient;
+}
+
+export async function getCategoryById(id) {
   const info = client
     .getEntry(id)
     .then((entry) => {
