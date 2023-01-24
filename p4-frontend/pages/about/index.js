@@ -9,9 +9,8 @@ export default function AboutPage(props) {
         <h1 className="text-lg font-bold">{aboutUsInfo.aboutTitle}</h1>
         <p>{aboutUsInfo.aboutDescription}</p>
         <br />
-        <p>
-          {aboutUsInfo.contactTitle}: {aboutUsInfo.contactInfo}
-        </p>
+        <p className="font-bold">{aboutUsInfo.contactTitle}</p>
+        <p>{aboutUsInfo.contactInfo}</p>
       </div>
       <div className="w-full bg-slate-500 text-center rounded-md h-full m-10 p-5 col-start-2">
         <h2 className="text-lg font-bold">{aboutUsInfo.historyTitle}</h2>
