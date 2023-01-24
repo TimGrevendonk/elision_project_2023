@@ -4,7 +4,6 @@ import fact.it.p4_backend.controller.CheckOptionalUserNotEmpty;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.repository.UserRepositoryInterface;
-import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,23 +18,15 @@ public class UserServiceImpl implements UserService<User> {
         this.userRepository = userRepository;
     }
 
-//    @PostConstruct
-//    public void fillDatabaseTemporary() {
-//        userRepository.save(new User(1L, "Brent D"));
-//        userRepository.save(new User(2L, "Bogdan L"));
-//        userRepository.save(new User(3L, "Raf B"));
-//        userRepository.save(new User(4L, "Rune M"));
-//        userRepository.save(new User(5L, "Tim G"));
-//    }
-
     @Override
     public  List<User> getAll() throws UserNotFoundException {
+//        Except Option 1: use orElseThrow with exception, the controller advisor will catch this (?).
         return userRepository.getAllUsersOrderedByNameAscending().orElseThrow(UserNotFoundException::new);
     }
 
     @Override
     public User getById(Long userId) throws UserNotFoundException {
-//        Manually check if the Optional is empty, and throw the error if so.
+//        Except Option 2: Manually check if the Optional is empty, and throw the error if so.
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) {
             throw new UserNotFoundException();
@@ -45,11 +36,11 @@ public class UserServiceImpl implements UserService<User> {
 
     @Override
     public User create(User newUser) throws UserNotFoundException {
-//        Check via custom checker, Optional not allowed in general method???
-        User buildUser = new User();
-        buildUser.setName(newUser.getName());
-        userRepository.save(buildUser);
-        return CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.findById(buildUser.getId()));
+//        Except Option 3: Check via custom checker, Optional not allowed in general method???
+        User buildedUser = new User();
+        buildedUser.setName(newUser.getName());
+        userRepository.save(buildedUser);
+        return CheckOptionalUserNotEmpty.checkNotEmpty(userRepository.findById(buildedUser.getId()));
     }
 
     @Override

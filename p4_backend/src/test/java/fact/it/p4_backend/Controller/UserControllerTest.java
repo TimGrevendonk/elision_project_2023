@@ -14,12 +14,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.List;
 
@@ -42,6 +39,7 @@ public class UserControllerTest {
     );
     @MockBean
     private UserServiceImpl userServiceImplMock;
+
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mockMvc;
@@ -72,13 +70,14 @@ public class UserControllerTest {
     @Test
     public void when_userQuery_getUserByID_notFound() throws Exception {
         when(userServiceImplMock.getById(1L)).thenThrow(new UserNotFoundException());
-        RequestBuilder requestBuilder = MockMvcRequestBuilders
-                .get("/api/user/1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON);
-        ResultActions resultUser = mockMvc.perform(requestBuilder)
-                .andExpect(status().isNotFound());
-        assertThat(resultUser.andReturn())
+        ResultActions request = mockMvc.perform(
+                        MockMvcRequestBuilders.get("/api/user/1")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(MockMvcResultHandlers.print());
+
+        assertThat(request.andReturn())
                 .isNotNull();
         verify(userServiceImplMock).getById(1L);
     }
@@ -105,15 +104,19 @@ public class UserControllerTest {
      * Rest query and trigger repository create() in service.
      * throws exception to parent.
      * Mock an actual url request with converted to Json user.
+     *
      * @throws UserNotFoundException the user is not found.
      */
     @Test
     public void when_createUser_UserCreatedAndReturnedWithStatusOK() throws Exception {
+        User userMock = mock(User.class);
+        when(userServiceImplMock.create(userMock)).thenReturn(userMock);
+        System.out.print(userMock);
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/user/create")
-                        .content(JsonHelper.asJsonString(new User("testUser")))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
+                        MockMvcRequestBuilders.post("/api/user/create")
+                                .content(JsonHelper.asJsonString(new User("testUSer")))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
@@ -124,6 +127,7 @@ public class UserControllerTest {
      * Rest query and trigger repository deleteById() in service.
      * throws exception to parent.
      * Mock an actual url request with converted to Json user.
+     *
      * @throws UserNotFoundException the user is not found.
      */
     @Test

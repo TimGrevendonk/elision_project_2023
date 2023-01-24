@@ -25,6 +25,7 @@ public class UserServiceImplTest {
 
     /**
      * Get a user by its id from the repository.
+     *
      * @throws Exception will return an exception to be handled.
      */
     @Test
@@ -39,8 +40,10 @@ public class UserServiceImplTest {
                 .isEqualTo(userMock.get());
         verify(userRepositoryMock, times(1)).findById(1L);
     }
+
     /**
      * Get empty user and throw custom exception UserNotFound.
+     *
      * @throws Exception will return an exception to be handled.
      */
     @Test
@@ -54,6 +57,5 @@ public class UserServiceImplTest {
         });
         verify(userRepositoryMock, times(1)).findById(1L);
         verify(userRepositoryMock).findById(1L);
-
     }
 }
