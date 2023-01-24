@@ -1,3 +1,5 @@
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+
 const client = require("contentful").createClient({
   space: process.env.CONTENTFUL_SPACE_ID,
   environment: "master",
@@ -35,8 +37,7 @@ export async function getAllCategories() {
     .getEntries({ content_type: "category" })
     .then((response) => {
       return response.items.map((category) => {
-          console.log(`category ${category}`),
-            categoryClient.push(category);
+        console.log(`category ${category}`), categoryClient.push(category);
       });
     })
     .catch(console.error);
@@ -52,4 +53,15 @@ export async function getCategoryById(id) {
     .catch(console.error);
 
   return info;
+}
+
+export async function getTermsAndConditions() {
+  const termsNconditions = client
+    .getEntry("5uPtEB9MVdIGMGjF1SHeWe")
+    .then((response) => {
+      console.log(response);
+      return response;
+    });
+
+  return termsNconditions;
 }
