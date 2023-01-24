@@ -120,4 +120,19 @@ public class UserControllerTest {
         verify(userServiceImplMock, times(1)).create(any());
     }
 
+    /**
+     * Rest query and trigger repository deleteById() in service.
+     * throws exception to parent.
+     * Mock an actual url request with converted to Json user.
+     * @throws UserNotFoundException the user is not found.
+     */
+    @Test
+    public void when_deleteUser_UserDeleteAndReturnedWithStatusOK() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/api/user/{id}", 1)
+                )
+                .andExpect(status().isOk())
+                .andDo(MockMvcResultHandlers.print());
+        verify(userServiceImplMock, times(1)).deleteById(1L);
+    }
 }
