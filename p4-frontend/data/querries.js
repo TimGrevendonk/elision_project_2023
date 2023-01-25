@@ -10,8 +10,8 @@ export async function getProducts() {
     .getEntries({ content_type: "product" })
     .then((response) => {
       return response.items.map((product) => {
-        console.log(`productId: ${product.sys.id}`),
-          productsClient.push(product.sys.id);
+        console.log(`productId: ${product.sys.id}`);
+        productsClient.push(product.sys.id);
       });
     })
     .catch(console.error);
@@ -35,7 +35,8 @@ export async function getAllCategories() {
     .getEntries({ content_type: "category" })
     .then((response) => {
       return response.items.map((category) => {
-        console.log(`category ${category}`), categoryClient.push(category);
+        console.log(`category ${category}`);
+        categoryClient.push(category);
       });
     })
     .catch(console.error);
