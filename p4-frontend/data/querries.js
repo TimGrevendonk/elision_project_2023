@@ -76,3 +76,14 @@ export async function getPrivacyPolicy() {
 
   return privacyPolicy;
 }
+
+export async function getAboutPageInfo() {
+  const aboutUsInfo = await client
+    .getEntry("3XDWTQ6OUSaoMUIoT9243u")
+    .then((response) => {
+      console.log(response);
+      return response.fields;
+    })
+    .catch(console.error);
+  return aboutUsInfo;
+}
