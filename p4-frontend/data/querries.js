@@ -1,5 +1,3 @@
-import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
-
 const client = require("contentful").createClient({
   space: process.env.CONTENTFUL_SPACE_ID,
   environment: "master",
@@ -57,11 +55,24 @@ export async function getCategoryById(id) {
 
 export async function getTermsAndConditions() {
   const termsNconditions = client
-    .getEntry("5uPtEB9MVdIGMGjF1SHeWe")
+    .getEntry("laYanw0mKzWivYdus35SO")
+    .then((response) => {
+      console.log(
+        response.fields.termsAndConditions[0].fields.termParagraph.content[0]
+          .content[0].value
+      );
+      return response;
+    });
+
+  return termsNconditions;
+}
+export async function getPrivacyPolicy() {
+  const privacyPolicy = client
+    .getEntry("4DYErvdfXKEGUuCEN4ROvz")
     .then((response) => {
       console.log(response);
       return response;
     });
 
-  return termsNconditions;
+  return privacyPolicy;
 }

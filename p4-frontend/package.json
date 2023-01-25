@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@contentful/rich-text-html-renderer": "^16.0.2",
     "@next/font": "13.1.2",
     "contentful": "^9.2.19",
     "eslint": "8.32.0",
