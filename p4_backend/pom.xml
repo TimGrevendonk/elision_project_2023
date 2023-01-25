@@ -52,6 +52,11 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.adyen</groupId>
+			<artifactId>adyen-java-api-library</artifactId>
+			<version>17.3.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
