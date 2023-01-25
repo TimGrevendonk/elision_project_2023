@@ -16,26 +16,24 @@
 	<properties>
 		<java.version>17</java.version>
 	</properties>
+	<repositories>
+		<repository>
+			<id>jcenter-snapshots</id>
+			<name>jcenter</name>
+			<url>https://jcenter.bintray.com/</url>
+		</repository>
+	</repositories>
 	<dependencies>
-<!--		Contentful -->
-<!--		<dependency>-->
-<!--			<groupId>com.contentful.java</groupId>-->
-<!--			<artifactId>cma-sdk</artifactId>-->
-<!--			<version>3.4.7</version>-->
-<!--		</dependency>-->
 		<dependency>
-			<groupId>com.contentful.java</groupId>
-			<artifactId>java-sdk</artifactId>
-			<version>10.5.11</version>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.7.0</version>
 		</dependency>
-<!--		end Contentful-->
-<!--		jackson Json-->
-<!--		<dependency>-->
-<!--			<groupId>com.fasterxml.jackson.core</groupId>-->
-<!--			<artifactId>jackson-databind</artifactId>-->
-<!--			<version>2.14.1</version>-->
-<!--		</dependency>-->
-<!--		jackson Json-->
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.7.0</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>

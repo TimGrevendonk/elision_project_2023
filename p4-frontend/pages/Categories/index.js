@@ -1,4 +1,4 @@
-import { getAllCategories } from "@/dummy-data";
+import { getAllCategories } from "@/data/querries";
 import Link from "next/link";
 
 export default function CategoriesPage(props) {
@@ -9,7 +9,11 @@ export default function CategoriesPage(props) {
       <h1 className="text-3xl font-bold">Categories</h1>
       <ul>
         {categories.map((category) => (
-          <li key={category.id}><Link href={`/Categories/${category.id}`}>{category.name}</Link></li>
+          <li key={category.sys.id}>
+            <Link href={`/Categories/${category.sys.id}`}>
+              {category.fields.title}
+            </Link>
+          </li>
         ))}
       </ul>
     </div>
@@ -17,12 +21,10 @@ export default function CategoriesPage(props) {
 }
 
 export async function getStaticProps() {
-  const categories = getAllCategories();
-
+  const categoryList = await getAllCategories();
   return {
     props: {
-      categories: categories,
+      categories: categoryList,
     },
-    revalidate: 60,
   };
 }
