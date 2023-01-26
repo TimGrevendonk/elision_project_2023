@@ -18,7 +18,7 @@ export async function getProducts() {
   return productsClient;
 }
 
-export async function getProductById(id) {
+export async function getItemById(id) {
   const info = client
     .getEntry(id)
     .then((entry) => {
@@ -41,17 +41,6 @@ export async function getAllCategories() {
     })
     .catch(console.error);
   return categoryClient;
-}
-
-export async function getCategoryById(id) {
-  const info = client
-    .getEntry(id)
-    .then((entry) => {
-      return entry.fields;
-    })
-    .catch(console.error);
-
-  return info;
 }
 
 export async function getTermsAndConditions() {
