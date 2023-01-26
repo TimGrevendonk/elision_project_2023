@@ -1,7 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { getItemById, getProducts } from "@/data/querries";
 export default function ProductDetailPage(props) {
-  const id = props.productID;
   const info = props.productInfo;
   console.log(info.thumbnails);
   return (
