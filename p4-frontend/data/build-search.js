@@ -1,6 +1,6 @@
 // build-search.js
 const dotenv = require("dotenv");
-const algoliasearch = require("algoliasearch/lite")
+const algoliasearch = require("algoliasearch/lite");
 
 const client = require("contentful").createClient({
   space: "n80dqssuk9ot",
@@ -14,8 +14,8 @@ async function getProducts() {
     .getEntries({ content_type: "product" })
     .then((response) => {
       return response.items.map((product) => {
-        console.log(`productId: ${product}`),
-          productsClient.push(product);
+        console.log(`productId: ${product}`);
+        productsClient.push(product);
       });
     })
     .catch(console.error);
