@@ -1,7 +1,7 @@
 // .components/Search/index.js
 
 import algoliasearch from "algoliasearch/lite";
-import { InstantSearch, Hits } from "react-instantsearch-dom";
+import { InstantSearch } from "react-instantsearch-dom";
 import CustomHits from "./customHits";
 import CustomSearchBox from "./CustomSearchBox";
 

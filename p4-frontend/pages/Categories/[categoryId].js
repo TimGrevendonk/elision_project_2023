@@ -1,9 +1,7 @@
 import { getAllCategories, getItemById } from "@/data/querries";
 import Link from "next/link";
-import ProductList from "@/components/layout/itemList";
 
 export default function CategoryDetailPage(props) {
-  const id = props.categoryID;
   const info = props.categoryInfo;
   console.log(info);
   console.log(info.products);
