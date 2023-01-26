@@ -1,10 +1,12 @@
 import { getAllCategories, getItemById } from "@/data/querries";
 import Link from "next/link";
+import ProductList from "@/components/layout/itemList";
 
 export default function CategoryDetailPage(props) {
   const id = props.categoryID;
   const info = props.categoryInfo;
   console.log(info);
+  console.log(info.products);
   return (
     <div className="p-3">
       <div className="bg-slate-600 h-full w-full flex justify-center">
@@ -29,6 +31,7 @@ export default function CategoryDetailPage(props) {
             </li>
           ))}
         </ul>
+        {/* <ProductList props={info.products} /> */}
       </div>
     </div>
   );
