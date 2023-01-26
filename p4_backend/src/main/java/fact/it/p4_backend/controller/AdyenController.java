@@ -61,7 +61,7 @@ public class AdyenController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PostMapping("/initiatepayment")
+    @PostMapping("/initializePayment")
     public ResponseEntity<PaymentsResponse> payments(@RequestBody PaymentsRequest body) throws IOException, ApiException {
 
         PaymentsRequest paymentRequest = new PaymentsRequest();
