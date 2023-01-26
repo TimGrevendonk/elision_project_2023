@@ -10,6 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@adyen/adyen-web": "^5.31.3",
     "@next/font": "13.1.2",
     "algoliasearch": "^4.14.3",
     "contentful": "^9.2.17",
