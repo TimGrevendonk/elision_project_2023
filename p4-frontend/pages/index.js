@@ -9,12 +9,12 @@ const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
-    <Fragment>
+    <div className="container m-auto">
       <Search />
       <div className="grid grid-cols-2">
         <ProductGroup title="For you" products={items} />
         <ProductGroup title="Deals" products={items2} />
       </div>
-    </Fragment>
+    </div>
   );
 }

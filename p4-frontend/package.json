@@ -5,11 +5,11 @@
   "scripts": {
     "dev": "next dev",
     "build": "DISABLE_ESLINT_PLUGIN=true next build",
-    "postbuild": "node ./scripts/build-search.js",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@adyen/adyen-web": "^5.31.3",
     "@next/font": "13.1.2",
     "contentful": "^9.2.19",
     "algoliasearch": "^4.14.3",
