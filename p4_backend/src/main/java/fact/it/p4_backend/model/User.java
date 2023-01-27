@@ -11,17 +11,27 @@ public class User {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+    private String mail;
 
     public User() {
     }
 
-    public User(Long id, String name) {
+    public User(Long id, String name, String mail) {
         this.id = id;
         this.name = name;
+        this.mail = mail;
     }
 
     public User(String name) {
         this.name = name;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     public Long getId() {

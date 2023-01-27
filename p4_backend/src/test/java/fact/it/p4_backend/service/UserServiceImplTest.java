@@ -31,7 +31,7 @@ public class UserServiceImplTest {
     @Test
     public void when_service_getUserById_userReturned() throws Exception {
         UserServiceImpl userServiceImpl = new UserServiceImpl(userRepositoryMock);
-        Optional<User> userMock = Optional.of(new User(1L, "testUser"));
+        Optional<User> userMock = Optional.of(new User(1L, "testUser","mail@mail.com"));
         when(userRepositoryMock.findById(1L)).thenReturn(userMock);
         User resultUser = userServiceImpl.getById(1L);
 

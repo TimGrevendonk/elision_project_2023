@@ -30,6 +30,7 @@ public class UserServiceImpl {
     public User create(User newUser) throws UserNotFoundException {
         User builtUser = new User();
         builtUser.setName(newUser.getName());
+        builtUser.setMail(newUser.getMail());
         userRepository.save(builtUser);
         return userRepository.findById(builtUser.getId()).orElseThrow(UserNotFoundException::new);
     }

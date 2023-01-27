@@ -34,8 +34,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
     List<User> usersMock = List.of(
-            new User(1L, "testUser"),
-            new User(2L, "demoUser")
+            new User(1L, "testUser","testmail@mail.com"),
+            new User(2L, "demoUser","demomail@mail.com")
     );
     @MockBean
     private UserServiceImpl userServiceImplMock;
