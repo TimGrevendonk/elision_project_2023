@@ -1,6 +1,5 @@
 FROM node:14
-WORKDIR /usr/src/app
-RUN pwd
+WORKDIR /var/lib/jenkins/workspace/test_pipeline_with_docker/p4-frontend
 COPY package*.json ./
 RUN npm ci --only=production
 COPY . /usr/src/app
