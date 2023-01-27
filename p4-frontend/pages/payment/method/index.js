@@ -64,8 +64,7 @@ export default function PaymentMethodPage(props) {
 
       const configuration = {
         environment: "test", // Change to one of the environment values specified in step 4.
-        // clientKey: process.env.NEXT_PUBLIC_ADYEN_MERCHACC,
-        clientKey: "test_K6Q77VJ2OZFHZO4LYQEHIXWXSQKKUFVS",
+        clientKey: process.env.ADYEN_CLIENT_KEY,
         paymentMethodsResponse: props.paymentMethodsResponse,
         analytics: {
           enabled: true, // Set to false to not send analytics data to Adyen.
@@ -101,9 +100,9 @@ export default function PaymentMethodPage(props) {
   }, []);
 
   return (
-    <>
+    <div className="container m-auto">
       <h1>PaymentMethodPage</h1>
       <div id="dropin-container"></div>
-    </>
+    </div>
   );
 }
