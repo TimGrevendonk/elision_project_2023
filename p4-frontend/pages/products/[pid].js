@@ -2,7 +2,7 @@
 import { getItemById, getProducts } from "@/data/querries";
 export default function ProductDetailPage(props) {
   const info = props.productInfo;
-  console.log(info.thumbnails);
+//  console.log(info.thumbnails);
   return (
     <div className="p-3">
       <div className="bg-slate-600 h-full w-full flex justify-center">
@@ -30,7 +30,7 @@ export default function ProductDetailPage(props) {
 export async function getStaticProps(context) {
   const productId = context.params.pid;
   const productInfo = await getItemById(productId);
-  console.log("product info:", productInfo);
+  //console.log("product info:", productInfo);
 
   return {
     props: {
