@@ -33,7 +33,7 @@ export default function PaymentMethodPage(props) {
       switch (response.resultCode) {
         case "Authorised":
           console.log("[debug] handleServerResponse Authorized");
-          router.push("/Authorized");
+          router.push("/payment/Authorized");
           break;
         case "Pending":
         case "Received":
