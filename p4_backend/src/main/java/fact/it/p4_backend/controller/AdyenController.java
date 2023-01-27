@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.UUID;
 
-@CrossOrigin
+
 @RestController
 @RequestMapping("/payment")
 public class AdyenController {
@@ -30,25 +30,27 @@ public class AdyenController {
     public AdyenController(@Value("${ADYEN_APIKEY}") String apiKey) {
         this.checkout = new Checkout(new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST));
     }
-
-    @GetMapping("/clientTest")
-    public CreateCheckoutSessionResponse AdyenClient() throws IOException, ApiException {
+    @CrossOrigin(origins = "http://localhost:3000")
+    @GetMapping("/session")
+    public ResponseEntity<CreateCheckoutSessionResponse> AdyenClient() throws IOException, ApiException {
         Client client = new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST);
 
         Checkout checkout = new Checkout(client);
 
         CreateCheckoutSessionRequest checkoutSessionRequest = new CreateCheckoutSessionRequest();
+//        TODO: query the product prices from the database.
         Amount amount = new Amount();
         amount.setCurrency("EUR");
         amount.setValue(1000L);
+
         checkoutSessionRequest.setAmount(amount);
         checkoutSessionRequest.setMerchantAccount(System.getenv("ADYEN_MERCHACC"));
-        checkoutSessionRequest.setReturnUrl("https://your-company.com/checkout?shopperOrder=12xy..");
+        checkoutSessionRequest.setReturnUrl("https://localhost:3000/");
         checkoutSessionRequest.setReference("YOUR_PAYMENT_REFERENCE");
         checkoutSessionRequest.setCountryCode("NL");
         CreateCheckoutSessionResponse checkoutSessionResponse = checkout.sessions(checkoutSessionRequest);
 
-        return checkoutSessionResponse;
+        return new ResponseEntity<>(checkoutSessionResponse, HttpStatus.CREATED);
     }
 
     @PostMapping("/paymentMethods")
@@ -63,7 +65,7 @@ public class AdyenController {
     }
 
     @PostMapping("/initializePayment")
-    public ResponseEntity<PaymentsResponse> payments(@RequestBody PaymentsRequest body) throws IOException, ApiException {
+    public ResponseEntity<PaymentsResponse> initPayments(@RequestBody PaymentsRequest body) throws IOException, ApiException {
 
         PaymentsRequest paymentRequest = new PaymentsRequest();
         paymentRequest.setMerchantAccount(merchantAccount);
@@ -80,13 +82,6 @@ public class AdyenController {
         PaymentsResponse response = checkout.payments(paymentRequest);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @PostMapping("/initializePayment")
-    public ResponseEntity<PaymentsDetailsResponse> payments(@RequestBody PaymentsDetailsRequest detailsRequest) throws IOException, ApiException {
-        PaymentsDetailsResponse response = checkout.paymentsDetails(detailsRequest);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-
     }
 
     @GetMapping("/redirect")

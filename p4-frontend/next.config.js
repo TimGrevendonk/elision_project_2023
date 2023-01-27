@@ -1,6 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  env: {
+    CONTENTFUL_SPACE_ID: process.env.CONTENTFUL_SPACE_ID,
+    CONTENTFUL_ACCESS_TOKEN: process.env.CONTENTFUL_ACCESS_TOKEN,
+
+    NEXT_PUBLIC_ALGOLIA_APP_ID: process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
+    NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY:
+      process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_KEY,
+    ALGOLIA_SEARCH_ADMIN_KEY: process.env.ALGOLIA_SEARCH_ADMIN_KEY,
+
+    NEXT_PUBLIC_ADYEN_APIKEY: process.env.NEXT_PUBLIC_ADYEN_APIKEY,
+    NEXT_PUBLIC_ADYEN_MERCHANT_ACCOUNT:
+      process.env.NEXT_PUBLIC_ADYEN_MERCHANT_ACCOUNT,
+    ADYEN_CLIENT_KEY: process.env.ADYEN_CLIENT_KEY,
+  },
 };
 
 module.exports = nextConfig;
