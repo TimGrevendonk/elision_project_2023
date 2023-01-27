@@ -1,6 +1,6 @@
 FROM node:14
 WORKDIR /usr/src/app
-RUN ls -a
+RUN pwd
 COPY package*.json ./
 RUN npm ci --only=production
 COPY . /usr/src/app
