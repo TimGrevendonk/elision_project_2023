@@ -3,7 +3,7 @@
 import algoliasearch from "algoliasearch/lite";
 import { InstantSearch } from "react-instantsearch-dom";
 import CustomHits from "./customHits";
-import CustomSearchBox from "./CustomSearchBox";
+import CustomSearchBox from "./customSearchBox";
 
 const searchClient = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
