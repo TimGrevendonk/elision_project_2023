@@ -4,28 +4,30 @@ import com.adyen.Client;
 import com.adyen.enums.Environment;
 import com.adyen.model.Amount;
 import com.adyen.model.checkout.*;
-import com.adyen.model.nexo.PaymentResponse;
 import com.adyen.service.Checkout;
 import com.adyen.service.exception.ApiException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.UUID;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/payment")
 public class AdyenController {
     private final Logger log = LoggerFactory.getLogger(AdyenController.class);
+    private final Checkout checkout;
     @Value("${ADYEN_MERCHACC}")
     private String merchantAccount;
-    private final Checkout checkout;
 
-    public AdyenController(@Value("${ADYEN_APIKEY}") String apiKey){
+    public AdyenController(@Value("${ADYEN_APIKEY}") String apiKey) {
         this.checkout = new Checkout(new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST));
     }
 
@@ -33,8 +35,7 @@ public class AdyenController {
     public CreateCheckoutSessionResponse AdyenClient() throws IOException, ApiException {
         Client client = new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST);
 
-        Checkout checkout;
-        checkout = new Checkout(client);
+        Checkout checkout = new Checkout(client);
 
         CreateCheckoutSessionRequest checkoutSessionRequest = new CreateCheckoutSessionRequest();
         Amount amount = new Amount();
@@ -71,6 +72,7 @@ public class AdyenController {
         Amount amount = new Amount().currency("EUR").value(1000L);
         String orderRef = UUID.randomUUID().toString();
         paymentRequest.setShopperReference(orderRef);
+        paymentRequest.setReturnUrl("http://localhost:8080/payment/redirect,orderRef=" + orderRef);
 
         paymentRequest.setBrowserInfo(body.getBrowserInfo());
         paymentRequest.setPaymentMethod(body.getPaymentMethod());
@@ -80,4 +82,33 @@ public class AdyenController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PostMapping("/initializePayment")
+    public ResponseEntity<PaymentsDetailsResponse> payments(@RequestBody PaymentsDetailsRequest detailsRequest) throws IOException, ApiException {
+        PaymentsDetailsResponse response = checkout.paymentsDetails(detailsRequest);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+
+    }
+
+    @GetMapping("/redirect")
+    public ResponseEntity<PaymentsDetailsRequest> redirect(@RequestParam(required = false) String redirectResult, @RequestParam(required = false) String orderRef) throws IOException, ApiException {
+        PaymentsDetailsRequest detailsRequest = new PaymentsDetailsRequest();
+        if (redirectResult != null && !redirectResult.isEmpty()) {
+            detailsRequest.setDetails(Collections.singletonMap("redirectResult", redirectResult));
+        }
+//        TODO: fill orderRef with database querry of the order.
+        detailsRequest.setPaymentData(orderRef);
+
+        return new ResponseEntity<>(detailsRequest, HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/redirect", consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE})
+    public ResponseEntity<PaymentsDetailsRequest> redirect(@RequestParam("MD") String md, @RequestParam("PaRes") String paRes, @RequestParam String orderRef) throws IOException, ApiException {
+        PaymentsDetailsRequest detailsRequest = new PaymentsDetailsRequest();
+//        detailsRequest.setDetails(HashMap<String, string>);
+
+//        TODO: fill orderRef with database querry of the order.
+        detailsRequest.setPaymentData(orderRef);
+
+        return new ResponseEntity<>(detailsRequest, HttpStatus.OK);
+    }
 }
