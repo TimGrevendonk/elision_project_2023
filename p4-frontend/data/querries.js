@@ -1,7 +1,7 @@
 const client = require("contentful").createClient({
-  space: process.env.CONTENTFUL_SPACE_ID,
+  space: process.env.NEXT_PUBLIC_CONTENTFUL_SPACE_ID,
   environment: "master",
-  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN,
+  accessToken: process.env.NEXT_PUBLIC_CONTENTFUL_ACCESS_TOKEN,
 });
 
 export async function getProducts() {
@@ -35,8 +35,7 @@ export async function getAllCategories() {
     .getEntries({ content_type: "category" })
     .then((response) => {
       return response.items.map((category) => {
-          console.log(`category ${category}`),
-            categoryClient.push(category);
+        console.log(`category ${category}`), categoryClient.push(category);
       });
     })
     .catch(console.error);
@@ -53,3 +52,11 @@ export async function getCategoryById(id) {
 
   return info;
 }
+
+export const getSocialMediaLinks = async () => {
+  const data = await client.getEntry("2wzCMlRQTmapkJyJDmD60q").then((data) => {
+    return data.json();
+  });
+
+  return data;
+};
