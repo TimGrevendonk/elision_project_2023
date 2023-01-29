@@ -12,6 +12,7 @@ public class User {
     private Long id;
     private String name;
     private String mail;
+    private String password;
 
     public User() {
     }
@@ -20,6 +21,13 @@ public class User {
         this.id = id;
         this.name = name;
         this.mail = mail;
+    }
+
+    public User(Long id, String name, String mail, String password) {
+        this.id = id;
+        this.name = name;
+        this.mail = mail;
+        this.password = password;
     }
 
     public User(String name) {
@@ -48,5 +56,13 @@ public class User {
 
     public void setid(Long id) {
         this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
