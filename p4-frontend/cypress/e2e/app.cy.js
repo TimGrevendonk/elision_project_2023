@@ -1,3 +1,14 @@
+describe("Search", () => {
+    it("should return all the possible hits for a query", () => {
+      // Start from the index page
+      cy.visit("http://localhost:3000/");
+  
+      // 
+      cy.get('input#algolia_search').type('sam');
+      cy.get('form').siblings('ol').should('not.be.empty');
+    });
+  });
+
 describe("About us page", () => {
   it("should navigate to the about page", () => {
     // Start from the index page
