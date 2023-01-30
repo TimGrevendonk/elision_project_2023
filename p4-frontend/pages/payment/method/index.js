@@ -4,17 +4,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { callServerPost, callServerGet } from "../../../data/Adyen_helpers";
 
-export async function getStaticProps() {
-  const paymentMethodsResponse = await callServerPost(
-    "/payment/paymentMethods"
-  );
-
-  return {
-    props: {
-      paymentMethodsResponse: paymentMethodsResponse,
-    },
-  };
-}
 
 export default function PaymentMethodPage(props) {
   const router = useRouter();
@@ -53,6 +42,10 @@ export default function PaymentMethodPage(props) {
 
   useEffect(() => {
     const data = async () => {
+      const paymentMethodsResponse = await callServerPost(
+        "/payment/paymentMethods"
+      );
+
       const sessionResult = await callServerGet("/payment/session");
       console.log("[debug] session result", sessionResult);
 
@@ -64,7 +57,7 @@ export default function PaymentMethodPage(props) {
       const configuration = {
         environment: "test", // Change to one of the environment values specified in step 4.
         clientKey: process.env.ADYEN_CLIENT_KEY,
-        paymentMethodsResponse: props.paymentMethodsResponse,
+        paymentMethodsResponse: paymentMethodsResponse,
         analytics: {
           enabled: true, // Set to false to not send analytics data to Adyen.
         },
@@ -74,7 +67,7 @@ export default function PaymentMethodPage(props) {
         },
         onPaymentCompleted: (result, component) => {
           console.info(result, component);
-          handleResponse(result, component);
+          // handleResponse(result, component);
         },
         onError: (error, component) => {
           console.error(error.name, error.message, error.stack, component);

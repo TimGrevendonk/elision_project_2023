@@ -10,7 +10,6 @@ export async function getProducts() {
     .getEntries({ content_type: "product" })
     .then((response) => {
       return response.items.map((product) => {
-//        console.log(`productId: ${product.sys.id}`);
         productsClient.push(product.sys.id);
       });
     })
@@ -35,7 +34,6 @@ export async function getAllCategories() {
     .getEntries({ content_type: "category" })
     .then((response) => {
       return response.items.map((category) => {
- //       console.log(`category ${category}`);
         categoryClient.push(category);
       });
     })
@@ -47,10 +45,6 @@ export async function getTermsAndConditions() {
   const termsNconditions = client
     .getEntry("laYanw0mKzWivYdus35SO")
     .then((response) => {
-/*      console.log(
-        response.fields.termsAndConditions[0].fields.termParagraph.content[0]
-          .content[0].value 
-      ); */
       return response;
     });
 
@@ -60,7 +54,6 @@ export async function getPrivacyPolicy() {
   const privacyPolicy = client
     .getEntry("4DYErvdfXKEGUuCEN4ROvz")
     .then((response) => {
- //     console.log(response);
       return response;
     });
 
@@ -71,7 +64,6 @@ export async function getAboutPageInfo() {
   const aboutUsInfo = await client
     .getEntry("3XDWTQ6OUSaoMUIoT9243u")
     .then((response) => {
-//      console.log(response);
       return response.fields;
     })
     .catch(console.error);
