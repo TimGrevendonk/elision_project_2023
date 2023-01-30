@@ -2,7 +2,6 @@ import { getAboutPageInfo } from "@/data/querries";
 
 export default function AboutPage(props) {
   const aboutUsInfo = props.aboutUsInfo;
-  console.log(aboutUsInfo);
   return (
     <div className="justify-center w-screen grid grid-cols-3 gap-y-10 overflow-hidden">
       <div className="w-full bg-slate-500 text-center rounded-md h-full m-10 p-5 col-start-2 ">
@@ -22,7 +21,6 @@ export default function AboutPage(props) {
 
 export async function getStaticProps() {
   const aboutUs = await getAboutPageInfo();
-  console.log("about us:", aboutUs);
 
   return {
     props: {

@@ -3,8 +3,6 @@ import Link from "next/link";
 
 export default function CategoryDetailPage(props) {
   const info = props.categoryInfo;
-  console.log(info);
-  console.log(info.products);
   return (
     <div className="p-3">
       <div className="bg-slate-600 h-full w-full flex justify-center">
@@ -38,8 +36,6 @@ export default function CategoryDetailPage(props) {
 export async function getStaticProps(context) {
   const categoryId = context.params.categoryId;
   const categoryInfo = await getItemById(categoryId);
-  console.log("category info:", categoryInfo);
-
   return {
     props: {
       categoryID: categoryId,
