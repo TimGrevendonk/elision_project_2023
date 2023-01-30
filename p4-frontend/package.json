@@ -7,13 +7,14 @@
     "localbuild": "next build",
     "build": "DISABLE_ESLINT_PLUGIN=true next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cypress": "cypress open"
   },
   "dependencies": {
     "@adyen/adyen-web": "^5.31.3",
     "@next/font": "13.1.2",
-    "contentful": "^9.2.19",
     "algoliasearch": "^4.14.3",
+    "contentful": "^9.2.19",
     "dotenv": "^16.0.3",
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.2",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.13",
+    "cypress": "^12.4.1",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.2.4"
   }
