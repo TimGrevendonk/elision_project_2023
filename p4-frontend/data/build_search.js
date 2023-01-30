@@ -56,5 +56,7 @@ function transformProductsToSearchObjects(products) {
     const algoliaResponse = await index.saveObjects(transformed);
 
     // we have data ready for Algolia!
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 })();
