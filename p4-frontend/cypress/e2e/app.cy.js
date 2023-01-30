@@ -3,7 +3,7 @@ describe("Search", () => {
       // Start from the index page
       cy.visit("http://localhost:3000/");
   
-      // 
+      // Type 'sam' in the search input field and check that the adjacent list is not empty 
       cy.get('input#algolia_search').type('sam');
       cy.get('form').siblings('ol').should('not.be.empty');
     });
