@@ -7,8 +7,8 @@ RUN pwd
 RUN ls -a
 COPY /p4-frontend /p4-frontend
 #COPY . /usr/src/app
-EXPOSE 8080
-ENV PORT 8080
+EXPOSE 0.0.0.0:8080
+ENV PORT 0.0.0.0:8080
 RUN npm install -g npm@latest
 RUN npm install
 RUN npm ci
