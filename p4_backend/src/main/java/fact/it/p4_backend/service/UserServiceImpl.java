@@ -3,6 +3,8 @@ package fact.it.p4_backend.service;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.repository.UserRepositoryInterface;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,8 +13,11 @@ import java.util.List;
 public class UserServiceImpl {
     private final UserRepositoryInterface userRepository;
 
+    PasswordEncoder passwordEncoder;
+
     public UserServiceImpl(UserRepositoryInterface userRepository) {
         this.userRepository = userRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     public UserRepositoryInterface get() {
@@ -30,6 +35,8 @@ public class UserServiceImpl {
     public User create(User newUser) throws UserNotFoundException {
         User builtUser = new User();
         builtUser.setName(newUser.getName());
+        builtUser.setMail(newUser.getMail());
+        builtUser.setPassword(this.passwordEncoder.encode(newUser.getPassword()));
         userRepository.save(builtUser);
         return userRepository.findById(builtUser.getId()).orElseThrow(UserNotFoundException::new);
     }
