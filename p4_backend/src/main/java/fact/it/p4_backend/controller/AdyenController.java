@@ -24,7 +24,7 @@ import java.util.UUID;
 public class AdyenController {
     private final Logger log = LoggerFactory.getLogger(AdyenController.class);
     private final Checkout checkout;
-    @Value("${ADYEN_MERCHACC}")
+    @Value("${ADYEN_MERCHANT_ACCOUNT}")
     private String merchantAccount;
 
     public AdyenController(@Value("${ADYEN_APIKEY}") String apiKey) {
@@ -44,7 +44,7 @@ public class AdyenController {
         amount.setValue(1000L);
 
         checkoutSessionRequest.setAmount(amount);
-        checkoutSessionRequest.setMerchantAccount(System.getenv("ADYEN_MERCHACC"));
+        checkoutSessionRequest.setMerchantAccount(System.getenv("ADYEN_MERCHANT_ACCOUNT"));
         checkoutSessionRequest.setReturnUrl("https://localhost:3000/");
         checkoutSessionRequest.setReference("YOUR_PAYMENT_REFERENCE");
         checkoutSessionRequest.setCountryCode("NL");

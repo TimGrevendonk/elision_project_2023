@@ -14,6 +14,7 @@ import fact.it.p4_backend.model.User;
  * Controller to allow CRUD functionality via standard REST queries.
  */
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/api")
 public class UserController {
 
@@ -53,7 +54,6 @@ public class UserController {
      * @throws UserNotFoundException handled if the user is not found or saved incorrectly.
      */
     @PostMapping("/user/create")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<User> createUser(@RequestBody User newUser) throws Exception {
         User user = userServiceImpl.create(newUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
