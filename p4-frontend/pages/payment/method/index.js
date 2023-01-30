@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { callServerPost, callServerGet } from "../../../data/Adyen_helpers";
 
-
 export default function PaymentMethodPage(props) {
   const router = useRouter();
 
@@ -67,7 +66,7 @@ export default function PaymentMethodPage(props) {
         },
         onPaymentCompleted: (result, component) => {
           console.info(result, component);
-          // handleResponse(result, component);
+          handleResponse(result, component);
         },
         onError: (error, component) => {
           console.error(error.name, error.message, error.stack, component);
