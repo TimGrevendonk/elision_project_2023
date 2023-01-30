@@ -8,7 +8,6 @@ export async function getStaticProps() {
   const paymentMethodsResponse = await callServerPost(
     "/payment/paymentMethods"
   );
-  //   console.log("[debug] paymentMethodsRes", paymentMethodsResponse);
 
   return {
     props: {
