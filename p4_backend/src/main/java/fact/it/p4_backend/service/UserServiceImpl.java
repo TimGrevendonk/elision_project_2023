@@ -36,8 +36,7 @@ public class UserServiceImpl {
         User builtUser = new User();
         builtUser.setName(newUser.getName());
         builtUser.setMail(newUser.getMail());
-        String encodedPassword = this.passwordEncoder.encode(newUser.getPassword());
-        builtUser.setPassword(encodedPassword);
+        builtUser.setPassword(this.passwordEncoder.encode(newUser.getPassword()));
         userRepository.save(builtUser);
         return userRepository.findById(builtUser.getId()).orElseThrow(UserNotFoundException::new);
     }
