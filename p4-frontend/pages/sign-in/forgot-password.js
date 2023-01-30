@@ -40,6 +40,5 @@ export default function ForgotPasswordPage() {
 }
 
 function submitHandler(event) {
-  console.log("no backend yet");
   event.preventDefault();
 }

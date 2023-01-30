@@ -14,7 +14,6 @@ async function getProducts() {
     .getEntries({ content_type: "product" })
     .then((response) => {
       return response.items.map((product) => {
-        console.log(`productId: ${product}`);
         productsClient.push(product);
       });
     })
@@ -56,18 +55,6 @@ function transformProductsToSearchObjects(products) {
     // save the objects!
     const algoliaResponse = await index.saveObjects(transformed);
 
-    // check the output of the response in the console
-    console.log(
-      `🎉 Sucessfully added ${
-        algoliaResponse.objectIDs.length
-      } records to Algolia search. Object IDs:\n${algoliaResponse.objectIDs.join(
-        "\n"
-      )}`
-    );
-
     // we have data ready for Algolia!
-    console.log(transformed);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 })();

@@ -112,8 +112,6 @@ async function submitHandler(event) {
 
   const endpoint = process.env.NEXT_PUBLIC_JAVA_BASE_LINK + "/user/create";
 
-  console.log(endpoint);
-
   const options = {
     method: "POST",
     headers: {

@@ -70,6 +70,5 @@ export default function SingInPage() {
 }
 
 function submitHandler(event) {
-  console.log("no backend yet");
   event.preventDefault();
 }
