@@ -3,7 +3,7 @@ package fact.it.p4_backend.controller;
 import java.util.List;
 
 import fact.it.p4_backend.exception.UserNotFoundException;
-import fact.it.p4_backend.service.UserServiceImpl;
+import fact.it.p4_backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,10 +18,10 @@ import fact.it.p4_backend.model.User;
 @RequestMapping("/api")
 public class UserController {
 
-    final private UserServiceImpl userServiceImpl;
+    final private UserService userService;
 
-    public UserController(UserServiceImpl userServiceImpl) {
-        this.userServiceImpl = userServiceImpl;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -31,7 +31,7 @@ public class UserController {
      */
     @GetMapping("/user")
     public ResponseEntity<List<User>> getAllUsersOrderedByNameAscending() throws Exception {
-        List<User> usersResponse = userServiceImpl.getAll();
+        List<User> usersResponse = userService.getAll();
         return new ResponseEntity<>(usersResponse, HttpStatus.OK);
     }
 
@@ -43,7 +43,7 @@ public class UserController {
      */
     @GetMapping("/user/{UserId}")
     public ResponseEntity<User> getUserById(@PathVariable("UserId") Long userId) throws Exception {
-        User user = userServiceImpl.getById(userId);
+        User user = userService.getById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -55,7 +55,7 @@ public class UserController {
      */
     @PostMapping("/user/create")
     public ResponseEntity<User> createUser(@RequestBody User newUser) throws Exception {
-        User user = userServiceImpl.create(newUser);
+        User user = userService.create(newUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
     /**
@@ -66,7 +66,7 @@ public class UserController {
      */
     @PutMapping("/user/update")
     public ResponseEntity<User> updateUser(@RequestBody User updateUser) throws Exception {
-        User user = userServiceImpl.update(updateUser);
+        User user = userService.update(updateUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -78,7 +78,7 @@ public class UserController {
      */
     @DeleteMapping("/user/{userId}")
     public ResponseEntity<User> deleteUser(@PathVariable("userId") Long userId) throws Exception {
-        User deletedUser = userServiceImpl.deleteById(userId);
+        User deletedUser = userService.deleteById(userId);
         return new ResponseEntity<>(deletedUser, HttpStatus.OK);
     }
 }

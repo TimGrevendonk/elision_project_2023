@@ -4,7 +4,7 @@ import fact.it.p4_backend.controller.UserController;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.helper.JsonHelper;
 import fact.it.p4_backend.model.User;
-import fact.it.p4_backend.service.UserServiceImpl;
+import fact.it.p4_backend.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -38,7 +38,7 @@ public class UserControllerTest {
             new User(2L, "demoUser","demomail@mail.com")
     );
     @MockBean
-    private UserServiceImpl userServiceImplMock;
+    private UserService userServiceImplMock;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired

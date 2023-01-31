@@ -20,6 +20,7 @@ import java.util.UUID;
 
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/payment")
 public class AdyenController {
     private final Logger log = LoggerFactory.getLogger(AdyenController.class);
@@ -30,7 +31,7 @@ public class AdyenController {
     public AdyenController(@Value("${ADYEN_APIKEY}") String apiKey) {
         this.checkout = new Checkout(new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST));
     }
-    @CrossOrigin(origins = "http://localhost:3000")
+
     @GetMapping("/session")
     public ResponseEntity<CreateCheckoutSessionResponse> AdyenClient() throws IOException, ApiException {
         Client client = new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST);

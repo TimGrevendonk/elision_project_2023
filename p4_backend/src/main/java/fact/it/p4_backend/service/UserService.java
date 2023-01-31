@@ -12,22 +12,30 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl {
+public class UserService {
     private final UserRepositoryInterface userRepository;
 
     private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepositoryInterface userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepositoryInterface userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
+    public UserRepositoryInterface getUserRepository() {
+        return userRepository;
+    }
+
+    public PasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
+    }
+
     public List<User> getAll() throws UserNotFoundException {
-        return userRepository.getAllUsersOrderedByNameAscending().orElseThrow(UserNotFoundException::new);
+        return getUserRepository().getAllUsersOrderedByNameAscending().orElseThrow(UserNotFoundException::new);
     }
 
     public User getById(Long userId) throws UserNotFoundException {
-        return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
+        return getUserRepository().findById(userId).orElseThrow(UserNotFoundException::new);
     }
 
     /**
@@ -40,24 +48,24 @@ public class UserServiceImpl {
     public User create(User newUser) throws UserNotFoundException, MailAlreadyExistsException {
         User builtUser = new User();
         builtUser.setMail(newUser.getMail());
-        if (userRepository.existsByMail(newUser.getMail())){
+        if (getUserRepository().existsByMail(newUser.getMail())){
             throw new MailAlreadyExistsException("mail already exists");
         }
         builtUser.setName(newUser.getName());
-        builtUser.setPassword(this.passwordEncoder.encode(newUser.getPassword()));
-        userRepository.save(builtUser);
-        return userRepository.findById(builtUser.getId()).orElseThrow(UserNotFoundException::new);
+        builtUser.setPassword(getPasswordEncoder().encode(newUser.getPassword()));
+        User savedUser = getUserRepository().save(builtUser);
+        return savedUser;
     }
 
     public User update(User user) throws UserNotFoundException {
         this.getById(user.getId());
-        userRepository.save(user);
-        return user;
+        User savedUser = getUserRepository().save(user);
+        return savedUser;
     }
 
     public User deleteById(Long userId) throws UserNotFoundException {
         User foundUser = this.getById(userId);
-        userRepository.delete(foundUser);
+        getUserRepository().delete(foundUser);
         return foundUser;
     }
 }
