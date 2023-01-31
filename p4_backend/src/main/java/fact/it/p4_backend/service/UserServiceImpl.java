@@ -1,5 +1,6 @@
 package fact.it.p4_backend.service;
 
+import fact.it.p4_backend.exception.MailAlreadyExistsException;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.repository.UserRepositoryInterface;
@@ -14,14 +15,10 @@ import java.util.List;
 public class UserServiceImpl {
     private final UserRepositoryInterface userRepository;
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public UserServiceImpl(UserRepositoryInterface userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public UserRepositoryInterface get() {
-        return userRepository;
     }
 
     public List<User> getAll() throws UserNotFoundException {
@@ -32,10 +29,13 @@ public class UserServiceImpl {
         return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
 
-    public User create(User newUser) throws UserNotFoundException {
+    public User create(User newUser) throws UserNotFoundException,MailAlreadyExistsException {
         User builtUser = new User();
-        builtUser.setName(newUser.getName());
         builtUser.setMail(newUser.getMail());
+        if (userRepository.existsByMail(newUser.getMail())){
+            throw new MailAlreadyExistsException();
+        }
+        builtUser.setName(newUser.getName());
         builtUser.setPassword(this.passwordEncoder.encode(newUser.getPassword()));
         userRepository.save(builtUser);
         return userRepository.findById(builtUser.getId()).orElseThrow(UserNotFoundException::new);

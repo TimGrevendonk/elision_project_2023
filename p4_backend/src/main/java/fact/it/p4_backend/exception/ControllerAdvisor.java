@@ -25,4 +25,17 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
                 )
         );
     }
+
+    @ExceptionHandler(value = MailAlreadyExistsException.class)
+    public ResponseEntity<Object> HandleMailAlreadyExistsException(
+            RuntimeException exception
+    ) {
+        return buildResponseEntity(
+                ErrorResponse.create(
+                        exception,
+                        HttpStatus.UNPROCESSABLE_ENTITY,
+                        "Mail is already in use."
+                )
+        );
+    }
 }
