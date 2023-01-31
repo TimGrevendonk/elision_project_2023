@@ -1,6 +1,39 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export default function SignUpPage() {
+  const router = useRouter();
+
+  async function submitHandler(event) {
+    event.preventDefault();
+
+    const newUserData = {
+      name: event.target.username.value,
+      mail: event.target.email.value,
+      password: event.target.password.value,
+    };
+
+    const JSONdata = JSON.stringify(newUserData);
+
+    const endpoint = process.env.NEXT_PUBLIC_JAVA_BASE_LINK + "/user/create";
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSONdata,
+    };
+
+    const response = await fetch(endpoint, options);
+
+    if (response.status == 200) {
+      router.push("/sign-up/success");
+    } else {
+      router.push("/sign-up/refused");
+    }
+  }
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -97,28 +130,4 @@ export default function SignUpPage() {
       </div>
     </section>
   );
-}
-
-async function submitHandler(event) {
-  event.preventDefault();
-
-  const newUserData = {
-    name: event.target.username.value,
-    mail: event.target.email.value,
-    password: event.target.password.value,
-  };
-
-  const JSONdata = JSON.stringify(newUserData);
-
-  const endpoint = process.env.NEXT_PUBLIC_JAVA_BASE_LINK + "/user/create";
-
-  const options = {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSONdata,
-  };
-
-  const response = await fetch(endpoint, options);
 }
