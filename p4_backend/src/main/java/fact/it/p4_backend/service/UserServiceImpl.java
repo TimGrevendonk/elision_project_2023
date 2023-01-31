@@ -14,11 +14,12 @@ import java.util.List;
 @Service
 public class UserServiceImpl {
     private final UserRepositoryInterface userRepository;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepositoryInterface userRepository) {
+    private final PasswordEncoder passwordEncoder;
+
+    public UserServiceImpl(UserRepositoryInterface userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<User> getAll() throws UserNotFoundException {
@@ -29,11 +30,18 @@ public class UserServiceImpl {
         return userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
     }
 
-    public User create(User newUser) throws UserNotFoundException,MailAlreadyExistsException {
+    /**
+     * Creating a new user that needs a unique email address.
+     * @param newUser
+     * @return User Fetched from repository.
+     * @throws UserNotFoundException No user found from query.
+     * @throws MailAlreadyExistsException Mail already in repository.
+     */
+    public User create(User newUser) throws UserNotFoundException, MailAlreadyExistsException {
         User builtUser = new User();
         builtUser.setMail(newUser.getMail());
         if (userRepository.existsByMail(newUser.getMail())){
-            throw new MailAlreadyExistsException();
+            throw new MailAlreadyExistsException("mail already exists");
         }
         builtUser.setName(newUser.getName());
         builtUser.setPassword(this.passwordEncoder.encode(newUser.getPassword()));

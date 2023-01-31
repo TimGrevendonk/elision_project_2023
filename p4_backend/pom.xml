@@ -16,6 +16,9 @@
 	<properties>
 		<java.version>17</java.version>
 		<swaggerVersion>2.7.0</swaggerVersion>
+		<securityCoreVersion>6.0.1</securityCoreVersion>
+		<adyenVersion>17.3.0</adyenVersion>
+		<apacheMavenVersion>16</apacheMavenVersion>
 	</properties>
 	<repositories>
 		<repository>
@@ -56,12 +59,12 @@
 		<dependency>
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
-			<version>6.0.1</version>
+			<version>${securityCoreVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.adyen</groupId>
 			<artifactId>adyen-java-api-library</artifactId>
-			<version>17.3.0</version>
+			<version>${adyenVersion}</version>
 		</dependency>
     </dependencies>
 
@@ -75,8 +78,8 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>16</source>
-					<target>16</target>
+					<source>${apacheMavenVersion}</source>
+					<target>${apacheMavenVersion}</target>
 				</configuration>
 			</plugin>
 		</plugins>

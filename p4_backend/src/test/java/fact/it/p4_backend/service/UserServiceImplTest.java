@@ -6,6 +6,7 @@ import fact.it.p4_backend.repository.UserRepositoryInterface;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -22,6 +23,8 @@ import static org.mockito.Mockito.*;
 public class UserServiceImplTest {
     @MockBean
     private UserRepositoryInterface userRepositoryMock;
+    @MockBean private PasswordEncoder passwordEncoder;
+
 
     /**
      * Get a user by its id from the repository.
@@ -30,7 +33,7 @@ public class UserServiceImplTest {
      */
     @Test
     public void when_service_getUserById_userReturned() throws Exception {
-        UserServiceImpl userServiceImpl = new UserServiceImpl(userRepositoryMock);
+        UserServiceImpl userServiceImpl = new UserServiceImpl(userRepositoryMock, passwordEncoder);
         Optional<User> userMock = Optional.of(new User(1L, "testUser","mail@mail.com"));
         when(userRepositoryMock.findById(1L)).thenReturn(userMock);
         User resultUser = userServiceImpl.getById(1L);
@@ -48,7 +51,7 @@ public class UserServiceImplTest {
      */
     @Test
     public void when_service_getUserById_notFoundException() throws Exception {
-        UserServiceImpl userServiceImpl = new UserServiceImpl(userRepositoryMock);
+        UserServiceImpl userServiceImpl = new UserServiceImpl(userRepositoryMock, passwordEncoder);
         Optional<User> userMock = Optional.empty();
         when(userRepositoryMock.findById(1L)).thenReturn(userMock);
 
