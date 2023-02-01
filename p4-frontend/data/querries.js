@@ -52,11 +52,3 @@ export async function getCategoryById(id) {
 
   return info;
 }
-
-export const getSocialMediaLinks = async () => {
-  const data = await client.getEntry("2wzCMlRQTmapkJyJDmD60q").then((data) => {
-    return data.json();
-  });
-
-  return data;
-};
