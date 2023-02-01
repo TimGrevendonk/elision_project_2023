@@ -1,13 +1,17 @@
 package fact.it.p4_backend.service;
 
+import fact.it.p4_backend.DTO.DTOMapper;
+import fact.it.p4_backend.DTO.UserSecureDTO;
+import fact.it.p4_backend.builder.UserModelBuilder;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.repository.UserRepositoryInterface;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockSettings;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
@@ -23,25 +27,28 @@ import static org.mockito.Mockito.*;
 @WebMvcTest(UserService.class)
 public class UserServiceTest {
     @MockBean
+    private UserService userServiceMock;
+    @MockBean
     private UserRepositoryInterface userRepositoryMock;
     @MockBean
-    private UserService userServiceMock;
-    @Mock
-    private PasswordEncoder passwordEncoder;
+    private DTOMapper dtoMapper;
 
+    public UserRepositoryInterface getUserRepositoryMock() {return userRepositoryMock;    }
+    public DTOMapper getDtoMapper() {return dtoMapper;}
+    public UserService getUserServiceMock() {return userServiceMock;}
+
+    private final User mockUser = mock(User.class, "test");
+    private final UserSecureDTO mockDTOUser = mock(UserSecureDTO.class);
 
     /**
-     * Get a user by its id from the repository.
-     *
-     * @throws Exception will return an exception to be handled.
+     * Get a user by its id from the mocked repository.
      */
     @Test
-    public void when_service_getUserById_userReturned() throws Exception {
-        User mockUser = mock(User.class);
-        when(this.userServiceMock.getById(any())).thenReturn(mockUser);
-        User resultUser = this.userServiceMock.getById(1L);
-        assertThat(resultUser).isNotNull().isEqualTo(mockUser);
-        verify(userServiceMock, times(1)).getById(anyLong());
+    public void when_service_getUserById_userSecureDTOReturned() {
+        when(getUserServiceMock().getById(anyLong())).thenReturn(this.mockDTOUser);
+        UserSecureDTO resultUser = getUserServiceMock().getById(1L);
+        assertThat(resultUser).isNotNull().isEqualTo(this.mockDTOUser);
+        verify(getUserServiceMock(), times(1)).getById(anyLong());
     }
 
     /**
@@ -50,28 +57,40 @@ public class UserServiceTest {
      * @throws Exception will return an exception to be handled.
      */
     @Test
-    public void when_service_getUserById_notFoundException() throws Exception {
-        UserService userServiceImpl = new UserService(userRepositoryMock, passwordEncoder);
-        Optional<User> userMock = Optional.empty();
-        when(userRepositoryMock.findById(1L)).thenReturn(userMock);
+    public void when_service_getUserById_notFoundException() throws Exception{
+        UserService serviceMock = new UserService(getUserRepositoryMock(), getDtoMapper());
+        when(serviceMock.getUserRepository().findById(1L)).thenThrow(new UserNotFoundException("test throw"));
 
         assertThrows(UserNotFoundException.class, () -> {
-            userServiceImpl.getById(1L);
+            serviceMock.getUserRepository().findById(1L);
+//            System.out.println(getUserServiceMock().getUserRepository());
         });
-        verify(userRepositoryMock, times(1)).findById(1L);
-        verify(userRepositoryMock).findById(1L);
+        verify(getUserRepositoryMock(), times(1)).findById(1L);
+        verify(getUserRepositoryMock()).findById(1L);
     }
 
     /**
-     * User created returns User with id userId.
+     * User created returns UserSecureDTO with userId.
      */
     @Test
-    public void when_service_create_returnCreatedUser() {
-        User mockUser = mock(User.class);
-        when(this.userServiceMock.create(any(User.class))).thenReturn(mockUser);
-        User resultUser = this.userServiceMock.create(mockUser);
-        assertThat(resultUser).isNotNull().isEqualTo(mockUser);
-        assertThat(resultUser.getId()).isNotNull();
-        verify(userServiceMock, times(1)).create(any());
+    public void when_service_create_returnCreatedUserSecureDTO() {
+        when(getUserServiceMock().create(any(User.class))).thenReturn(this.mockDTOUser);
+        UserSecureDTO resultUser = getUserServiceMock().create(this.mockUser);
+        assertThat(resultUser).isNotNull().isEqualTo(this.mockDTOUser);
+        verify(getUserServiceMock(), times(1)).create(any());
+    }
+
+    /**
+     * User saved returns User with id userId.
+     */
+    @Test
+    public void when_service_saveUser_returnUserWithPasswordEncoded() {
+        User user = new User(new UserModelBuilder("mail@test", "testUser", "password"));
+        UserService serviceMock = new UserService(getUserRepositoryMock(), getDtoMapper());
+        when(serviceMock.getUserRepository().save(any(User.class))).thenReturn(user);
+        User resultUser = serviceMock.getUserRepository().save(user);
+        assertThat(resultUser).isNotNull().isEqualTo(user);
+        assertThat(resultUser.getPassword()).isNotNull().isNotEqualToIgnoringCase("password");
+        verify(getUserRepositoryMock(), times(1)).save(any());
     }
 }

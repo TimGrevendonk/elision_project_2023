@@ -1,5 +1,7 @@
 package fact.it.p4_backend.Controller;
 
+import fact.it.p4_backend.DTO.DTOMapper;
+import fact.it.p4_backend.DTO.UserSecureDTO;
 import fact.it.p4_backend.builder.UserModelBuilder;
 import fact.it.p4_backend.controller.UserController;
 import fact.it.p4_backend.exception.UserNotFoundException;
@@ -8,7 +10,6 @@ import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -31,27 +32,29 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * <p>ExtendsWith creates the spring context.
  * WebMvcTest to mock Http requests.</p>
  */
-@ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
-    List<User> usersMock = List.of(
-            new User(new UserModelBuilder("testuser@mail.com","testUser","passtest")),
-            new User(new UserModelBuilder("demouser@mail.com","demoiSUer","demoTest"))
-    );
+
     @MockBean
-    private UserService userServiceImplMock;
+    private UserService userServiceMock;
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private MockMvc mockMvc;
 
-    public UserService getUserServiceImplMock() {
-        return userServiceImplMock;
+    public UserService getUserServiceMock() {
+        return userServiceMock;
     }
-
+// TODO: whatever the fuck this all is
     public MockMvc getMockMvc() {
         return mockMvc;
     }
+
+    List<UserSecureDTO> usersMock = userServiceMock.getDtoMapper().toUserSecureDtoList(List.of(
+            new UserModelBuilder("testuser@mail.com","testUser","testPassword").build(),
+            new UserModelBuilder("demouser@mail.com","demoUser","demoPassword").build()
+            )
+    );
 
     /**
      * Get a user by its id from the service.
@@ -59,16 +62,16 @@ public class UserControllerTest {
      * @throws Exception will return an exception to be handled.
      */
     @Test
-    public void when_user_GetById_userReturned() throws Exception {
-        when(getUserServiceImplMock().getById(1L)).thenReturn(this.usersMock.get(0));
-        User resultUser = getUserServiceImplMock().getById(1L);
+    public void when_user_GetById_userSecureDTOReturned() throws Exception {
+        when(getUserServiceMock().getById(1L)).thenReturn(this.usersMock.get(0));
+        UserSecureDTO resultUser = getUserServiceMock().getById(1L);
 
         assertThat(resultUser)
                 .isNotNull()
                 .usingRecursiveComparison()
                 .isEqualTo(this.usersMock.get(0));
-        Mockito.verify(getUserServiceImplMock(), times(1)).getById(1L);
-        Mockito.verifyNoMoreInteractions(getUserServiceImplMock());
+        verify(getUserServiceMock(), times(1)).getById(1L);
+        verifyNoMoreInteractions(getUserServiceMock());
     }
 
     /**
@@ -78,7 +81,7 @@ public class UserControllerTest {
      */
     @Test
     public void when_userQuery_getUserByID_notFound() throws Exception {
-        when(getUserServiceImplMock().getById(1L)).thenThrow(new UserNotFoundException("User with userId 1 not found."));
+        when(getUserServiceMock().getById(1L)).thenThrow(new UserNotFoundException("User with userId 1 not found."));
         ResultActions request = getMockMvc().perform(
                         MockMvcRequestBuilders.get("/api/user/1")
                                 .contentType(MediaType.APPLICATION_JSON)
@@ -88,7 +91,7 @@ public class UserControllerTest {
 
         assertThat(request.andReturn())
                 .isNotNull();
-        verify(getUserServiceImplMock()).getById(1L);
+        verify(getUserServiceMock()).getById(1L);
     }
 
     /**
@@ -99,14 +102,14 @@ public class UserControllerTest {
      */
     @Test
     public void when_allUserQuery_allUsersReturned() throws Exception {
-        when(getUserServiceImplMock().getAll())
+        when(getUserServiceMock().getAll())
                 .thenReturn(this.usersMock);
-        List<User> resultUsers = getUserServiceImplMock().getAll();
+        List<UserSecureDTO> resultUsers = getUserServiceMock().getAll();
 
         assertThat(resultUsers)
                 .isNotNull()
                 .isEqualTo(this.usersMock);
-        verify(getUserServiceImplMock(), times(1)).getAll();
+        verify(getUserServiceMock(), times(1)).getAll();
     }
 
     /**
@@ -118,18 +121,19 @@ public class UserControllerTest {
      */
     @Test
     public void when_createUser_UserCreatedAndReturnedWithStatusOK() throws Exception {
+        UserSecureDTO userDTOMock = mock(UserSecureDTO.class);
         User userMock = mock(User.class);
-        when(getUserServiceImplMock().create(userMock)).thenReturn(userMock);
+        when(getUserServiceMock().create(userMock)).thenReturn(userDTOMock);
         System.out.print(userMock);
         getMockMvc().perform(
                         MockMvcRequestBuilders.post("/api/user/create")
-                                .content(JsonHelper.asJsonString(new User(new UserModelBuilder("test@mail.com","jeffeferere","yes"))))
+                                .content(JsonHelper.asJsonString(new User(new UserModelBuilder("test@mail.com","testUser","testPassword"))))
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON)
                 )
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
-        verify(getUserServiceImplMock(), times(1)).create(any());
+        verify(getUserServiceMock(), times(1)).create(any());
     }
 
     /**
@@ -146,6 +150,6 @@ public class UserControllerTest {
                 )
                 .andExpect(status().isOk())
                 .andDo(MockMvcResultHandlers.print());
-        verify(getUserServiceImplMock(), times(1)).deleteById(1L);
+        verify(getUserServiceMock(), times(1)).deleteById(1L);
     }
 }

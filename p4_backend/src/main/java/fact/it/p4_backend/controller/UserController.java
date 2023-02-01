@@ -2,6 +2,7 @@ package fact.it.p4_backend.controller;
 
 import java.util.List;
 
+import fact.it.p4_backend.DTO.UserSecureDTO;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -32,8 +33,8 @@ public class UserController {
      * @throws UserNotFoundException handled if the user is not found.
      */
     @GetMapping("/user")
-    public ResponseEntity<List<User>> getAllUsersOrderedByNameAscending() throws Exception {
-        List<User> usersResponse = getUserService().getAll();
+    public ResponseEntity<List<UserSecureDTO>> getAllUsersOrderedByNameAscending() throws Exception {
+        List<UserSecureDTO> usersResponse = getUserService().getAll();
         return new ResponseEntity<>(usersResponse, HttpStatus.OK);
     }
 
@@ -44,8 +45,8 @@ public class UserController {
      * @throws UserNotFoundException handled if the user is not found.
      */
     @GetMapping("/user/{UserId}")
-    public ResponseEntity<User> getUserById(@PathVariable("UserId") Long userId) throws Exception {
-        User user = getUserService().getById(userId);
+    public ResponseEntity<UserSecureDTO> getUserById(@PathVariable("UserId") Long userId) throws Exception {
+        UserSecureDTO user = getUserService().getById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -56,8 +57,8 @@ public class UserController {
      * @throws UserNotFoundException handled if the user is not found or saved incorrectly.
      */
     @PostMapping("/user/create")
-    public ResponseEntity<User> createUser(@RequestBody User newUser) throws Exception {
-        User user = getUserService().create(newUser);
+    public ResponseEntity<UserSecureDTO> createUser(@RequestBody User newUser) throws Exception {
+        UserSecureDTO user = getUserService().create(newUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
     /**
@@ -67,8 +68,8 @@ public class UserController {
      * @throws UserNotFoundException handled if the user is not found or saved incorrectly.
      */
     @PutMapping("/user/update")
-    public ResponseEntity<User> updateUser(@RequestBody User updateUser) throws Exception {
-        User user = getUserService().update(updateUser);
+    public ResponseEntity<UserSecureDTO> updateUser(@RequestBody User updateUser) throws Exception {
+        UserSecureDTO user = getUserService().update(updateUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -79,8 +80,8 @@ public class UserController {
      * @throws UserNotFoundException handled if the user is not found or saved incorrectly.
      */
     @DeleteMapping("/user/{userId}")
-    public ResponseEntity<User> deleteUser(@PathVariable("userId") Long userId) throws Exception {
-        User deletedUser = getUserService().deleteById(userId);
+    public ResponseEntity<UserSecureDTO> deleteUser(@PathVariable("userId") Long userId) throws Exception {
+        UserSecureDTO deletedUser = getUserService().deleteById(userId);
         return new ResponseEntity<>(deletedUser, HttpStatus.OK);
     }
 }

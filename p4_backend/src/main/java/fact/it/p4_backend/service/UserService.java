@@ -1,113 +1,115 @@
 package fact.it.p4_backend.service;
 
+import fact.it.p4_backend.DTO.DTOMapper;
+import fact.it.p4_backend.DTO.UserSecureDTO;
 import fact.it.p4_backend.builder.UserModelBuilder;
 import fact.it.p4_backend.exception.MailAlreadyExistsException;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.repository.UserRepositoryInterface;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-//implements UserServiceInterface
-public  class UserService {
-    private final UserRepositoryInterface userRepository;
-
-    private final PasswordEncoder passwordEncoder;
-
+public class UserService implements UserServiceInterface<User, UserSecureDTO> {
+    Logger logger = LoggerFactory.getLogger(UserService.class);
+    private UserRepositoryInterface userRepository;
+    private DTOMapper dtoMapper;
 
     /**
-     * connect repository and password encoder.
-     * @param userRepository
-     * @param passwordEncoder
+     * connect repository.
+     *
+     * @param userRepository Constructor inject the userRepository.
      */
-    public UserService(UserRepositoryInterface userRepository, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepositoryInterface userRepository, DTOMapper dtoMapper) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.dtoMapper = dtoMapper;
     }
 
     public UserRepositoryInterface getUserRepository() {
         return userRepository;
     }
 
-    public PasswordEncoder getPasswordEncoder() {
-        return passwordEncoder;
+    public DTOMapper getDtoMapper() {
+        return dtoMapper;
     }
 
     /**
      * Returns all users.
+     *
      * @return List of all users
-     * @throws UserNotFoundException
+     * @throws UserNotFoundException User not found in queries.
      */
-    public List<User> getAll() throws UserNotFoundException {
-        return getUserRepository().getAllUsersOrderedByNameAscending().orElseThrow(() -> new UserNotFoundException("No users found."));
+    @Override
+    public List<UserSecureDTO> getAll() throws UserNotFoundException {
+        List<User> users = getUserRepository().getAllUsersOrderedByNameAscending().orElseThrow(() -> new UserNotFoundException("No users found."));
+        return getDtoMapper().toUserSecureDtoList(users);
     }
 
     /**
      * returns one user based on their ID.
-     * @param userId
+     *
+     * @param userId the Id of the user.
      * @return One user based on ID.
-     * @throws UserNotFoundException
+     * @throws UserNotFoundException User not found in queries.
      */
-    public User getById(Long userId) throws UserNotFoundException {
-        return getUserRepository().findById(userId).orElseThrow(() -> new UserNotFoundException("User with userId " + userId + " not found."));
+    @Override
+    public UserSecureDTO getById(Long userId) throws UserNotFoundException {
+        User user = getUserRepository().findById(userId).orElseThrow(() -> new UserNotFoundException("User with userId " + userId + " not found."));
+        return getDtoMapper().toUserSecureDto(user);
     }
-
-
 
     /**
      * Creating a new user that needs a unique email address.
-     * @param newUser
+     *
+     * @param newUser The response body gotten from the controller.
      * @return User Fetched from repository.
-     * @throws UserNotFoundException No user found from query.
+     * @throws UserNotFoundException      No user found from query.
      * @throws MailAlreadyExistsException Mail already in repository.
      */
-    public User create(User newUser) throws UserNotFoundException, MailAlreadyExistsException {
-        if (getUserRepository().existsByMail(newUser.getMail())){
-            throw new MailAlreadyExistsException("mail already exists");
+    @Override
+    public UserSecureDTO create(User newUser) throws UserNotFoundException, MailAlreadyExistsException {
+        if (getUserRepository().existsByMail(newUser.getMail())) {
+            throw new MailAlreadyExistsException(String.format("mail %s already exists", newUser.getMail()));
         }
-        User user = new UserModelBuilder(newUser.getMail(), newUser.getName(), newUser.getPassword()).build();
-        return getUserRepository().save(user);
+        User user = new UserModelBuilder(newUser.getMail(), newUser.getName(), newUser.getPassword())
+                .address(newUser.getAddress())
+                .phoneNumber(newUser.getPhoneNumber())
+                .build();
+        return getDtoMapper().toUserSecureDto(getUserRepository().save(user));
     }
 
-
-
-//    public User create(User newUser) throws UserNotFoundException, MailAlreadyExistsException {
-//        User builtUser = new User(new UserModelBuilder());
-//        builtUser.setMail(newUser.getMail());
-//        if (getUserRepository().existsByMail(newUser.getMail())){
-//            throw new MailAlreadyExistsException("mail already exists");
-//        }
-//        builtUser.setName(newUser.getName());
-//        builtUser.setPassword(getPasswordEncoder().encode(newUser.getPassword()));
-//        User savedUser = getUserRepository().save(builtUser);
-//        return savedUser;
-//    }
-
     /**
-     * Change user details.
-     * @param user
-     * @return Updated user.
-     * @throws UserNotFoundException
+     * Change user details. uses class getById as null check that the user exists.
+     *
+     * @param updateUser The user to be updated.
+     * @return Updated userSecureDTO.
+     * @throws UserNotFoundException User not found in queries.
      */
-    public User update(User user) throws UserNotFoundException {
-        this.getById(user.getId());
-        return getUserRepository().save(user);
+    @Override
+    public UserSecureDTO update(User updateUser) throws UserNotFoundException {
+        User repositoryUser = getUserRepository().findById(updateUser.getId()).orElseThrow(() -> new UserNotFoundException("User with userId " + updateUser.getId() + " not found."));
+        repositoryUser.setName(updateUser.getName());
+        repositoryUser.setMail(updateUser.getMail());
+        repositoryUser.setPassword(updateUser.getPassword());
+        repositoryUser.setAddress(updateUser.getAddress());
+        repositoryUser.setPhoneNumber(updateUser.getPhoneNumber());
+        return getDtoMapper().toUserSecureDto(getUserRepository().save(repositoryUser));
     }
 
     /**
-     * Deletes user from database.
-     * @param userId
+     * Deletes user from database. uses the getById that returns a UserSecureDTO.
+     *
+     * @param userId The id of the to be deleted user.
      * @return Deleted user.
-     * @throws UserNotFoundException
      */
-    public User deleteById(Long userId) throws UserNotFoundException {
-        User foundUser = this.getById(userId);
-        getUserRepository().delete(foundUser);
+    @Override
+    public UserSecureDTO deleteById(Long userId) {
+        UserSecureDTO foundUser = this.getById(userId);
+        getUserRepository().deleteById(userId);
         return foundUser;
     }
 }

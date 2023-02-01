@@ -1,13 +1,12 @@
 package fact.it.p4_backend.service;
 
-import fact.it.p4_backend.exception.UserNotFoundException;
 
 import java.util.Collection;
 
-public interface UserServiceInterface<User> {
-     Collection<User> getAll() throws Exception;
-     User getById(Long entityId) throws Exception;
-     User create(User entity) throws Exception;
-     User update(User entity) throws Exception;
-     User deleteById(Long entityId) throws Exception;
+public interface UserServiceInterface<User, UserSecureDTO> {
+     Collection<UserSecureDTO> getAll() throws Exception;
+     UserSecureDTO getById(Long userId) throws Exception;
+     UserSecureDTO create(User user) throws Exception;
+     UserSecureDTO update(User user) throws Exception;
+     UserSecureDTO deleteById(Long entityId);
 }
