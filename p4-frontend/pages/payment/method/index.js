@@ -46,7 +46,12 @@ export default function PaymentMethodPage(props) {
       );
 
       const sessionResult = await callServerGet("/payment/session");
-      // console.log("[debug] session result", sessionResult);
+      console.log("[debug] session result", sessionResult);
+
+      console.log(
+        "[debug] merchantAccount",
+        process.env.NEXT_PUBLIC_ADYEN_MERCHACC
+      );
 
       const configuration = {
         environment: "test", // Change to one of the environment values specified in step 4.
@@ -83,7 +88,6 @@ export default function PaymentMethodPage(props) {
         .mount("#dropin-container");
     };
     data();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

@@ -1,4 +1,5 @@
 import Link from "next/link";
+
 export default function ProductList({ props }) {
   const { items } = props;
   return (
