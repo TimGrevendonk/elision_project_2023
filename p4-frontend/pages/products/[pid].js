@@ -29,6 +29,7 @@ export default function ProductDetailPage(props) {
 export async function getStaticProps(context) {
   const productId = context.params.pid;
   const productInfo = await getItemById(productId);
+
   return {
     props: {
       productID: productId,

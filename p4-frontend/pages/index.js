@@ -1,11 +1,11 @@
-import { Inter } from "@next/font/google";
-import ProductGroup from "@/components/layout/productGroup";
-import Search from "@/components/search";
+// import { Inter } from "@next/font/google";
+import ProductGroup from "../components/layout/productGroup";
+import Search from "../components/search";
 
 import { items, items2 } from "../public/Items.json";
 import { Fragment } from "react";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
   return (
