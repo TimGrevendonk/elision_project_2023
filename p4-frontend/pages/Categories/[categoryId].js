@@ -1,10 +1,8 @@
-import { getCategoryById, getAllCategories } from "@/data/querries";
+import { getAllCategories, getItemById } from "@/data/querries";
 import Link from "next/link";
 
 export default function CategoryDetailPage(props) {
-  const id = props.categoryID;
   const info = props.categoryInfo;
-  console.log(info);
   return (
     <div className="p-3">
       <div className="bg-slate-600 h-full w-full flex justify-center">
@@ -29,6 +27,7 @@ export default function CategoryDetailPage(props) {
             </li>
           ))}
         </ul>
+        {/* <ProductList props={info.products} /> */}
       </div>
     </div>
   );
@@ -36,9 +35,7 @@ export default function CategoryDetailPage(props) {
 
 export async function getStaticProps(context) {
   const categoryId = context.params.categoryId;
-  const categoryInfo = await getCategoryById(categoryId);
-  console.log("category info:", categoryInfo);
-
+  const categoryInfo = await getItemById(categoryId);
   return {
     props: {
       categoryID: categoryId,

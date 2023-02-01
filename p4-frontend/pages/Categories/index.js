@@ -10,7 +10,9 @@ export default function CategoriesPage(props) {
       <ul>
         {categories.map((category) => (
           <li key={category.sys.id}>
-            <Link href={`/Categories/${category.sys.id}`}>{category.fields.title}</Link>
+            <Link href={`/Categories/${category.sys.id}`}>
+              {category.fields.title}
+            </Link>
           </li>
         ))}
       </ul>
@@ -23,6 +25,6 @@ export async function getStaticProps() {
   return {
     props: {
       categories: categoryList,
-    }
+    },
   };
 }

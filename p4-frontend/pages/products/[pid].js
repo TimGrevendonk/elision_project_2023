@@ -1,15 +1,11 @@
 /* eslint-disable react/no-unescaped-entities */
-import { getProductById, getProducts } from "@/data/querries";
+import { getItemById, getProducts } from "@/data/querries";
 export default function ProductDetailPage(props) {
-  const id = props.productID;
   const info = props.productInfo;
-  console.log(info.thumbnails);
   return (
     <div className="p-3">
       <div className="bg-slate-600 h-full w-full flex justify-center">
-        <h1 className="font-bold text-xl">
-          {info.title}
-        </h1>
+        <h1 className="font-bold text-xl">{info.title}</h1>
       </div>
       <div className="bg-slate-400 h-full w-full flex justify-center">
         {info.thumbnails.map((image) => (
@@ -19,9 +15,7 @@ export default function ProductDetailPage(props) {
             className="aspect-square object-cover w-1/3 h-1/3"
           />
         ))}
-        <p className="p-5">
-          {info.price.toFixed(2)}
-        </p>
+        <p className="p-5">{info.price.toFixed(2)}</p>
         <p className="p-5">
           Description:
           <br />
@@ -34,8 +28,7 @@ export default function ProductDetailPage(props) {
 
 export async function getStaticProps(context) {
   const productId = context.params.pid;
-  const productInfo = await getProductById(productId);
-  console.log("product info:", productInfo);
+  const productInfo = await getItemById(productId);
 
   return {
     props: {
