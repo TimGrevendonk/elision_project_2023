@@ -32,6 +32,10 @@ public class AdyenController {
         this.checkout = new Checkout(new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST));
     }
 
+    public Checkout getCheckout() {
+        return checkout;
+    }
+
     @GetMapping("/session")
     public ResponseEntity<CreateCheckoutSessionResponse> AdyenClient() throws IOException, ApiException {
         Client client = new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST);
@@ -60,7 +64,7 @@ public class AdyenController {
         paymentRequest.setMerchantAccount(merchantAccount);
         paymentRequest.setChannel(PaymentMethodsRequest.ChannelEnum.WEB);
 
-        PaymentMethodsResponse response = checkout.paymentMethods(paymentRequest);
+        PaymentMethodsResponse response = getCheckout().paymentMethods(paymentRequest);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -80,7 +84,7 @@ public class AdyenController {
         paymentRequest.setBrowserInfo(body.getBrowserInfo());
         paymentRequest.setPaymentMethod(body.getPaymentMethod());
 
-        PaymentsResponse response = checkout.payments(paymentRequest);
+        PaymentsResponse response = getCheckout().payments(paymentRequest);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

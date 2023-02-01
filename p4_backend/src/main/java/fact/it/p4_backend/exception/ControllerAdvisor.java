@@ -14,28 +14,12 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(value = UserNotFoundException.class)
-    public ResponseEntity<Object> HandleUserNotFoundException(
-            RuntimeException exception
-    ) {
-        return buildResponseEntity(
-                ErrorResponse.create(
-                        exception,
-                        HttpStatus.NOT_FOUND,
-                        "User not found in query."
-                )
-        );
+    public ResponseEntity<Object> HandleUserNotFoundException(RuntimeException exception) {
+        return buildResponseEntity(ErrorResponse.create(exception, HttpStatus.NOT_FOUND, "User not found in query."));
     }
 
     @ExceptionHandler(value = MailAlreadyExistsException.class)
-    public ResponseEntity<Object> HandleMailAlreadyExistsException(
-            RuntimeException exception
-    ) {
-        return buildResponseEntity(
-                ErrorResponse.create(
-                        exception,
-                        HttpStatus.UNPROCESSABLE_ENTITY,
-                        "Mail is already in use."
-                )
-        );
+    public ResponseEntity<Object> HandleMailAlreadyExistsException(RuntimeException exception) {
+        return buildResponseEntity(ErrorResponse.create(exception, HttpStatus.UNPROCESSABLE_ENTITY, "Mail is already in use."));
     }
 }

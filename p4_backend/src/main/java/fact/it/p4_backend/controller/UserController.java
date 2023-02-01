@@ -18,12 +18,14 @@ import fact.it.p4_backend.model.User;
 @RequestMapping("/api")
 public class UserController {
 
-    final private UserService userService;
+    private final UserService userService;
 
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
+    public UserService getUserService() {
+        return userService;
+    }
     /**
      * Query the repository for all users and sort them by name (Ascended).
      * @return responseEntity 200 OK with the users.
@@ -31,7 +33,7 @@ public class UserController {
      */
     @GetMapping("/user")
     public ResponseEntity<List<User>> getAllUsersOrderedByNameAscending() throws Exception {
-        List<User> usersResponse = userService.getAll();
+        List<User> usersResponse = getUserService().getAll();
         return new ResponseEntity<>(usersResponse, HttpStatus.OK);
     }
 
@@ -43,7 +45,7 @@ public class UserController {
      */
     @GetMapping("/user/{UserId}")
     public ResponseEntity<User> getUserById(@PathVariable("UserId") Long userId) throws Exception {
-        User user = userService.getById(userId);
+        User user = getUserService().getById(userId);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -55,7 +57,7 @@ public class UserController {
      */
     @PostMapping("/user/create")
     public ResponseEntity<User> createUser(@RequestBody User newUser) throws Exception {
-        User user = userService.create(newUser);
+        User user = getUserService().create(newUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
     /**
@@ -66,7 +68,7 @@ public class UserController {
      */
     @PutMapping("/user/update")
     public ResponseEntity<User> updateUser(@RequestBody User updateUser) throws Exception {
-        User user = userService.update(updateUser);
+        User user = getUserService().update(updateUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
@@ -78,7 +80,7 @@ public class UserController {
      */
     @DeleteMapping("/user/{userId}")
     public ResponseEntity<User> deleteUser(@PathVariable("userId") Long userId) throws Exception {
-        User deletedUser = userService.deleteById(userId);
+        User deletedUser = getUserService().deleteById(userId);
         return new ResponseEntity<>(deletedUser, HttpStatus.OK);
     }
 }
