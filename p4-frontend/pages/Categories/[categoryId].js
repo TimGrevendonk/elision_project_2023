@@ -9,7 +9,7 @@ export default function CategoryDetailPage(props) {
         <h1 className="font-bold text-xl">Browsing {info.title}</h1>
       </div>
       <div className="bg-slate-400 h-full w-full flex justify-center">
-        <img src="/1.jpg" className="aspect-square object-cover w-1/3 h-1/3" />
+        <img src={info.thumbnails.fields.file.url} className="aspect-square object-cover w-1/3 h-1/3" />
         <p className="p-5">
           <span>Description:</span>
           <br />
@@ -23,11 +23,10 @@ export default function CategoryDetailPage(props) {
             <li key={product.sys.id}>
               <Link href={`/products/${product.sys.id}`}>
                 {product.fields.title}
-              </Link>
+              </Link> €{product.fields.price}
             </li>
           ))}
         </ul>
-        {/* <ProductList props={info.products} /> */}
       </div>
     </div>
   );
