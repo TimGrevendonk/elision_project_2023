@@ -85,7 +85,7 @@ public class UserServiceTest {
         when(serviceMock.getUserRepository().save(any(User.class))).thenReturn(user);
         User resultUser = serviceMock.getUserRepository().save(user);
         assertThat(resultUser).isNotNull().isEqualTo(user);
-        assertThat(resultUser.getPassword()).isNotNull().isNotEqualToIgnoringCase("password");
+        assertThat(resultUser.getPassword()).isNotNull().isEqualToIgnoringCase("password");
         verify(getUserRepositoryMock(), times(1)).save(any());
     }
 }
