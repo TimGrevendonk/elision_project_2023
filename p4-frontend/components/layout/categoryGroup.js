@@ -1,13 +1,14 @@
 import Link from "next/link";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-export default function ProductGroup({ title, products }) {
-  const responsive = products;
+export default function CategoryGroup({ title, categories }) {
+  const responsive = categories;
   return (
     <div
       className={
         "flex flex-col justify-center items-center overflow-hidden p-2"
-      }>
+      }
+    >
       <div className="bg-slate-200 w-full rounded-t-lg">
         <h3 className="text-center text-black">{title}</h3>
       </div>
@@ -19,25 +20,27 @@ export default function ProductGroup({ title, products }) {
         showThumbs={false}
         autoPlay={true}
         interval={5000}
-        className={"w-full"}>
+        className={"w-full"}
+      >
         {responsive.map((item) => (
           <div
             key={item.sys.id}
             className={
               "text-center text-lg text-white flex flex-col justify-center items-center bg-gradient-to-r from-slate-400 to-slate-500 rounded-b-lg"
-            }>
+            }
+          >
             <div className={"w-4/5 p-1 mt-2"}>
-              <Link href={`/products/${item.sys.id}`}>
-              <img
-                src={item.fields.thumbnails[0].fields.file.url}
-                alt="slides"
-                className="object-cover aspect-square object-center"
-              />
+              <Link href={`/Categories/${item.sys.id}`}>
+                <img
+                  src={item.fields.thumbnails.fields.file.url}
+                  alt="slides"
+                  className="object-cover aspect-square object-center"
+                />
               </Link>
             </div>
             <div>
-              <h2>{item.fields.title}</h2>
-              <p>€ {item.fields.price}</p>
+              <h2 className={"text-lg font-bold"}>{item.fields.title}</h2>
+              <p>{item.fields.description}</p>
             </div>
           </div>
         ))}

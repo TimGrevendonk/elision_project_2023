@@ -38,7 +38,7 @@ export default function ProductDetailPage(props) {
             className="aspect-square object-cover w-1/3 h-1/3"
           />
         ))}
-        <p className="p-5">{info.price.toFixed(2)}</p>
+        <p className="p-5">€&nbsp;{info.price.toFixed(2)}</p>
         <p className="p-5">
           Description:
           <br />

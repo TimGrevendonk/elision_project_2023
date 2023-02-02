@@ -69,3 +69,13 @@ export async function getAboutPageInfo() {
     .catch(console.error);
   return aboutUsInfo;
 }
+
+export async function getCarouselItems() {
+  const items = await client
+    .getEntry("3an4I32RmhuAIIfBsgCBar")
+    .then((response) => {
+      return response.fields;
+    })
+    .catch(console.error);
+  return items;
+}
