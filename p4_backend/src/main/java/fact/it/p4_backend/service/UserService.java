@@ -33,13 +33,9 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
         this.userDTOMapper = userDTOMapper;
     }
 
-    public UserRepositoryInterface getUserRepository() {
-        return userRepository;
-    }
-
-    public UserDTOMapper getUserDTOMapper() {
-        return userDTOMapper;
-    }
+    public UserRepositoryInterface getUserRepository() {return userRepository;}
+    public UserDTOMapper getUserDTOMapper() {return userDTOMapper;}
+    public PasswordEncoder getPasswordEncoder() {return passwordEncoder;}
 
     /**
      * Returns all users.
@@ -79,7 +75,7 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
         if (getUserRepository().existsByMail(newUser.getMail())) {
             throw new MailAlreadyExistsException(String.format("mail %s already exists", newUser.getMail()));
         }
-        User user = new UserModelBuilder(newUser.getMail(), newUser.getName(), this.passwordEncoder.encode(newUser.getPassword()))
+        User user = new UserModelBuilder(newUser.getMail(), newUser.getName(),getPasswordEncoder().encode(newUser.getPassword()))
                 .address(newUser.getAddress())
                 .phoneNumber(newUser.getPhoneNumber())
                 .build();
@@ -99,10 +95,10 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
         User repositoryUser = getUserRepository().findById(updateUser.getId()).orElseThrow(() -> new UserNotFoundException("User with userId " + updateUser.getId() + " not found."));
         repositoryUser.setName(updateUser.getName());
         repositoryUser.setMail(updateUser.getMail());
-        if (this.passwordEncoder.matches(updateUser.getPassword(), repositoryUser.getPassword())) {
+        if (getPasswordEncoder().matches(updateUser.getPassword(), repositoryUser.getPassword())) {
             repositoryUser.setPassword(repositoryUser.getPassword());
         } else {
-            repositoryUser.setPassword(this.passwordEncoder.encode(updateUser.getPassword()));
+            repositoryUser.setPassword(getPasswordEncoder().encode(updateUser.getPassword()));
         }
         repositoryUser.setAddress(updateUser.getAddress());
         repositoryUser.setPhoneNumber(updateUser.getPhoneNumber());
