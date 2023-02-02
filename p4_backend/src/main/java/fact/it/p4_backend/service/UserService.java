@@ -87,7 +87,7 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
 
     /**
      * Change user details. uses class getById as null check that the user exists.
-     * if the password didn't change, keep the old encoded password. else encode the new one.
+     * if the password didn't change or is not given/present, keep the old encoded password. else encode the new one.
      *
      * @param updateUser The user to be updated.
      * @return Updated userSecureDTO.
@@ -98,9 +98,10 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
         User repositoryUser = getUserRepository()
                 .findById(updateUser.getId())
                 .orElseThrow(() -> new UserNotFoundException("User with userId " + updateUser.getId() + " not found."));
+
         repositoryUser.setName(updateUser.getName());
-        repositoryUser.setMail(updateUser.getMail());
-        if (getPasswordEncoder().matches(updateUser.getPassword(), repositoryUser.getPassword())) {
+        if (updateUser.getMail() != null) {repositoryUser.setMail(updateUser.getMail());}
+        if (updateUser.getPassword() == null || getPasswordEncoder().matches(updateUser.getPassword(), repositoryUser.getPassword())) {
             repositoryUser.setPassword(repositoryUser.getPassword());
         } else {
             repositoryUser.setPassword(getPasswordEncoder().encode(updateUser.getPassword()));
