@@ -9,15 +9,19 @@ import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.repository.UserRepositoryInterface;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UserService implements UserServiceInterface<User, UserSecureDTO> {
     Logger logger = LoggerFactory.getLogger(UserService.class);
     private final UserRepositoryInterface userRepository;
     private final UserDTOMapper userDTOMapper;
+    public final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     /**
      * connect repository.
@@ -75,7 +79,7 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
         if (getUserRepository().existsByMail(newUser.getMail())) {
             throw new MailAlreadyExistsException(String.format("mail %s already exists", newUser.getMail()));
         }
-        User user = new UserModelBuilder(newUser.getMail(), newUser.getName(), newUser.getPassword())
+        User user = new UserModelBuilder(newUser.getMail(), newUser.getName(), this.passwordEncoder.encode(newUser.getPassword()))
                 .address(newUser.getAddress())
                 .phoneNumber(newUser.getPhoneNumber())
                 .build();
@@ -84,6 +88,7 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
 
     /**
      * Change user details. uses class getById as null check that the user exists.
+     * if the password didn't change, keep the old encoded password. else encode the new one.
      *
      * @param updateUser The user to be updated.
      * @return Updated userSecureDTO.
@@ -94,7 +99,11 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
         User repositoryUser = getUserRepository().findById(updateUser.getId()).orElseThrow(() -> new UserNotFoundException("User with userId " + updateUser.getId() + " not found."));
         repositoryUser.setName(updateUser.getName());
         repositoryUser.setMail(updateUser.getMail());
-        repositoryUser.setPassword(updateUser.getPassword());
+        if (this.passwordEncoder.matches(updateUser.getPassword(), repositoryUser.getPassword())) {
+            repositoryUser.setPassword(repositoryUser.getPassword());
+        } else {
+            repositoryUser.setPassword(this.passwordEncoder.encode(updateUser.getPassword()));
+        }
         repositoryUser.setAddress(updateUser.getAddress());
         repositoryUser.setPhoneNumber(updateUser.getPhoneNumber());
         return getUserDTOMapper().toUserSecureDto(getUserRepository().save(repositoryUser));

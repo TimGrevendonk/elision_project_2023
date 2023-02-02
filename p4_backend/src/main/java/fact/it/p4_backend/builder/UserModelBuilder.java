@@ -11,12 +11,10 @@ public class UserModelBuilder {
     public String address;
     public  String phoneNumber;
 
-    public final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
     public UserModelBuilder(String mail, String name, String password) {
         this.mail = mail;
         this.name = name;
-        this.password = this.passwordEncoder.encode(password);
+        this.password = password;
     }
 
     public UserModelBuilder address(String address){
