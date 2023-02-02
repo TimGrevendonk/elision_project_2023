@@ -16,8 +16,8 @@ import java.util.List;
 @Service
 public class UserService implements UserServiceInterface<User, UserSecureDTO> {
     Logger logger = LoggerFactory.getLogger(UserService.class);
-    private UserRepositoryInterface userRepository;
-    private UserDTOMapper userDTOMapper;
+    private final UserRepositoryInterface userRepository;
+    private final UserDTOMapper userDTOMapper;
 
     /**
      * connect repository.
