@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class DTOMapper {
+public class UserDTOMapper {
     public UserSecureDTO toUserSecureDto(User user){
         Long userId = user.getId();
         String name = user.getName();

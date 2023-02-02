@@ -1,19 +1,14 @@
 package fact.it.p4_backend.service;
 
-import fact.it.p4_backend.DTO.DTOMapper;
+import fact.it.p4_backend.DTO.UserDTOMapper;
 import fact.it.p4_backend.DTO.UserSecureDTO;
 import fact.it.p4_backend.builder.UserModelBuilder;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.repository.UserRepositoryInterface;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockSettings;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -31,10 +26,10 @@ public class UserServiceTest {
     @MockBean
     private UserRepositoryInterface userRepositoryMock;
     @MockBean
-    private DTOMapper dtoMapper;
+    private UserDTOMapper userDTOMapper;
 
     public UserRepositoryInterface getUserRepositoryMock() {return userRepositoryMock;    }
-    public DTOMapper getDtoMapper() {return dtoMapper;}
+    public UserDTOMapper getUserDTOMapper() {return userDTOMapper;}
     public UserService getUserServiceMock() {return userServiceMock;}
 
     private final User mockUser = mock(User.class, "test");
@@ -58,7 +53,7 @@ public class UserServiceTest {
      */
     @Test
     public void when_service_getUserById_notFoundException() throws Exception{
-        UserService serviceMock = new UserService(getUserRepositoryMock(), getDtoMapper());
+        UserService serviceMock = new UserService(getUserRepositoryMock(), getUserDTOMapper());
         when(serviceMock.getUserRepository().findById(1L)).thenThrow(new UserNotFoundException("test throw"));
 
         assertThrows(UserNotFoundException.class, () -> {
@@ -86,7 +81,7 @@ public class UserServiceTest {
     @Test
     public void when_service_saveUser_returnUserWithPasswordEncoded() {
         User user = new User(new UserModelBuilder("mail@test", "testUser", "password"));
-        UserService serviceMock = new UserService(getUserRepositoryMock(), getDtoMapper());
+        UserService serviceMock = new UserService(getUserRepositoryMock(), getUserDTOMapper());
         when(serviceMock.getUserRepository().save(any(User.class))).thenReturn(user);
         User resultUser = serviceMock.getUserRepository().save(user);
         assertThat(resultUser).isNotNull().isEqualTo(user);

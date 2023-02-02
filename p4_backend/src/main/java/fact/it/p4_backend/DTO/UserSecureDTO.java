@@ -1,6 +1,5 @@
 package fact.it.p4_backend.DTO;
 
-import jakarta.persistence.Entity;
 import org.springframework.stereotype.Component;
 
 @Component

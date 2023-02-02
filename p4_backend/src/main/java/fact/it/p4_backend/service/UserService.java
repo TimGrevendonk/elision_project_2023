@@ -1,6 +1,6 @@
 package fact.it.p4_backend.service;
 
-import fact.it.p4_backend.DTO.DTOMapper;
+import fact.it.p4_backend.DTO.UserDTOMapper;
 import fact.it.p4_backend.DTO.UserSecureDTO;
 import fact.it.p4_backend.builder.UserModelBuilder;
 import fact.it.p4_backend.exception.MailAlreadyExistsException;
@@ -17,24 +17,24 @@ import java.util.List;
 public class UserService implements UserServiceInterface<User, UserSecureDTO> {
     Logger logger = LoggerFactory.getLogger(UserService.class);
     private UserRepositoryInterface userRepository;
-    private DTOMapper dtoMapper;
+    private UserDTOMapper userDTOMapper;
 
     /**
      * connect repository.
      *
      * @param userRepository Constructor inject the userRepository.
      */
-    public UserService(UserRepositoryInterface userRepository, DTOMapper dtoMapper) {
+    public UserService(UserRepositoryInterface userRepository, UserDTOMapper userDTOMapper) {
         this.userRepository = userRepository;
-        this.dtoMapper = dtoMapper;
+        this.userDTOMapper = userDTOMapper;
     }
 
     public UserRepositoryInterface getUserRepository() {
         return userRepository;
     }
 
-    public DTOMapper getDtoMapper() {
-        return dtoMapper;
+    public UserDTOMapper getUserDTOMapper() {
+        return userDTOMapper;
     }
 
     /**
@@ -46,7 +46,7 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
     @Override
     public List<UserSecureDTO> getAll() throws UserNotFoundException {
         List<User> users = getUserRepository().getAllUsersOrderedByNameAscending().orElseThrow(() -> new UserNotFoundException("No users found."));
-        return getDtoMapper().toUserSecureDtoList(users);
+        return getUserDTOMapper().toUserSecureDtoList(users);
     }
 
     /**
@@ -59,7 +59,7 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
     @Override
     public UserSecureDTO getById(Long userId) throws UserNotFoundException {
         User user = getUserRepository().findById(userId).orElseThrow(() -> new UserNotFoundException("User with userId " + userId + " not found."));
-        return getDtoMapper().toUserSecureDto(user);
+        return getUserDTOMapper().toUserSecureDto(user);
     }
 
     /**
@@ -79,7 +79,7 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
                 .address(newUser.getAddress())
                 .phoneNumber(newUser.getPhoneNumber())
                 .build();
-        return getDtoMapper().toUserSecureDto(getUserRepository().save(user));
+        return getUserDTOMapper().toUserSecureDto(getUserRepository().save(user));
     }
 
     /**
@@ -97,7 +97,7 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
         repositoryUser.setPassword(updateUser.getPassword());
         repositoryUser.setAddress(updateUser.getAddress());
         repositoryUser.setPhoneNumber(updateUser.getPhoneNumber());
-        return getDtoMapper().toUserSecureDto(getUserRepository().save(repositoryUser));
+        return getUserDTOMapper().toUserSecureDto(getUserRepository().save(repositoryUser));
     }
 
     /**

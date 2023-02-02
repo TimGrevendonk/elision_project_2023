@@ -1,6 +1,6 @@
 package fact.it.p4_backend.Controller;
 
-import fact.it.p4_backend.DTO.DTOMapper;
+import fact.it.p4_backend.DTO.UserDTOMapper;
 import fact.it.p4_backend.DTO.UserSecureDTO;
 import fact.it.p4_backend.builder.UserModelBuilder;
 import fact.it.p4_backend.controller.UserController;
@@ -9,17 +9,16 @@ import fact.it.p4_backend.helper.JsonHelper;
 import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.service.UserService;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -34,7 +33,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @WebMvcTest(UserController.class)
 public class UserControllerTest {
-
     @MockBean
     private UserService userServiceMock;
 
@@ -42,19 +40,12 @@ public class UserControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    public UserService getUserServiceMock() {
-        return userServiceMock;
-    }
-// TODO: whatever the fuck this all is
-    public MockMvc getMockMvc() {
-        return mockMvc;
-    }
+    public UserService getUserServiceMock() {return userServiceMock;}
+    public MockMvc getMockMvc() {return mockMvc;}
 
-    List<UserSecureDTO> usersMock = userServiceMock.getDtoMapper().toUserSecureDtoList(List.of(
-            new UserModelBuilder("testuser@mail.com","testUser","testPassword").build(),
-            new UserModelBuilder("demouser@mail.com","demoUser","demoPassword").build()
-            )
-    );
+    private final User mockUser = mock(User.class, "test");
+    private final List<UserSecureDTO> mockDTOUsers = List.of(mock(UserSecureDTO.class, "test"));
+    private final UserSecureDTO mockDTOUser = mock(UserSecureDTO.class);
 
     /**
      * Get a user by its id from the service.
@@ -63,13 +54,13 @@ public class UserControllerTest {
      */
     @Test
     public void when_user_GetById_userSecureDTOReturned() throws Exception {
-        when(getUserServiceMock().getById(1L)).thenReturn(this.usersMock.get(0));
+        when(getUserServiceMock().getById(anyLong())).thenReturn(mockDTOUser);
         UserSecureDTO resultUser = getUserServiceMock().getById(1L);
 
         assertThat(resultUser)
                 .isNotNull()
                 .usingRecursiveComparison()
-                .isEqualTo(this.usersMock.get(0));
+                .isEqualTo(mockDTOUser);
         verify(getUserServiceMock(), times(1)).getById(1L);
         verifyNoMoreInteractions(getUserServiceMock());
     }
@@ -103,12 +94,12 @@ public class UserControllerTest {
     @Test
     public void when_allUserQuery_allUsersReturned() throws Exception {
         when(getUserServiceMock().getAll())
-                .thenReturn(this.usersMock);
+                .thenReturn(mockDTOUsers);
         List<UserSecureDTO> resultUsers = getUserServiceMock().getAll();
 
         assertThat(resultUsers)
                 .isNotNull()
-                .isEqualTo(this.usersMock);
+                .isEqualTo(mockDTOUsers);
         verify(getUserServiceMock(), times(1)).getAll();
     }
 
@@ -124,7 +115,6 @@ public class UserControllerTest {
         UserSecureDTO userDTOMock = mock(UserSecureDTO.class);
         User userMock = mock(User.class);
         when(getUserServiceMock().create(userMock)).thenReturn(userDTOMock);
-        System.out.print(userMock);
         getMockMvc().perform(
                         MockMvcRequestBuilders.post("/api/user/create")
                                 .content(JsonHelper.asJsonString(new User(new UserModelBuilder("test@mail.com","testUser","testPassword"))))
