@@ -12,4 +12,6 @@ import java.util.Optional;
 public interface UserRepositoryInterface extends JpaRepository<User, Long> {
     @Query("select u from User u order by u.name ASC")
     Optional<List<User>> getAllUsersOrderedByNameAscending();
+
+    boolean existsByMail(String mail);
 }
