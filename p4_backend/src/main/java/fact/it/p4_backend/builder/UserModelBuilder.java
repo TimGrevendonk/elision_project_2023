@@ -5,11 +5,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserModelBuilder {
-    public final String mail;
-    public final String name;
-    public final String password;
-    public String address;
-    public  String phoneNumber;
+    private final String mail;
+    private final String name;
+    private final String password;
+    private String address;
+    private  String phoneNumber;
 
     public UserModelBuilder(String mail, String name, String password) {
         this.mail = mail;
@@ -30,5 +30,25 @@ public class UserModelBuilder {
     public User build(){
         User user = new User(this);
         return user;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 }

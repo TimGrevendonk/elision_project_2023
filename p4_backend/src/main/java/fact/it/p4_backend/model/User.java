@@ -21,11 +21,11 @@ public class User {
     }
 
     public User(UserModelBuilder builder){
-        this.name = builder.name;
-        this.mail = builder.mail;
-        this.password = builder.password;
-        this.address = builder.address;
-        this.phoneNumber = builder.phoneNumber;
+        this.name = builder.getName();
+        this.mail = builder.getMail();
+        this.password = builder.getPassword();
+        this.address = builder.getAddress();
+        this.phoneNumber = builder.getPhoneNumber();
     }
 
     public String getMail() {
