@@ -44,7 +44,9 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
      */
     @Override
     public List<UserSecureDTO> getAll() throws UserNotFoundException {
-        List<User> users = getUserRepository().getAllUsersOrderedByNameAscending().orElseThrow(() -> new UserNotFoundException("No users found."));
+        List<User> users = getUserRepository()
+                .getAllUsersOrderedByNameAscending()
+                .orElseThrow(() -> new UserNotFoundException("No users found."));
         return getUserDTOMapper().toUserSecureDtoList(users);
     }
 
@@ -57,7 +59,9 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
      */
     @Override
     public UserSecureDTO getById(Long userId) throws UserNotFoundException {
-        User user = getUserRepository().findById(userId).orElseThrow(() -> new UserNotFoundException("User with userId " + userId + " not found."));
+        User user = getUserRepository()
+                .findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User with userId " + userId + " not found."));
         return getUserDTOMapper().toUserSecureDto(user);
     }
 
@@ -91,7 +95,9 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
      */
     @Override
     public UserSecureDTO update(User updateUser) throws UserNotFoundException {
-        User repositoryUser = getUserRepository().findById(updateUser.getId()).orElseThrow(() -> new UserNotFoundException("User with userId " + updateUser.getId() + " not found."));
+        User repositoryUser = getUserRepository()
+                .findById(updateUser.getId())
+                .orElseThrow(() -> new UserNotFoundException("User with userId " + updateUser.getId() + " not found."));
         repositoryUser.setName(updateUser.getName());
         repositoryUser.setMail(updateUser.getMail());
         if (getPasswordEncoder().matches(updateUser.getPassword(), repositoryUser.getPassword())) {

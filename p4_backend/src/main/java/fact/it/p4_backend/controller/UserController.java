@@ -24,9 +24,11 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
+
     public UserService getUserService() {
         return userService;
     }
+
     /**
      * Query the repository for all users and sort them by name (Ascended).
      * @return responseEntity 200 OK with the users.
@@ -61,6 +63,7 @@ public class UserController {
         UserSecureDTO user = getUserService().create(newUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
+
     /**
      * update the user in the repository and return the same user for later interaction.
      * @param updateUser the body of the to be updated user.
