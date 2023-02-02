@@ -1,6 +1,5 @@
 package fact.it.p4_backend.Controller;
 
-import fact.it.p4_backend.DTO.UserDTOMapper;
 import fact.it.p4_backend.DTO.UserSecureDTO;
 import fact.it.p4_backend.builder.UserModelBuilder;
 import fact.it.p4_backend.controller.UserController;
@@ -18,7 +17,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -43,7 +41,6 @@ public class UserControllerTest {
     public UserService getUserServiceMock() {return userServiceMock;}
     public MockMvc getMockMvc() {return mockMvc;}
 
-    private final User mockUser = mock(User.class, "test");
     private final List<UserSecureDTO> mockDTOUsers = List.of(mock(UserSecureDTO.class, "test"));
     private final UserSecureDTO mockDTOUser = mock(UserSecureDTO.class);
 

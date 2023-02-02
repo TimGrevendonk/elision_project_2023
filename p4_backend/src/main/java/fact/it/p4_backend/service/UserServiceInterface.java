@@ -1,6 +1,5 @@
 package fact.it.p4_backend.service;
 
-
 import java.util.Collection;
 
 public interface UserServiceInterface<User, UserSecureDTO> {

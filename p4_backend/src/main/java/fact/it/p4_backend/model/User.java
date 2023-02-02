@@ -28,18 +28,11 @@ public class User {
         this.phoneNumber = builder.getPhoneNumber();
     }
 
-    public String getMail() {
-        return mail;
-    }
+    public String getMail() {return mail;}
 
-    public Long getId() {
-        return id;
-    }
+    public Long getId() {return id;}
 
-    public String getName() {
-        return name;
-    }
-
+    public String getName() {return name;}
 
     public String getPassword() {
         return password;

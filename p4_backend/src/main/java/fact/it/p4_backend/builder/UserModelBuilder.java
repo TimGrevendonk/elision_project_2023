@@ -1,15 +1,13 @@
 package fact.it.p4_backend.builder;
 
 import fact.it.p4_backend.model.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 public class UserModelBuilder {
     private final String mail;
     private final String name;
     private final String password;
     private String address;
-    private  String phoneNumber;
+    private String phoneNumber;
 
     public UserModelBuilder(String mail, String name, String password) {
         this.mail = mail;
@@ -28,8 +26,7 @@ public class UserModelBuilder {
     }
 
     public User build(){
-        User user = new User(this);
-        return user;
+        return new User(this);
     }
 
     public String getMail() {

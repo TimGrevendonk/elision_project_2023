@@ -8,7 +8,6 @@ public class UserSecureDTO {
     private String userName;
     private String userMail;
 
-
     public UserSecureDTO(Long userId, String userName, String userMail) {
         this.userName = userName;
         this.userMail = userMail;
