@@ -88,7 +88,7 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
-    @GetMapping("/user/sign-in")
+    @PostMapping("/user/sign-in")
     public ResponseEntity<UserSecureDTO> signInUser(@RequestBody User loginUser) throws Exception{
         UserSecureDTO user = getUserService().signIn(loginUser);
         return new ResponseEntity<>(user, HttpStatus.OK);
