@@ -22,13 +22,18 @@ import java.util.UUID;
 public class AdyenController {
     private final Checkout checkout;
 
+    private final String adyenApiKey = System.getenv("ADYEN_APIKEY");
+    private final String adyenMerchantAccount= System.getenv("ADYEN_MERCHANT_ACCOUNT");
+
     public AdyenController() {
-        this.checkout = new Checkout(new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST));
+        this.checkout = new Checkout(new Client(getAdyenApiKey(), Environment.TEST));
     }
 
-    public Checkout getCheckout() {
-        return checkout;
-    }
+    public Checkout getCheckout() { return checkout; }
+
+    public String getAdyenApiKey() { return adyenApiKey; }
+
+    public String getAdyenMerchantAccount() { return adyenMerchantAccount; }
 
     /**
      * Get session for the adyen payments
@@ -46,7 +51,7 @@ public class AdyenController {
         amount.setValue((long) (price * quantity * 100));
 
         checkoutSessionRequest.setAmount(amount);
-        checkoutSessionRequest.setMerchantAccount(System.getenv("ADYEN_MERCHANT_ACCOUNT"));
+        checkoutSessionRequest.setMerchantAccount(getAdyenMerchantAccount());
         checkoutSessionRequest.setReturnUrl("https://localhost:3000/");
         checkoutSessionRequest.setReference("YOUR_PAYMENT_REFERENCE");
         checkoutSessionRequest.setCountryCode("NL");
@@ -65,7 +70,7 @@ public class AdyenController {
     @PostMapping("/paymentMethods")
     public ResponseEntity<PaymentMethodsResponse> paymentMethods() throws IOException, ApiException {
         PaymentMethodsRequest paymentRequest = new PaymentMethodsRequest();
-        paymentRequest.setMerchantAccount(System.getenv("ADYEN_MERCHANT_ACCOUNT"));
+        paymentRequest.setMerchantAccount(getAdyenMerchantAccount());
         paymentRequest.setChannel(PaymentMethodsRequest.ChannelEnum.WEB);
 
         PaymentMethodsResponse response = getCheckout().paymentMethods(paymentRequest);
@@ -77,7 +82,7 @@ public class AdyenController {
     public ResponseEntity<PaymentsResponse> initPayments(@RequestBody PaymentsRequest body) throws IOException, ApiException {
 
         PaymentsRequest paymentRequest = new PaymentsRequest();
-        paymentRequest.setMerchantAccount(System.getenv("ADYEN_MERCHANT_ACCOUNT"));
+        paymentRequest.setMerchantAccount(getAdyenMerchantAccount());
         paymentRequest.setChannel(PaymentsRequest.ChannelEnum.WEB);
 
         Amount amount = new Amount().currency("EUR").value(1000L);
