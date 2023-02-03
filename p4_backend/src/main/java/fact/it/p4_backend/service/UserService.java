@@ -98,16 +98,14 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
         User repositoryUser = getUserRepository()
                 .findById(updateUser.getId())
                 .orElseThrow(() -> new UserNotFoundException("User with userId " + updateUser.getId() + " not found."));
-
-        repositoryUser.setName(updateUser.getName());
+//        TODO: check with professionals if this is the correct way, how would i implement a patch.
+        if (updateUser.getName() != null) {repositoryUser.setName(updateUser.getName());}
         if (updateUser.getMail() != null) {repositoryUser.setMail(updateUser.getMail());}
-        if (updateUser.getPassword() == null || getPasswordEncoder().matches(updateUser.getPassword(), repositoryUser.getPassword())) {
-            repositoryUser.setPassword(repositoryUser.getPassword());
-        } else {
+        if (updateUser.getPassword() != null && !getPasswordEncoder().matches(updateUser.getPassword(), repositoryUser.getPassword())) {
             repositoryUser.setPassword(getPasswordEncoder().encode(updateUser.getPassword()));
         }
-        repositoryUser.setAddress(updateUser.getAddress());
-        repositoryUser.setPhoneNumber(updateUser.getPhoneNumber());
+        if (updateUser.getAddress() != null) {repositoryUser.setAddress(updateUser.getAddress());}
+        if (updateUser.getPhoneNumber() != null) {repositoryUser.setPhoneNumber(updateUser.getPhoneNumber());}
         return getUserDTOMapper().toUserSecureDto(getUserRepository().save(repositoryUser));
     }
 

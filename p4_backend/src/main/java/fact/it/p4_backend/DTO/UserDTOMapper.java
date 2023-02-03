@@ -12,7 +12,9 @@ public class UserDTOMapper {
         Long userId = user.getId();
         String name = user.getName();
         String mail = user.getMail();
-        return new UserSecureDTO(userId, name, mail);
+        String address = user.getAddress();
+        String phoneNumber = user.getPhoneNumber();
+        return new UserSecureDTO(userId, name, mail, address, phoneNumber);
     }
 
     public List<UserSecureDTO> toUserSecureDtoList(List<User> users){
