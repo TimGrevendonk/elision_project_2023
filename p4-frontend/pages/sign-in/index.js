@@ -1,6 +1,37 @@
 import Link from "next/link";
+import Router, { useRouter } from "next/router";
 
 export default function SingInPage() {
+  const router = useRouter();
+
+  async function submitHandler(event) {
+    event.preventDefault();
+
+    const loginData = {
+      mail: event.target.email.value,
+      password: event.target.password.value,
+    };
+
+    const JSONdata = JSON.stringify(loginData);
+
+    const endpoint = process.env.NEXT_PUBLIC_JAVA_BASE_LINK + "/user/sign-in";
+
+    const options = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSONdata,
+    };
+
+    const response = await fetch(endpoint, options);
+
+    if (response.status == 200) {
+      router.push("/");
+    } else {
+      router.push("/about");
+    }
+  }
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
@@ -67,8 +98,4 @@ export default function SingInPage() {
       </div>
     </section>
   );
-}
-
-function submitHandler(event) {
-  event.preventDefault();
 }
