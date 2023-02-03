@@ -1,0 +1,74 @@
+variables:
+  # Sub-project info
+  TF_ROOT: ${CI_PROJECT_DIR}/terraform
+  # Location for storing terraform state
+  # TF_ADDRESS: ${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/terraform/state/${CI_PROJECT_NAME}
+
+# Using terraform image for access to terraform tools
+image: registry.gitlab.com/gitlab-org/terraform-images/stable:latest
+
+cache:
+  key: tf-pipeline
+  paths:
+    - ${TF_ROOT}/.terraform
+
+before_script:
+  # Move to sub-project folder
+  - cd ${TF_ROOT}
+
+stages:
+  - init
+  - validate
+  - plan
+  - deploy
+  # - destroy
+
+# Init terraform
+init:
+  stage: init
+  script:
+    - terraform init
+
+# Validate terraform files
+validate:
+  stage: validate
+  script:
+    # - terraform init
+    - terraform validate
+
+# Create terraform plan
+plan:
+  stage: plan
+  script:
+    - terraform plan
+    # - terraform plan-json
+  artifacts:
+    name: plan
+    paths:
+      - ${TF_ROOT}/plan.cache
+    reports:
+      terraform: ${TF_ROOT}/plan.json
+
+# Apply terraform plan / deploy infrastructure
+# This job only runs manually
+apply:
+  stage: deploy
+  environment:
+    name: production
+  script:
+    - terraform apply --auto-approve
+  dependencies:
+    - plan
+  # when: manual
+
+# Destroy terraform objects / destroy infrastructure
+# This job only runs manually
+# Keeps resourcs with lifecycle { prevent_destroy = true }
+# destroy:
+#   stage: destroy
+#   script:
+#     - terraform destroy
+#   dependencies:
+#     - apply
+#   when: manual
+

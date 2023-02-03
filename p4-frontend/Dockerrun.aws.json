@@ -1,0 +1,1 @@
+{"AWSEBDockerrunVersion": "1","Image": {"Name": "public.ecr.aws/q3d4n1g6/ecrrepositoryfrontend:latest"},"Ports": [{"HostPort": 8080,"ContainerPort": 8080}]}
