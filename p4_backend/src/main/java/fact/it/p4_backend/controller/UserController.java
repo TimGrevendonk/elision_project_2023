@@ -88,6 +88,12 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
+    @GetMapping("/user/sign-in")
+    public ResponseEntity<UserSecureDTO> signInUser(@RequestBody User loginUser) throws Exception{
+        UserSecureDTO user = getUserService().signIn(loginUser);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
     /**
      * delete the user in the repository and return the same user for later interaction.
      * @param userId the id of the to be deleted user.
