@@ -22,8 +22,8 @@ import java.util.UUID;
 public class AdyenController {
     private final Checkout checkout;
 
-    private final String adyenApiKey = System.getenv("ADYEN_APIKEY");
-    private final String adyenMerchantAccount= System.getenv("ADYEN_MERCHANT_ACCOUNT");
+    private final String adyenApiKey=System.getenv("ADYEN_APIKEY");
+    private final String adyenMerchantAccount=System.getenv("ADYEN_MERCHANT_ACCOUNT");
 
     public AdyenController() {
         this.checkout = new Checkout(new Client(getAdyenApiKey(), Environment.TEST));
