@@ -5,6 +5,7 @@ import java.util.Collection;
 public interface UserServiceInterface<User, UserSecureDTO> {
      Collection<UserSecureDTO> getAll() throws Exception;
      UserSecureDTO getById(Long userId) throws Exception;
+     UserSecureDTO getByMail(String userMail) throws Exception;
      UserSecureDTO create(User user) throws Exception;
      UserSecureDTO update(User user) throws Exception;
      UserSecureDTO deleteById(Long entityId);

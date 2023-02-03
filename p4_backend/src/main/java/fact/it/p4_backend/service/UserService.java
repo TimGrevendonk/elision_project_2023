@@ -66,6 +66,21 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
     }
 
     /**
+     * returns one user based on their ID.
+     *
+     * @param userMail the Id of the user.
+     * @return One user based on ID.
+     * @throws UserNotFoundException User not found in queries.
+     */
+    @Override
+    public UserSecureDTO getByMail(String userMail) throws UserNotFoundException {
+        User user = getUserRepository()
+                .getUserByMail(userMail)
+                .orElseThrow(() -> new UserNotFoundException("User with mail " + userMail + " not found."));
+        return getUserDTOMapper().toUserSecureDto(user);
+    }
+
+    /**
      * Creating a new user that needs a unique email address.
      *
      * @param newUser The response body gotten from the controller.
@@ -87,7 +102,7 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
 
     /**
      * Change user details. uses class getById as null check that the user exists.
-     * if the password didn't change, keep the old encoded password. else encode the new one.
+     * if the password didn't change or is not given/present, keep the old encoded password. else encode the new one.
      *
      * @param updateUser The user to be updated.
      * @return Updated userSecureDTO.
@@ -98,15 +113,14 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
         User repositoryUser = getUserRepository()
                 .findById(updateUser.getId())
                 .orElseThrow(() -> new UserNotFoundException("User with userId " + updateUser.getId() + " not found."));
-        repositoryUser.setName(updateUser.getName());
-        repositoryUser.setMail(updateUser.getMail());
-        if (getPasswordEncoder().matches(updateUser.getPassword(), repositoryUser.getPassword())) {
-            repositoryUser.setPassword(repositoryUser.getPassword());
-        } else {
+//        TODO: check with professionals if this is the correct way, how would i implement a patch.
+        if (updateUser.getName() != null) {repositoryUser.setName(updateUser.getName());}
+        if (updateUser.getMail() != null) {repositoryUser.setMail(updateUser.getMail());}
+        if (updateUser.getPassword() != null && !getPasswordEncoder().matches(updateUser.getPassword(), repositoryUser.getPassword())) {
             repositoryUser.setPassword(getPasswordEncoder().encode(updateUser.getPassword()));
         }
-        repositoryUser.setAddress(updateUser.getAddress());
-        repositoryUser.setPhoneNumber(updateUser.getPhoneNumber());
+        if (updateUser.getAddress() != null) {repositoryUser.setAddress(updateUser.getAddress());}
+        if (updateUser.getPhoneNumber() != null) {repositoryUser.setPhoneNumber(updateUser.getPhoneNumber());}
         return getUserDTOMapper().toUserSecureDto(getUserRepository().save(repositoryUser));
     }
 
