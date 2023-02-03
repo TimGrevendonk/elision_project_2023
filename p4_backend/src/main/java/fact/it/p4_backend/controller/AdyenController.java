@@ -43,16 +43,17 @@ public class AdyenController {
      * @throws ApiException Api call error.
      */
     @GetMapping("/session")
-    public ResponseEntity<CreateCheckoutSessionResponse> AdyenClient() throws IOException, ApiException {
+    public ResponseEntity<CreateCheckoutSessionResponse> AdyenClient(Double price, Integer quantity) throws IOException, ApiException {
         Client client = new Client(System.getenv("ADYEN_APIKEY"), Environment.TEST);
 
         Checkout checkout = new Checkout(client);
+
 
         CreateCheckoutSessionRequest checkoutSessionRequest = new CreateCheckoutSessionRequest();
 //        TODO: query the product prices from the database.
         Amount amount = new Amount();
         amount.setCurrency("EUR");
-        amount.setValue(1000L);
+        amount.setValue((long) (price * quantity * 100));
 
         checkoutSessionRequest.setAmount(amount);
         checkoutSessionRequest.setMerchantAccount(System.getenv("ADYEN_MERCHANT_ACCOUNT"));
