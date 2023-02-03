@@ -66,6 +66,21 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
     }
 
     /**
+     * returns one user based on their ID.
+     *
+     * @param userMail the Id of the user.
+     * @return One user based on ID.
+     * @throws UserNotFoundException User not found in queries.
+     */
+    @Override
+    public UserSecureDTO getByMail(String userMail) throws UserNotFoundException {
+        User user = getUserRepository()
+                .getUserByMail(userMail)
+                .orElseThrow(() -> new UserNotFoundException("User with mail " + userMail + " not found."));
+        return getUserDTOMapper().toUserSecureDto(user);
+    }
+
+    /**
      * Creating a new user that needs a unique email address.
      *
      * @param newUser The response body gotten from the controller.

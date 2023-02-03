@@ -53,6 +53,18 @@ public class UserController {
     }
 
     /**
+     * Query the repository for a single user by their mail.
+     * @param userMail the mail of the requested user.
+     * @return ResponseEntity 200 OK with the userSecureDTO.
+     * @throws UserNotFoundException handled if the user is not found.
+     */
+    @GetMapping("/user/mail")
+    public ResponseEntity<UserSecureDTO> getUserByMail(@RequestParam(value = "usermail") String userMail) throws Exception {
+        UserSecureDTO user = getUserService().getByMail(userMail);
+        return new ResponseEntity<>(user, HttpStatus.OK);
+    }
+
+    /**
      * add the user in the repository and return the same user for later interaction.
      * @param newUser the body of the to be created user.
      * @return ResponseEntity 200 OK with the user.
