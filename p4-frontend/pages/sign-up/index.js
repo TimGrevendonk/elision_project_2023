@@ -1,3 +1,4 @@
+import { callRegisterPost } from "@/data/serverCallHelpers";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -6,26 +7,11 @@ export default function SignUpPage() {
 
   async function submitHandler(event) {
     event.preventDefault();
+    const nameInfo = event.target.username.value;
+    const mailInfo = event.target.email.value;
+    const passwordInfo = event.target.password.value;
 
-    const newUserData = {
-      name: event.target.username.value,
-      mail: event.target.email.value,
-      password: event.target.password.value,
-    };
-
-    const JSONdata = JSON.stringify(newUserData);
-
-    const endpoint = process.env.NEXT_PUBLIC_JAVA_BASE_LINK + "/user/create";
-
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSONdata,
-    };
-
-    const response = await fetch(endpoint, options);
+    const response = await callRegisterPost(nameInfo, mailInfo, passwordInfo);
 
     if (response.status == 200) {
       router.push("/sign-up/success");
