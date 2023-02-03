@@ -1,4 +1,4 @@
-import { callLoginPost } from "@/data/serverCallHelpers";
+import { callServerPostNoJson } from "@/data/serverCallHelpers";
 import Link from "next/link";
 import Router, { useRouter } from "next/router";
 
@@ -8,9 +8,12 @@ export default function SingInPage() {
   async function submitHandler(event) {
     event.preventDefault();
 
-    const mailInfo = event.target.email.value;
-    const passwordInfo = event.target.password.value;
-    const response = await callLoginPost(mailInfo, passwordInfo);
+    const loginData = {
+      mail: event.target.email.value,
+      password: event.target.password.value,
+    };
+
+    const response = await callServerPostNoJson("/api/user/sign-in", loginData);
 
     if (response.status == 200) {
       router.push("/");
