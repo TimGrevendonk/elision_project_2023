@@ -57,6 +57,6 @@ function transformProductsToSearchObjects(products) {
 
     // we have data ready for Algolia!
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 })();

@@ -1,11 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
 import { getItemById, getProducts } from "@/data/querries";
+import { useRecoilState } from "recoil";
+import { recoilproductsToBuy } from "../../store";
+import { useRouter } from "next/router";
 import { useState } from "react";
 export default function ProductDetailPage(props) {
   const info = props.productInfo;
   const id = props.productID;
   const [quantity, setQuantity] = useState(1);
-  const product = {};
+  const [productToBuy, setProductToBuy] = useRecoilState(recoilproductsToBuy);
+  const router = useRouter();
 
   function quantityUp() {
     setQuantity(quantity + 1);
@@ -18,11 +22,9 @@ export default function ProductDetailPage(props) {
     }
   }
 
-  function buyHandler(id, productInfo, quantity) {
-    product.id = id;
-    product.info = productInfo;
-    product.quantity = quantity;
-    console.log(product);
+  function buyHandler(quantity) {
+    setProductToBuy({ price: props.productInfo.price, quantity: quantity });
+    router.push({ pathname: "/payment/method" });
   }
 
   return (
@@ -52,7 +54,8 @@ export default function ProductDetailPage(props) {
         <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
           <button
             onClick={quantityDown}
-            className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none">
+            className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none"
+          >
             -
           </button>
           <span className="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 justify-center">
@@ -60,14 +63,16 @@ export default function ProductDetailPage(props) {
           </span>
           <button
             onClick={quantityUp}
-            className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer">
+            className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
+          >
             +
           </button>
         </div>
         <div>
           <button
-            onClick={() => buyHandler(id, info, quantity)}
-            className="bg-slate-500 rounded w-full hover:bg-slate-600 hover:text-gray-300">
+            onClick={() => buyHandler(quantity)}
+            className="bg-slate-500 rounded w-full hover:bg-slate-600 hover:text-gray-300"
+          >
             BUY NOW
           </button>
         </div>
