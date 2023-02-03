@@ -31,3 +31,4 @@ build/
 
 ### VS Code ###
 .vscode/
+p4_backend/src/main/resources/environment.properties
