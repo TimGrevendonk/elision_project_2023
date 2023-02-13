@@ -4,6 +4,7 @@ import fact.it.p4_backend.DTO.UserDTOMapper;
 import fact.it.p4_backend.DTO.UserSecureDTO;
 import fact.it.p4_backend.builder.UserModelBuilder;
 import fact.it.p4_backend.exception.MailAlreadyExistsException;
+import fact.it.p4_backend.exception.PasswordsDontMatchException;
 import fact.it.p4_backend.exception.UserNotFoundException;
 import fact.it.p4_backend.model.User;
 import fact.it.p4_backend.repository.UserRepositoryInterface;
@@ -98,6 +99,16 @@ public class UserService implements UserServiceInterface<User, UserSecureDTO> {
                 .phoneNumber(newUser.getPhoneNumber())
                 .build();
         return getUserDTOMapper().toUserSecureDto(getUserRepository().save(user));
+    }
+
+    public UserSecureDTO signIn(User signInUser) throws PasswordsDontMatchException,UserNotFoundException {
+        User user = getUserRepository()
+                .getUserByMail(signInUser.getMail())
+                .orElseThrow(() -> new UserNotFoundException("User with mail " + signInUser.getMail() + " not found."));
+        if (!getPasswordEncoder().matches(signInUser.getPassword(), user.getPassword())){
+            throw new PasswordsDontMatchException("wrong password");
+        }
+        return getUserDTOMapper().toUserSecureDto(user);
     }
 
     /**

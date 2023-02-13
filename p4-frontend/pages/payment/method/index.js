@@ -2,7 +2,7 @@ import AdyenCheckout from "@adyen/adyen-web";
 import "@adyen/adyen-web/dist/adyen.css";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { callServerPost, callServerGet } from "../../../data/Adyen_helpers";
+import { callServerPost, callServerGet } from "../../../data/serverCallHelpers";
 
 export default function PaymentMethodPage(props) {
   const router = useRouter();

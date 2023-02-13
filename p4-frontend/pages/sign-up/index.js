@@ -1,3 +1,4 @@
+import { callServerPostNoJson } from "@/data/serverCallHelpers";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -13,19 +14,11 @@ export default function SignUpPage() {
       password: event.target.password.value,
     };
 
-    const JSONdata = JSON.stringify(newUserData);
-
-    const endpoint = process.env.NEXT_PUBLIC_JAVA_BASE_LINK + "/user/create";
-
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSONdata,
-    };
-
-    const response = await fetch(endpoint, options);
+    const response = await callServerPostNoJson(
+      "/api/user/create",
+      newUserData
+    );
+    console.log(response);
 
     if (response.status == 200) {
       router.push("/sign-up/success");
