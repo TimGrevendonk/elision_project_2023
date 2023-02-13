@@ -2,9 +2,12 @@ import AdyenCheckout from "@adyen/adyen-web";
 import "@adyen/adyen-web/dist/adyen.css";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { recoilproductsToBuy } from "/store";
 import { callServerPost, callServerGet } from "../../../data/serverCallHelpers";
 
 export default function PaymentMethodPage(props) {
+  const [productToBuy, setProductToBuy] = useRecoilState(recoilproductsToBuy);
   const router = useRouter();
 
   /**
@@ -19,20 +22,20 @@ export default function PaymentMethodPage(props) {
     } else {
       switch (response.resultCode) {
         case "Authorised":
-          console.log("[debug] handleServerResponse Authorized");
+          console.info("[debug] handleServerResponse Authorized");
           router.push("/payment/Authorized");
           break;
         case "Pending":
         case "Received":
-          console.log("[debug] handleServerResponse Pending/Received");
+          console.info("[debug] handleServerResponse Pending/Received");
           router.push("/payment/pending");
           break;
         case "Refused":
-          console.log("[debug] handleServerResponse Refused");
+          console.info("[debug] handleServerResponse Refused");
           router.push("/payment/refused");
           break;
         default:
-          console.log("[debug] handleServerResponse default");
+          console.info("[debug] handleServerResponse default");
           // TODO find route
           router.push("/");
       }
@@ -45,12 +48,8 @@ export default function PaymentMethodPage(props) {
         "/payment/paymentMethods"
       );
 
-      const sessionResult = await callServerGet("/payment/session");
-      console.log("[debug] session result", sessionResult);
-
-      console.log(
-        "[debug] merchantAccount",
-        process.env.NEXT_PUBLIC_ADYEN_MERCHACC
+      const sessionResult = await callServerGet(
+        `/payment/session?price=${productToBuy.price}&quantity=${productToBuy.quantity}`
       );
 
       const configuration = {
@@ -88,6 +87,7 @@ export default function PaymentMethodPage(props) {
         .mount("#dropin-container");
     };
     data();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

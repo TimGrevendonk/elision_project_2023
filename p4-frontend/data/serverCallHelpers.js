@@ -1,4 +1,4 @@
-const urlPrefix = "http://localhost:8080";
+const urlPrefix = process.env.NEXT_PUBLIC_JAVA_BASE_LINK;
 
 export async function callServerPost(url, data) {
   const response = await fetch(urlPrefix + url, {

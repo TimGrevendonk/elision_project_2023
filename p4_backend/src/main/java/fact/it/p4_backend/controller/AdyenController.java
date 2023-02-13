@@ -6,6 +6,8 @@ import com.adyen.model.Amount;
 import com.adyen.model.checkout.*;
 import com.adyen.service.Checkout;
 import com.adyen.service.exception.ApiException;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +20,27 @@ import java.util.UUID;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
+@PropertySource("classpath:environment.properties")
 @RequestMapping("/payment")
 public class AdyenController {
-    private final Checkout checkout;
+    private Checkout checkout;
 
-    private final String adyenApiKey=System.getenv("ADYEN_APIKEY");
-    private final String adyenMerchantAccount=System.getenv("ADYEN_MERCHANT_ACCOUNT");
+    @Value("${ADYEN_APIKEY}")
+    private String adyenApiKey;
+    @Value("${ADYEN_MERCHANT_ACCOUNT}")
+    private String adyenMerchantAccount;
 
-    public AdyenController() {
-        this.checkout = new Checkout(new Client(getAdyenApiKey(), Environment.TEST));
+    public Checkout getCheckout() {
+        return checkout;
     }
 
-    public Checkout getCheckout() { return checkout; }
+    public String getAdyenApiKey() {
+        return adyenApiKey;
+    }
 
-    public String getAdyenApiKey() { return adyenApiKey; }
-
-    public String getAdyenMerchantAccount() { return adyenMerchantAccount; }
+    public String getAdyenMerchantAccount() {
+        return adyenMerchantAccount;
+    }
 
     /**
      * Get session for the adyen payments
@@ -44,6 +51,7 @@ public class AdyenController {
      */
     @GetMapping("/session")
     public ResponseEntity<CreateCheckoutSessionResponse> AdyenClient(Double price, Integer quantity) throws IOException, ApiException {
+        this.checkout = new Checkout(new Client(getAdyenApiKey(), Environment.TEST));
         CreateCheckoutSessionRequest checkoutSessionRequest = new CreateCheckoutSessionRequest();
 
         Amount amount = new Amount();
@@ -69,6 +77,7 @@ public class AdyenController {
      */
     @PostMapping("/paymentMethods")
     public ResponseEntity<PaymentMethodsResponse> paymentMethods() throws IOException, ApiException {
+        this.checkout = new Checkout(new Client(getAdyenApiKey(), Environment.TEST));
         PaymentMethodsRequest paymentRequest = new PaymentMethodsRequest();
         paymentRequest.setMerchantAccount(getAdyenMerchantAccount());
         paymentRequest.setChannel(PaymentMethodsRequest.ChannelEnum.WEB);
