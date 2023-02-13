@@ -23,4 +23,10 @@ public class ControllerAdvisor extends ResponseEntityExceptionHandler {
         logger.warn(exception.getMessage());
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
     }
+
+    @ExceptionHandler(value = PasswordsDontMatchException.class)
+    public ResponseEntity<Object> PasswordsDontMatchException(RuntimeException exception) {
+        logger.warn(exception.getMessage());
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
+    }
 }

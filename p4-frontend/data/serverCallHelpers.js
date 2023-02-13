@@ -20,3 +20,14 @@ export async function callServerGet(url) {
   });
   return await response.json();
 }
+
+export async function callServerPostNoJson(url, data) {
+  const response = await fetch(urlPrefix + url, {
+    method: "POST",
+    body: data ? JSON.stringify(data) : "",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response;
+}

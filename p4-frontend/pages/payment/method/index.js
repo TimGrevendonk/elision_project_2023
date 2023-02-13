@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { recoilproductsToBuy } from "/store";
-import { callServerPost, callServerGet } from "../../../data/Adyen_helpers";
+import { callServerPost, callServerGet } from "../../../data/serverCallHelpers";
 
 export default function PaymentMethodPage(props) {
   const [productToBuy, setProductToBuy] = useRecoilState(recoilproductsToBuy);
@@ -87,6 +87,7 @@ export default function PaymentMethodPage(props) {
         .mount("#dropin-container");
     };
     data();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
