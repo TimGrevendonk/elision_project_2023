@@ -12,11 +12,11 @@ const searchClient = algoliasearch(
 
 export default function Search() {
   return (
-    <>
+    <div className="p-2 mt-4">
       <InstantSearch searchClient={searchClient} indexName="d1_tm_team_b3">
         <CustomSearchBox />
         <CustomHits />
       </InstantSearch>
-    </>
+    </div>
   );
 }
