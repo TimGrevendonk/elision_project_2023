@@ -28,11 +28,11 @@ export default function ProductDetailPage(props) {
   }
 
   return (
-    <div className="p-3 ">
-      <div className="bg-slate-600 h-full w-full flex justify-center">
+    <div className="p-3">
+      <div className="bg-slate-600  flex justify-center">
         <h1 className="font-bold text-xl">{info.title}</h1>
       </div>
-      <div className="bg-slate-400 h-full w-full flex justify-center">
+      <div className="bg-slate-400 flex justify-center">
         {info.thumbnails.map((image) => (
           <img
             src={image.fields.file.url}
@@ -47,7 +47,7 @@ export default function ProductDetailPage(props) {
           {info.description}
         </p>
       </div>
-      <div className="h-10 w-32">
+      <div className="w-1/2 md:w-1/3">
         <label className="w-full text-white text-sm font-semibold">
           Quantity
         </label>
