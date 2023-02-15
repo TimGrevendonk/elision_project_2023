@@ -7,8 +7,8 @@ export default function AuthorizedPage() {
   const router = useRouter();
 
   function handleReturnHomePage(event) {
-    setProductToBuy({});
     router.push("/");
+    setProductToBuy({});
   }
 
   return (
@@ -21,7 +21,7 @@ export default function AuthorizedPage() {
             <div className=" text-slate-300">{productToBuy.product.title}</div>
           </li>
           <li>
-            <div className=" font-medium">Product Price:</div>
+            <div className=" font-medium">Individual product Price:</div>
             <div className=" text-slate-300">
               € {productToBuy.product.price}
             </div>
@@ -29,6 +29,12 @@ export default function AuthorizedPage() {
           <li>
             <div className=" font-medium">Product quantity:</div>
             <div className=" text-slate-300">{productToBuy.quantity} items</div>
+          </li>
+          <li>
+            <div className=" font-medium">Product total:</div>
+            <div className=" text-slate-300">
+              €{productToBuy.quantity * productToBuy.product.price}
+            </div>
           </li>
         </ol>
       )}

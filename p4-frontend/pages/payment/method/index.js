@@ -12,8 +12,8 @@ export default function PaymentMethodPage(props) {
   const router = useRouter();
 
   function handleReturnPreviousPage(event) {
-    setProductToBuy({});
     router.back();
+    setProductToBuy({});
   }
 
   /**
