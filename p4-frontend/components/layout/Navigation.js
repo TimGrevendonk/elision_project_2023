@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Search from "../search";
 export default function Navigation() {
   return (
     <nav className="relative w-full flex flex-wrap items-center justify-between py-3 bg-gray-900 text-gray-200 shadow-lg navbar navbar-expand-lg navbar-light border-gray-800 rounded border-b-2">
@@ -9,6 +10,9 @@ export default function Navigation() {
             alt="elision logo"
             className="w-40 h-20"></img>
         </Link>
+        <div className="flex-grow items-center">
+          <Search />
+        </div>
         <button
           className="navbar-toggler text-gray-200 border-0 hover:shadow-none hover:no-underline py-2 px-2.5 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none focus:no-underline"
           type="button"

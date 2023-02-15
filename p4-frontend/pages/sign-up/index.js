@@ -18,7 +18,6 @@ export default function SignUpPage() {
       "/api/user/create",
       newUserData
     );
-    console.log(response);
 
     if (response.status == 200) {
       router.push("/sign-up/success");
