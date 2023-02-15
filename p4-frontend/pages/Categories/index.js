@@ -1,4 +1,4 @@
-import { getAllCategories } from "@/data/querries";
+import { getAllCategories } from "../../data/querries";
 import Link from "next/link";
 
 export default function CategoriesPage(props) {
