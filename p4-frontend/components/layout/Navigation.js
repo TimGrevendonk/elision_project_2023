@@ -1,6 +1,9 @@
 import Link from "next/link";
 import Search from "../search";
+import { useRecoilState } from "recoil";
+import { recoilLoggedIn } from "@/store";
 export default function Navigation() {
+  const [loggedIn, setLoggedIn] = useRecoilState(recoilLoggedIn);
   return (
     <nav className="relative w-full flex flex-wrap items-center justify-between py-3 bg-gray-900 text-gray-200 shadow-lg navbar navbar-expand-lg navbar-light border-gray-800 rounded border-b-2">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
@@ -64,7 +67,7 @@ export default function Navigation() {
               <Link
                 className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center w-full"
                 href="/sign-in">
-                Log in
+                {loggedIn ? "log out" : "log in"}
               </Link>
             </li>
           </ul>

@@ -1,9 +1,12 @@
 import { callServerPostNoJson } from "@/data/serverCallHelpers";
+import { recoilLoggedIn } from "@/store";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
 
 export default function SingInPage() {
   const router = useRouter();
+  const [loggedIn, setLoggedIn] = useRecoilState(recoilLoggedIn);
 
   async function submitHandler(event) {
     event.preventDefault();
@@ -11,11 +14,11 @@ export default function SingInPage() {
       mail: event.target.email.value,
       password: event.target.password.value,
     };
-
     const response = await callServerPostNoJson("/api/user/sign-in", loginData);
 
     if (response.status == 200) {
       router.push("/sign-in/sign-in_success");
+      setLoggedIn(true);
     } else {
       router.push("/sign-in/sign-in_refused");
     }
