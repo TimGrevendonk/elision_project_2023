@@ -4,11 +4,11 @@ import fact.it.p4_backend.builder.UserModelBuilder;
 import jakarta.persistence.*;
 
 
-@Entity
+@Entity(name = "User")
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     private  String name;
     private  String mail;
