@@ -23,7 +23,7 @@ export default function ProductDetailPage(props) {
   }
 
   function buyHandler(quantity) {
-    setProductToBuy({ price: props.productInfo.price, quantity: quantity });
+    setProductToBuy({ product: info, quantity: quantity });
     router.push({ pathname: "/payment/method" });
   }
 

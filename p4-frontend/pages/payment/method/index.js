@@ -5,10 +5,16 @@ import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { recoilproductsToBuy } from "/store";
 import { callServerPost, callServerGet } from "../../../data/serverCallHelpers";
+import { logDOM } from "@testing-library/react";
 
 export default function PaymentMethodPage(props) {
   const [productToBuy, setProductToBuy] = useRecoilState(recoilproductsToBuy);
   const router = useRouter();
+
+  function handleReturnPreviousPage(event) {
+    setProductToBuy({});
+    router.back();
+  }
 
   /**
    *
@@ -49,7 +55,7 @@ export default function PaymentMethodPage(props) {
       );
 
       const sessionResult = await callServerGet(
-        `/payment/session?price=${productToBuy.price}&quantity=${productToBuy.quantity}`
+        `/payment/session?price=${productToBuy.product.price}&quantity=${productToBuy.quantity}`
       );
 
       const configuration = {
@@ -64,7 +70,7 @@ export default function PaymentMethodPage(props) {
           sessionData: sessionResult.sessionData, // The payment session data.
         },
         onPaymentCompleted: (result, component) => {
-          console.info(result, component);
+          console.info("[debug] info", result, component);
           handleResponse(result, component);
         },
         onError: (error, component) => {
@@ -92,7 +98,52 @@ export default function PaymentMethodPage(props) {
 
   return (
     <div className="container m-auto">
-      <h1>PaymentMethodPage</h1>
+      <h1 className="pb-1 text-center">Transact your payment here</h1>
+      <ol className=" bg-slate-800 rounded-lg p-2 my-2">
+        <h2 className="text-xl">Product info</h2>
+        <li>
+          <div className=" font-medium">Product full name:</div>
+          {productToBuy.product ? (
+            <div className=" text-slate-300">{productToBuy.product.title}</div>
+          ) : (
+            <div className=" font-extralight text-red-300">
+              no product title found !
+            </div>
+          )}
+        </li>
+        <li>
+          <div className=" font-medium">Individual Product Price:</div>
+          {productToBuy.product ? (
+            <div className=" text-slate-300">
+              € {productToBuy.product.price}
+            </div>
+          ) : (
+            <div className=" font-extralight text-red-300">
+              no product price found !
+            </div>
+          )}
+        </li>
+        <li>
+          <div className=" font-medium">Product quantity:</div>
+          {productToBuy.quantity ? (
+            <div className=" text-slate-300">{productToBuy.quantity} items</div>
+          ) : (
+            <div className=" font-extralight text-red-300">
+              no product quantity found !
+            </div>
+          )}
+        </li>
+      </ol>
+      {productToBuy.product && productToBuy.quantity ? (
+        <div id="dropin-container"></div>
+      ) : (
+        <p
+          className="cursor-pointer bg-slate-800 rounded-sm text-center p-1 mt-2 hover:bg-slate-600 md:w-1/2 md:m-auto text-red-300"
+          onClick={handleReturnPreviousPage}
+        >
+          Error: return to previous page
+        </p>
+      )}
       <div id="dropin-container"></div>
     </div>
   );
