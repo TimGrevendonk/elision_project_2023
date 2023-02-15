@@ -12,13 +12,12 @@ function Hits({ searchState, searchResults }) {
       {searchResults?.hits.length > 0 && validQuery && (
         <ol>
           {searchResults.hits.map((hit) => (
-            <li
-              key={hit.objectID}
-              className="border-b border-gray-800 p-1 hover:bg-slate-700 rounded-sm"
-            >
-              <Link href={`/products/${hit.objectID}`}>{hit.title}</Link>
-              &nbsp;&nbsp;€{hit.price}
-            </li>
+            <Link href={`/products/${hit.objectID}`} key={hit.objectID}>
+              <li className="border-b border-gray-800 p-1 hover:bg-slate-700 rounded-sm">
+                {hit.title}
+                &nbsp;&nbsp;€{hit.price}
+              </li>
+            </Link>
           ))}
         </ol>
       )}
