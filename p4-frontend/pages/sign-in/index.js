@@ -17,8 +17,8 @@ export default function SingInPage() {
     const response = await callServerPostNoJson("/api/user/sign-in", loginData);
 
     if (response.status == 200) {
-      router.push("/sign-in/sign-in_success");
       setLoggedIn(true);
+      router.push("/sign-in/sign-in_success");
     } else {
       router.push("/sign-in/sign-in_refused");
     }
@@ -35,7 +35,8 @@ export default function SingInPage() {
               <div>
                 <label
                   htmlFor="email"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
                   Your email
                 </label>
                 <input
@@ -50,7 +51,8 @@ export default function SingInPage() {
               <div>
                 <label
                   htmlFor="password"
-                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
                   Password
                 </label>
                 <input
@@ -66,20 +68,23 @@ export default function SingInPage() {
                 <div className="flex items-start"></div>
                 <Link
                   href="/sign-in/forgot-password"
-                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">
+                  className="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
                   Forgot password?
                 </Link>
               </div>
               <button
                 type="submit"
-                className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded text-center w-full">
+                className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded text-center w-full"
+              >
                 Sign in
               </button>
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Need an account?{" "}
                 <Link
                   href="/sign-up"
-                  className="font-medium text-primary-600 hover:underline dark:text-primary-500">
+                  className="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                >
                   Sign up here
                 </Link>
               </p>

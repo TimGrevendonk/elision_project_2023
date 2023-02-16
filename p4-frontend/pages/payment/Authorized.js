@@ -31,7 +31,7 @@ export default function AuthorizedPage() {
             <div className=" text-slate-300">{productToBuy.quantity} items</div>
           </li>
           <li>
-            <div className=" font-medium">Product total:</div>
+            <div className=" font-medium">Transaction total:</div>
             <div className=" text-slate-300">
               €{productToBuy.quantity * productToBuy.product.price}
             </div>

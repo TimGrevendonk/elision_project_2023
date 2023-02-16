@@ -14,7 +14,8 @@ export default function Navigation() {
           <img
             src="/images/elision.png"
             alt="elision logo"
-            className="w-40 h-20"></img>
+            className="w-40 h-20"
+          ></img>
         </Link>
         <div className="flex-grow items-center">
           <Search />
@@ -26,7 +27,8 @@ export default function Navigation() {
           data-bs-target="#navbarSupportedContent1"
           aria-controls="navbarSupportedContent"
           aria-expanded="false"
-          aria-label="Toggle navigation">
+          aria-label="Toggle navigation"
+        >
           <svg
             aria-hidden="true"
             focusable="false"
@@ -35,49 +37,49 @@ export default function Navigation() {
             className="w-6"
             role="img"
             xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 448 512">
+            viewBox="0 0 448 512"
+          >
             <path
               fill="currentColor"
-              d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
+              d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"
+            ></path>
           </svg>
         </button>
         <div
           className="collapse navbar-collapse flex-grow items-center"
-          id="navbarSupportedContent1">
+          id="navbarSupportedContent1"
+        >
           <ul className="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
             <li className="nav-item p-2">
               <Link
                 className="nav-link text-white opacity-60 hover:opacity-80 focus:opacity-80 p-0"
-                href="/about">
+                href="/about"
+              >
                 About
               </Link>
             </li>
             <li className="nav-item p-2">
               <Link
                 className="nav-link text-white opacity-60 hover:opacity-80 focus:opacity-80 p-0"
-                href="/Categories">
+                href="/Categories"
+              >
                 Categories
-              </Link>
-            </li>
-            <li className="nav-item p-2">
-              <Link
-                className="nav-link text-white opacity-60 hover:opacity-80 focus:opacity-80 p-0"
-                href="/payment/method">
-                Pay
               </Link>
             </li>
             <li className="nav-item p-2">
               {!loggedIn && (
                 <Link
                   className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center w-full"
-                  href="/sign-in">
+                  href="/sign-in"
+                >
                   log in
                 </Link>
               )}
               {loggedIn && (
                 <button
                   className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center "
-                  onClick={logOutHandler}>
+                  onClick={logOutHandler}
+                >
                   log out
                 </button>
               )}
