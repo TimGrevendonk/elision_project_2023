@@ -1,71 +1,86 @@
 import Link from "next/link";
-
+import Search from "../search";
+import { useRecoilState } from "recoil";
+import { recoilLoggedIn } from "@/store";
 export default function Navigation() {
+  const [loggedIn, setLoggedIn] = useRecoilState(recoilLoggedIn);
+  function logOutHandler() {
+    setLoggedIn(false);
+  }
   return (
-    <nav className="bg-white border-gray-800 px-2 sm:px-4 py-2.5 rounded dark:bg-gray-900 border-b-2">
+    <nav className="relative w-full flex flex-wrap items-center justify-between py-3 bg-gray-900 text-gray-200 shadow-lg navbar navbar-expand-lg navbar-light border-gray-800 rounded border-b-2">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center m-1">
           <img
             src="/images/elision.png"
             alt="elision logo"
-            className="w-40 h-20"
-          ></img>
+            className="w-40 h-20"></img>
         </Link>
+        <div className="flex-grow items-center">
+          <Search />
+        </div>
         <button
-          data-collapse-toggle="navbar-default"
+          className="navbar-toggler text-gray-200 border-0 hover:shadow-none hover:no-underline py-2 px-2.5 bg-transparent focus:outline-none focus:ring-0 focus:shadow-none focus:no-underline"
           type="button"
-          className="inline-flex items-center p-2 ml-3 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-          aria-controls="navbar-default"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent1"
+          aria-controls="navbarSupportedContent"
           aria-expanded="false"
-        >
-          <span className="sr-only">Open main menu</span>
+          aria-label="Toggle navigation">
           <svg
-            className="w-6 h-6"
             aria-hidden="true"
-            fill="currentColor"
-            viewBox="0 0 20 20"
+            focusable="false"
+            data-prefix="fas"
+            data-icon="bars"
+            className="w-6"
+            role="img"
             xmlns="http://www.w3.org/2000/svg"
-          >
+            viewBox="0 0 448 512">
             <path
-              fillRule="evenodd"
-              d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-              clipRule="evenodd"
-            ></path>
+              fill="currentColor"
+              d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
           </svg>
         </button>
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
-          <ul className="flex flex-col p-4 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:text-sm md:font-medium md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-            <li>
+        <div
+          className="collapse navbar-collapse flex-grow items-center"
+          id="navbarSupportedContent1">
+          <ul className="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
+            <li className="nav-item p-2">
               <Link
-                href="/"
-                className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
-                Home
-              </Link>
-            </li>
-            <li>
-              <Link
-                href="/about"
-                className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
+                className="nav-link text-white opacity-60 hover:opacity-80 focus:opacity-80 p-0"
+                href="/about">
                 About
               </Link>
             </li>
-            <li>
+            <li className="nav-item p-2">
               <Link
-                href="/Categories"
-                className="block py-2 pl-3 pr-4 text-gray-700 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-gray-400 md:dark:hover:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
-              >
+                className="nav-link text-white opacity-60 hover:opacity-80 focus:opacity-80 p-0"
+                href="/Categories">
                 Categories
               </Link>
             </li>
-            <li>
+            <li className="nav-item p-2">
               <Link
-                href="/sign-in"
-                className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-center w-full"
-              >
-                Log in
+                className="nav-link text-white opacity-60 hover:opacity-80 focus:opacity-80 p-0"
+                href="/payment/method">
+                Pay
               </Link>
+            </li>
+            <li className="nav-item p-2">
+              {!loggedIn && (
+                <Link
+                  className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center w-full"
+                  href="/sign-in">
+                  log in
+                </Link>
+              )}
+              {loggedIn && (
+                <button
+                  className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center "
+                  onClick={logOutHandler}>
+                  log out
+                </button>
+              )}
             </li>
           </ul>
         </div>
