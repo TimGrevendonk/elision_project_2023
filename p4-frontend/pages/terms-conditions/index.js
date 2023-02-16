@@ -1,4 +1,4 @@
-import { getTermsAndConditions } from "@/data/querries";
+import { getTermsAndConditions } from "../../data/querries";
 
 export default function TermsConditionsPage(props) {
   const info = props.termsAndConditionsInfo;

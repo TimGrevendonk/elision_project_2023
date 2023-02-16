@@ -1,4 +1,4 @@
-import { getPrivacyPolicy } from "@/data/querries";
+import { getPrivacyPolicy } from "../../data/querries";
 
 export default function PrivacyPolicyPage(props) {
   const info = props.privacyPolicy;
