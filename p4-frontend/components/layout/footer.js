@@ -12,7 +12,7 @@ export default function Footer() {
               <Link
                 href="https://www.facebook.com/elision.eu/"
                 target="_blank"
-                className="text-gray-500  hover:text-white flex"
+                className="   hover:text-white flex"
               >
                 <svg
                   className="w-5 h-5"
@@ -33,7 +33,7 @@ export default function Footer() {
               <Link
                 href="https://www.instagram.com/elision_eu/?hl=en"
                 target="_blank"
-                className="text-gray-500  hover:text-white flex"
+                className="   hover:text-white flex"
               >
                 <svg
                   className="w-5 h-5"
@@ -54,7 +54,7 @@ export default function Footer() {
               <Link
                 href="https://twitter.com/elision_eu?lang=en"
                 target="_blank"
-                className="text-gray-500  hover:text-white flex"
+                className="   hover:text-white flex"
               >
                 <svg
                   className="w-5 h-5"
