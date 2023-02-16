@@ -4,6 +4,9 @@ import { useRecoilState } from "recoil";
 import { recoilLoggedIn } from "@/store";
 export default function Navigation() {
   const [loggedIn, setLoggedIn] = useRecoilState(recoilLoggedIn);
+  function logOutHandler() {
+    setLoggedIn(false);
+  }
   return (
     <nav className="relative w-full flex flex-wrap items-center justify-between py-3 bg-gray-900 text-gray-200 shadow-lg navbar navbar-expand-lg navbar-light border-gray-800 rounded border-b-2">
       <div className="container flex flex-wrap items-center justify-between mx-auto">
@@ -64,11 +67,20 @@ export default function Navigation() {
               </Link>
             </li>
             <li className="nav-item p-2">
-              <Link
-                className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center w-full"
-                href="/sign-in">
-                {loggedIn ? "log out" : "log in"}
-              </Link>
+              {!loggedIn && (
+                <Link
+                  className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center w-full"
+                  href="/sign-in">
+                  log in
+                </Link>
+              )}
+              {loggedIn && (
+                <button
+                  className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center "
+                  onClick={logOutHandler}>
+                  log out
+                </button>
+              )}
             </li>
           </ul>
         </div>
