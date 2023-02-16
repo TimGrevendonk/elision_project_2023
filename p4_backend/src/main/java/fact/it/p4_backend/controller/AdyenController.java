@@ -61,7 +61,7 @@ public class AdyenController {
         checkoutSessionRequest.setAmount(amount);
         checkoutSessionRequest.setMerchantAccount(getAdyenMerchantAccount());
         checkoutSessionRequest.setReturnUrl("https://localhost:3000/");
-        checkoutSessionRequest.setReference("YOUR_PAYMENT_REFERENCE");
+        checkoutSessionRequest.setReference("Team B3 payment");
         checkoutSessionRequest.setCountryCode("NL");
         CreateCheckoutSessionResponse checkoutSessionResponse = getCheckout().sessions(checkoutSessionRequest);
 
