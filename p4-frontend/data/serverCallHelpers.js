@@ -8,6 +8,7 @@ export async function callServerPost(url, data) {
       "Content-Type": "application/json",
     },
   });
+  console.log("[debug] url for backend", urlPrefix + url);
   return await response.json();
 }
 
@@ -18,6 +19,7 @@ export async function callServerGet(url) {
       "Content-Type": "application/json",
     },
   });
+  console.log("[debug] url for backend", urlPrefix + url);
   return await response.json();
 }
 
@@ -29,5 +31,6 @@ export async function callServerPostNoJson(url, data) {
       "Content-Type": "application/json",
     },
   });
+  console.log("[debug] url for backend", urlPrefix + url);
   return response;
 }
