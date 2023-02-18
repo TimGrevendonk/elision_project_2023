@@ -40,13 +40,13 @@ export async function callServerPostNoJson(url, data) {
   console.log("[debug] url for backend", urlPrefix + url);
   //console.log("[debug] url for backend", data);
   const obj = {"name": "jan4", "mail": "jan4@gmail.com", "password": "jan4"};
-  const data = JSON.stringify(obj);
+  const staticdata = JSON.stringify(obj);
   console.log("static data", data);
   
   const response = await fetch(urlPrefix + url, {
     method: "POST",
     //body: data ? JSON.stringify(data) : "",
-    body: data,
+    body: staticdata,
     headers: {
       "Content-Type": "application/json",
     },
