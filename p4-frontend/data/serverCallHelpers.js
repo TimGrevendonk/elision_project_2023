@@ -9,6 +9,7 @@ export async function callServerPost(url, data) {
     },
   });
   console.log("[debug] url for backend", urlPrefix + url);
+  console.log("[debug] url for backend", data);
   return await response.json();
 }
 
@@ -32,5 +33,6 @@ export async function callServerPostNoJson(url, data) {
     },
   });
   console.log("[debug] url for backend", urlPrefix + url);
+  console.log("[debug] url for backend", data);
   return response;
 }
