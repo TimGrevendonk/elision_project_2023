@@ -19,8 +19,7 @@ import java.util.UUID;
 
 
 @RestController
-/*@CrossOrigin(origins = "http://localhost:3000")*/
-@CrossOrigin(origins = "http://developmentfrontend2-env.eba-dd6npxjk.us-east-1.elasticbeanstalk.com")
+@CrossOrigin(origins = {"http://developmentfrontend2-env.eba-dd6npxjk.us-east-1.elasticbeanstalk.com", "http://localhost:3000"})
 @PropertySource("classpath:environment.properties")
 @RequestMapping("/payment")
 public class AdyenController {
