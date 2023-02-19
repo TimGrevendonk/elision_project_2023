@@ -1,14 +1,18 @@
 /* eslint-disable react/no-unescaped-entities */
 import { getItemById, getProducts } from "@/data/querries";
-import { useRecoilState } from "recoil";
 import { recoilproductsToBuy } from "../../store";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import Link from "next/link";
+import { useRecoilState } from "recoil";
+import { recoilLoggedIn } from "@/store";
+
 export default function ProductDetailPage(props) {
   const info = props.productInfo;
   const id = props.productID;
   const [quantity, setQuantity] = useState(1);
   const [productToBuy, setProductToBuy] = useRecoilState(recoilproductsToBuy);
+  const [loggedIn, setLoggedIn] = useRecoilState(recoilLoggedIn);
   const router = useRouter();
 
   function quantityUp() {
@@ -20,6 +24,10 @@ export default function ProductDetailPage(props) {
     } else {
       setQuantity(1);
     }
+  }
+
+  function handleGoToLogin() {
+    router.push("/sign-in");
   }
 
   function buyHandler(quantity) {
@@ -47,35 +55,50 @@ export default function ProductDetailPage(props) {
           {info.description}
         </p>
       </div>
-      <div className="w-1/2 md:w-1/3">
-        <label className="w-full text-white text-sm font-semibold">
-          Quantity
-        </label>
-        <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
-          <button
-            onClick={quantityDown}
-            className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none"
-          >
-            -
-          </button>
-          <span className="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 justify-center">
-            {quantity}
-          </span>
-          <button
-            onClick={quantityUp}
-            className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
-          >
-            +
-          </button>
-        </div>
-        <div>
-          <button
-            onClick={() => buyHandler(quantity)}
-            className="bg-slate-500 rounded w-full hover:bg-slate-600 hover:text-gray-300"
-          >
-            BUY NOW
-          </button>
-        </div>
+      <div className="w-full sm:w-1/2 lg:w-1/3 mt-1">
+        {loggedIn && (
+          <>
+            <label className="w-full text-white text-sm font-semibold">
+              Quantity
+            </label>
+            <div className="flex flex-row h-10 w-full rounded-lg relative bg-transparent mt-1">
+              <button
+                onClick={quantityDown}
+                className=" bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-l cursor-pointer outline-none"
+              >
+                -
+              </button>
+              <span className="outline-none focus:outline-none text-center w-full bg-gray-300 font-semibold text-md hover:text-black focus:text-black  md:text-basecursor-default flex items-center text-gray-700 justify-center">
+                {quantity}
+              </span>
+              <button
+                onClick={quantityUp}
+                className="bg-gray-300 text-gray-600 hover:text-gray-700 hover:bg-gray-400 h-full w-20 rounded-r cursor-pointer"
+              >
+                +
+              </button>
+            </div>
+            <div>
+              <button
+                onClick={() => buyHandler(quantity)}
+                className="bg-slate-500 rounded w-full hover:bg-slate-600 hover:text-gray-300"
+              >
+                BUY NOW
+              </button>
+            </div>
+          </>
+        )}
+        {!loggedIn && (
+          <div>
+            <button
+              onClick={handleGoToLogin}
+              className="bg-slate-500 rounded w-full hover:bg-slate-600 hover:text-gray-300"
+              href="/sign-in"
+            >
+              log in to Buy this product!
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

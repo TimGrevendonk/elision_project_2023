@@ -1,10 +1,16 @@
 import Link from "next/link";
 import Search from "../search";
+import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { recoilLoggedIn } from "@/store";
 export default function Navigation() {
   const [loggedIn, setLoggedIn] = useRecoilState(recoilLoggedIn);
+  const router = useRouter();
+
   function logOutHandler() {
+    if (router.pathname == "/payment/method") {
+      router.back();
+    }
     setLoggedIn(false);
   }
   return (
@@ -68,12 +74,12 @@ export default function Navigation() {
             </li>
             <li className="nav-item p-2">
               {!loggedIn && (
-                <Link
+                <button
                   className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center w-full"
-                  href="/sign-in"
+                  onClick={() => router.push("/sign-in")}
                 >
                   log in
-                </Link>
+                </button>
               )}
               {loggedIn && (
                 <button

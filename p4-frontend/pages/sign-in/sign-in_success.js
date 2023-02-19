@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 export default function SuccessSignInPage() {
   const router = useRouter();
 
-  function handleReturnHomePage(event) {
-    router.push("/");
+  function handleReturnToPageBeforeLogin(event) {
+    // router.back();
+    window.history.go(-2);
   }
 
   return (
@@ -18,9 +19,9 @@ export default function SuccessSignInPage() {
         </ol> */}
       <p
         className="cursor-pointer bg-slate-800 rounded-sm text-center p-1 mt-2 hover:bg-slate-600 md:w-1/2 md:m-auto"
-        onClick={handleReturnHomePage}
+        onClick={handleReturnToPageBeforeLogin}
       >
-        return to home page
+        return to previous page
       </p>
     </div>
   );

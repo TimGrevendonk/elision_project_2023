@@ -14,12 +14,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.UUID;
 
 
 @RestController
-@CrossOrigin(origins = "http://developmentfrontend2-env.eba-dd6npxjk.us-east-1.elasticbeanstalk.com")
+@CrossOrigin(origins = {"http://developmentfrontend2-env.eba-dd6npxjk.us-east-1.elasticbeanstalk.com", "http://localhost:3000"})
 @PropertySource("classpath:environment.properties")
 @RequestMapping("/payment")
 public class AdyenController {
@@ -60,7 +61,7 @@ public class AdyenController {
 
         checkoutSessionRequest.setAmount(amount);
         checkoutSessionRequest.setMerchantAccount(getAdyenMerchantAccount());
-        checkoutSessionRequest.setReturnUrl("https://localhost:3000/");
+        checkoutSessionRequest.setReturnUrl("http://developmentfrontend2-env.eba-dd6npxjk.us-east-1.elasticbeanstalk.com/payment/pending");
         checkoutSessionRequest.setReference("Team B3 payment");
         checkoutSessionRequest.setCountryCode("NL");
         CreateCheckoutSessionResponse checkoutSessionResponse = getCheckout().sessions(checkoutSessionRequest);
@@ -80,6 +81,7 @@ public class AdyenController {
         this.checkout = new Checkout(new Client(getAdyenApiKey(), Environment.TEST));
         PaymentMethodsRequest paymentRequest = new PaymentMethodsRequest();
         paymentRequest.setMerchantAccount(getAdyenMerchantAccount());
+        paymentRequest.setBlockedPaymentMethods(Arrays.asList("ideal", "bcmc", "bcmc_mobile"));
         paymentRequest.setChannel(PaymentMethodsRequest.ChannelEnum.WEB);
 
         PaymentMethodsResponse response = getCheckout().paymentMethods(paymentRequest);
