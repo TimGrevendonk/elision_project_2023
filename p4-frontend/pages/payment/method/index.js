@@ -53,7 +53,7 @@ export default function PaymentMethodPage(props) {
       const paymentMethodsResponse = await callServerPost(
         "/payment/paymentMethods"
       );
-
+      console.log("[debug] the payment response:   ", paymentMethodsResponse);
       const sessionResult = await callServerGet(
         `/payment/session?price=${productToBuy.product.price}&quantity=${productToBuy.quantity}`
       );
