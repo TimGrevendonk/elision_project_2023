@@ -6,9 +6,9 @@ export default function PendingPage() {
   const [productToBuy, setProductToBuy] = useRecoilState(recoilproductsToBuy);
   const router = useRouter();
 
-  function handleReturnHomePage(event) {
-    router.back();
-    router.back();
+  function handleReturnToPreviousPage(event) {
+    // router.back();
+    window.history.go(-2);
     setProductToBuy({});
   }
 
@@ -17,7 +17,7 @@ export default function PendingPage() {
       <h1 className="pb-1 text-center">The transaction is pending</h1>
       <p
         className="cursor-pointer bg-slate-800 rounded-sm text-center p-1 mt-2 hover:bg-slate-600 md:w-1/2 md:m-auto"
-        onClick={handleReturnHomePage}
+        onClick={handleReturnToPreviousPage}
       >
         return to previous page
       </p>

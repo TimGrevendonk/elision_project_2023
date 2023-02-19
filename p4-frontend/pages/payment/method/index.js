@@ -53,17 +53,22 @@ export default function PaymentMethodPage(props) {
       const paymentMethodsResponse = await callServerPost(
         "/payment/paymentMethods"
       );
-      console.log("[debug] the payment response:   ", paymentMethodsResponse);
+      console.log("[debug] payment methods response: ", paymentMethodsResponse);
+
       const sessionResult = await callServerGet(
         `/payment/session?price=${productToBuy.product.price}&quantity=${productToBuy.quantity}`
       );
+      console.log("[debug] sessionresult:  ", sessionResult);
+
+      console.log("[debug] C-key\n\n", process.env.ADYEN_CLIENT_KEY);
 
       const configuration = {
         environment: "test", // Change to one of the environment values specified in step 4.
         clientKey: process.env.ADYEN_CLIENT_KEY,
+        // disabled payment methods for the user (all).
         paymentMethodsResponse: paymentMethodsResponse,
         analytics: {
-          enabled: true, // Set to false to not send analytics data to Adyen.
+          enabled: false, // Set to false to not send analytics data to Adyen.
         },
         session: {
           id: sessionResult.id, // Unique identifier for the payment session.
@@ -83,6 +88,7 @@ export default function PaymentMethodPage(props) {
             hasHolderName: false,
             holderNameRequired: false,
             billingAddressRequired: false,
+            blockedPaymentMethods: ["ideal", "bcmc", "bcmc_mobile"],
           },
         },
       };
