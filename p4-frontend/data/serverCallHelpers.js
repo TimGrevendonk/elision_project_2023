@@ -13,6 +13,8 @@ export async function callServerPost(url, data) {
     body: data ? JSON.stringify(data) : "",
     headers: {
       "Content-Type": "application/json",
+      "Access-Control-Allow-Origin": "http://development.runemannaerts.com",
+      "Access-Control-Allow-Credentials": "true",
     },
   });
 
