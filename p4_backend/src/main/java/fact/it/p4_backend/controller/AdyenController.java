@@ -62,7 +62,7 @@ public class AdyenController {
         checkoutSessionRequest.setAmount(amount);
         checkoutSessionRequest.setMerchantAccount(getAdyenMerchantAccount());
         checkoutSessionRequest.setReturnUrl("http://developmentfrontend2-env.eba-dd6npxjk.us-east-1.elasticbeanstalk.com/payment/pending");
-        checkoutSessionRequest.setReference("payment: " + mail + UUID.randomUUID());
+        checkoutSessionRequest.setReference("payment: " + mail + "-" + UUID.randomUUID());
         checkoutSessionRequest.setCountryCode("NL");
         CreateCheckoutSessionResponse checkoutSessionResponse = getCheckout().sessions(checkoutSessionRequest);
 
