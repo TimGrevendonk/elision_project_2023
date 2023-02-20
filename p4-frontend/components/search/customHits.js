@@ -13,7 +13,7 @@ function Hits({ searchState, searchResults }) {
         <ol>
           {searchResults.hits.map((hit) => (
             <Link href={`/products/${hit.objectID}`} key={hit.objectID}>
-              <li className="border-b border-gray-800 p-1 hover:bg-slate-700 rounded-sm  0 w-auto">
+              <li className="border-b border-gray-800 p-1 bg-slate-600 hover:bg-slate-700 rounded-sm  0 w-auto">
                 {hit.title}
                 &nbsp;&nbsp;€{hit.price}
               </li>
