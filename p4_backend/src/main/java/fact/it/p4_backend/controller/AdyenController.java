@@ -51,7 +51,7 @@ public class AdyenController {
      * @throws ApiException Api call error.
      */
     @GetMapping("/session")
-    public ResponseEntity<CreateCheckoutSessionResponse> AdyenClient(Double price, Integer quantity) throws IOException, ApiException {
+    public ResponseEntity<CreateCheckoutSessionResponse> AdyenClient(Double price, Integer quantity, String mail) throws IOException, ApiException {
         this.checkout = new Checkout(new Client(getAdyenApiKey(), Environment.TEST));
         CreateCheckoutSessionRequest checkoutSessionRequest = new CreateCheckoutSessionRequest();
 
@@ -62,7 +62,7 @@ public class AdyenController {
         checkoutSessionRequest.setAmount(amount);
         checkoutSessionRequest.setMerchantAccount(getAdyenMerchantAccount());
         checkoutSessionRequest.setReturnUrl("http://developmentfrontend2-env.eba-dd6npxjk.us-east-1.elasticbeanstalk.com/payment/pending");
-        checkoutSessionRequest.setReference("Team B3 payment");
+        checkoutSessionRequest.setReference("payment: " + mail + "-" + UUID.randomUUID());
         checkoutSessionRequest.setCountryCode("NL");
         CreateCheckoutSessionResponse checkoutSessionResponse = getCheckout().sessions(checkoutSessionRequest);
 
