@@ -54,14 +54,10 @@ export default function PaymentMethodPage(props) {
       const paymentMethodsResponse = await callServerPost(
         "/payment/paymentMethods"
       );
-      console.log("[debug] payment methods response: ", paymentMethodsResponse);
 
       const sessionResult = await callServerGet(
         `/payment/session?price=${productToBuy.product.price}&quantity=${productToBuy.quantity}&mail=${loggedIn.userMail}`
       );
-      console.log("[debug] sessionresult:  ", sessionResult);
-
-      console.log("[debug] C-key\n\n", process.env.ADYEN_CLIENT_KEY);
 
       const configuration = {
         environment: "test", // Change to one of the environment values specified in step 4.

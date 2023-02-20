@@ -15,7 +15,6 @@ export default function SingInPage() {
       password: event.target.password.value,
     };
     const response = await callServerPostNoJson("/api/user/sign-in", loginData);
-    console.log("[debug] login data response", response);
 
     if (response.responseStatus.status == 200) {
       setLoggedIn(response.userData);
