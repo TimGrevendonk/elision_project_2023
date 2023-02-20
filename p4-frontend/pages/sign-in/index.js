@@ -18,8 +18,8 @@ export default function SingInPage() {
     console.log("[debug] login data response", response);
     console.log("[debug] path name", router.pathname);
 
-    if (response.status == 200) {
-      setLoggedIn(true);
+    if (response.responseStatus.status == 200) {
+      setLoggedIn(response.userData);
       router.push("/sign-in/sign-in_success");
     } else {
       router.push("/sign-in/sign-in_refused");

@@ -40,12 +40,21 @@ export async function callServerPostNoJson(url, data) {
     data
   );
 
-  const response = await fetch(urlPrefix + url, {
+  let responseStatus = {};
+  const userData = await fetch(urlPrefix + url, {
     method: "POST",
     body: data ? JSON.stringify(data) : "",
     headers: {
       "Content-Type": "application/json",
     },
-  });
-  return response;
+  })
+    .then(function (response) {
+      responseStatus = response;
+      return response.json();
+    })
+    .then(function (data) {
+      return data;
+    });
+
+  return { responseStatus, userData };
 }

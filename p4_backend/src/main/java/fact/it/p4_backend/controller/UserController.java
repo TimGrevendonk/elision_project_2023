@@ -91,6 +91,7 @@ public class UserController {
     @PostMapping("/user/sign-in")
     public ResponseEntity<UserSecureDTO> signInUser(@RequestBody User loginUser) throws Exception{
         UserSecureDTO user = getUserService().signIn(loginUser);
+        System.out.println(user.getUserName());
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 

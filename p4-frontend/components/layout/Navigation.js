@@ -11,7 +11,7 @@ export default function Navigation() {
     if (router.pathname == "/payment/method") {
       router.back();
     }
-    setLoggedIn(false);
+    setLoggedIn();
   }
   return (
     <nav className="relative w-full flex flex-wrap items-center justify-between py-3 bg-gray-900 text-gray-200 shadow-lg navbar navbar-expand-lg navbar-light border-gray-800 rounded border-b-2">
@@ -82,12 +82,19 @@ export default function Navigation() {
                 </button>
               )}
               {loggedIn && (
-                <button
-                  className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center "
-                  onClick={logOutHandler}
-                >
-                  log out
-                </button>
+                <>
+                  <button
+                    className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center "
+                    onClick={logOutHandler}
+                  >
+                    log out
+                  </button>
+                  <p className=" text-xs">
+                    {loggedIn.userMail.length > 30
+                      ? loggedIn.userMail
+                      : loggedIn.userMail.slice(0, 17) + "..."}
+                  </p>
+                </>
               )}
             </li>
           </ul>
