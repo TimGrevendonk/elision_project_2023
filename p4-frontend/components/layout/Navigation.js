@@ -91,9 +91,9 @@ export default function Navigation() {
                   >
                     log out
                     <p className=" text-xs">
-                      {loggedIn.userMail.length > 30
+                      {loggedIn.userMail.length < 15
                         ? loggedIn.userMail
-                        : loggedIn.userMail.slice(0, 17) + "..."}
+                        : loggedIn.userMail.slice(0, 12) + "..."}
                     </p>
                   </button>
                 </>
