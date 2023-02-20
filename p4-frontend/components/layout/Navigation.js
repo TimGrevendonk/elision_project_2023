@@ -74,26 +74,28 @@ export default function Navigation() {
             </li>
             <li className="nav-item p-2">
               {!loggedIn && (
-                <button
-                  className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center w-full"
-                  onClick={() => router.push("/sign-in")}
-                >
-                  log in
-                </button>
+                <>
+                  <button
+                    className="mx-4 nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-4 rounded text-center w-full"
+                    onClick={() => router.push("/sign-in")}
+                  >
+                    log in
+                  </button>
+                </>
               )}
               {loggedIn && (
                 <>
                   <button
-                    className="nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-2 rounded text-center "
+                    className="mx-4 nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded text-center w-full"
                     onClick={logOutHandler}
                   >
                     log out
+                    <p className=" text-xs">
+                      {loggedIn.userMail.length > 30
+                        ? loggedIn.userMail
+                        : loggedIn.userMail.slice(0, 17) + "..."}
+                    </p>
                   </button>
-                  <p className=" text-xs">
-                    {loggedIn.userMail.length > 30
-                      ? loggedIn.userMail
-                      : loggedIn.userMail.slice(0, 17) + "..."}
-                  </p>
                 </>
               )}
             </li>
