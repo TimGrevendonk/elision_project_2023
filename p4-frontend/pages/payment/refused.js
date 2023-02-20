@@ -9,7 +9,7 @@ export default function RefusedPage() {
   function handleReturnToPreviousPage(event) {
     // router.back();
     window.history.go(-2);
-    setProductToBuy({});
+    setProductToBuy();
   }
 
   return (

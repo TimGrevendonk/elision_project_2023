@@ -8,7 +8,6 @@ export default function SuccessSignInPage() {
   const router = useRouter();
 
   function handleReturnToPageBeforeLogin(event) {
-    // router.back();
     window.history.go(-2);
   }
 
