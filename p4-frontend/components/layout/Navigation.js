@@ -20,7 +20,7 @@ export default function Navigation() {
           <img
             src="/images/elision.png"
             alt="elision logo"
-            className="w-40 h-20"
+            className="w-40 h-20 rounded-br-3xl rounded-l-md rounded-tr-md"
           ></img>
         </Link>
         <div className="flex-grow items-center">
@@ -56,7 +56,7 @@ export default function Navigation() {
           id="navbarSupportedContent1"
         >
           <ul className="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
-            <li className="nav-item p-2">
+            <li className="my-auto nav-item p-1">
               <Link
                 className="nav-link text-white opacity-60 hover:opacity-80 focus:opacity-80 p-0"
                 href="/about"
@@ -64,7 +64,7 @@ export default function Navigation() {
                 About
               </Link>
             </li>
-            <li className="nav-item p-2">
+            <li className="my-auto nav-item p-1">
               <Link
                 className="nav-link text-white opacity-60 hover:opacity-80 focus:opacity-80 p-0"
                 href="/Categories"
@@ -72,7 +72,7 @@ export default function Navigation() {
                 Categories
               </Link>
             </li>
-            <li className="nav-item p-2">
+            <li className="nav-item p-1">
               {!loggedIn && (
                 <>
                   <button
@@ -86,7 +86,7 @@ export default function Navigation() {
               {loggedIn && (
                 <>
                   <button
-                    className="mx-4 nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded text-center w-full"
+                    className="mx-4 md:mx-0 nav-link bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded text-center w-full"
                     onClick={logOutHandler}
                   >
                     log out
