@@ -3,12 +3,13 @@ import "@adyen/adyen-web/dist/adyen.css";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useRecoilState } from "recoil";
-import { recoilproductsToBuy } from "/store";
+import { recoilproductsToBuy, recoilLoggedIn } from "/store";
 import { callServerPost, callServerGet } from "../../../data/serverCallHelpers";
 import { logDOM } from "@testing-library/react";
 
 export default function PaymentMethodPage(props) {
   const [productToBuy, setProductToBuy] = useRecoilState(recoilproductsToBuy);
+  const [loggedIn, setLoggedIn] = useRecoilState(recoilLoggedIn);
   const router = useRouter();
 
   function handleReturnPreviousPage(event) {
@@ -56,7 +57,7 @@ export default function PaymentMethodPage(props) {
       console.log("[debug] payment methods response: ", paymentMethodsResponse);
 
       const sessionResult = await callServerGet(
-        `/payment/session?price=${productToBuy.product.price}&quantity=${productToBuy.quantity}`
+        `/payment/session?price=${productToBuy.product.price}&quantity=${productToBuy.quantity}&mail=${loggedIn.userMail}`
       );
       console.log("[debug] sessionresult:  ", sessionResult);
 

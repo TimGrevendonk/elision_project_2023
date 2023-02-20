@@ -1,4 +1,4 @@
-import { callServerPostNoJson } from "@/data/serverCallHelpers";
+import { callServerPostNoJsonconvert } from "@/data/serverCallHelpers";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -14,10 +14,11 @@ export default function SignUpPage() {
       password: event.target.password.value,
     };
 
-    const response = await callServerPostNoJson(
+    const response = await callServerPostNoJsonconvert(
       "/api/user/create",
       newUserData
     );
+    console.log("[debug] sign up response", response);
 
     if (response.status == 200) {
       router.push("/sign-up/success");

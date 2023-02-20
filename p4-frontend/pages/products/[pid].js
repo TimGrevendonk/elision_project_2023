@@ -1,11 +1,10 @@
 /* eslint-disable react/no-unescaped-entities */
 import { getItemById, getProducts } from "@/data/querries";
-import { recoilproductsToBuy } from "../../store";
+import { recoilproductsToBuy, recoilLoggedIn } from "../../store";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import Link from "next/link";
 import { useRecoilState } from "recoil";
-import { recoilLoggedIn } from "@/store";
 
 export default function ProductDetailPage(props) {
   const info = props.productInfo;
@@ -38,7 +37,7 @@ export default function ProductDetailPage(props) {
   return (
     <div className="p-3">
       <div className="bg-slate-600  flex justify-center">
-        <h1 className="font-bold text-xl">{info.title}</h1>
+        <h1 className="font-bold text-xl p-2">{info.title}</h1>
       </div>
       <div className="bg-slate-400 flex justify-center">
         {info.thumbnails.map((image) => (
@@ -113,6 +112,8 @@ export async function getStaticProps(context) {
       productID: productId,
       productInfo: productInfo,
     },
+    // for demo purposes:
+    revalidate: 6,
   };
 }
 

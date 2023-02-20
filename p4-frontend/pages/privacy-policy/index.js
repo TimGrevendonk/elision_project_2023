@@ -26,5 +26,7 @@ export async function getStaticProps() {
     props: {
       privacyPolicy: privacyInfo,
     },
+    // for demo purposes:
+    revalidate: 6,
   };
 }

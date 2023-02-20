@@ -16,7 +16,6 @@ export default function SingInPage() {
     };
     const response = await callServerPostNoJson("/api/user/sign-in", loginData);
     console.log("[debug] login data response", response);
-    console.log("[debug] path name", router.pathname);
 
     if (response.responseStatus.status == 200) {
       setLoggedIn(response.userData);
@@ -66,7 +65,7 @@ export default function SingInPage() {
                   required=""
                 />
               </div>
-              <div className="flex items-center justify-between">
+              {/* <div className="flex items-center justify-between">
                 <div className="flex items-start"></div>
                 <Link
                   href="/sign-in/forgot-password"
@@ -74,7 +73,7 @@ export default function SingInPage() {
                 >
                   Forgot password?
                 </Link>
-              </div>
+              </div> */}
               <button
                 type="submit"
                 className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded text-center w-full"
