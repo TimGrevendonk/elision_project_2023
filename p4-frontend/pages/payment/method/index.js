@@ -150,7 +150,6 @@ export default function PaymentMethodPage(props) {
           Error: return to previous page
         </p>
       )}
-      <div id="dropin-container"></div>
     </div>
   );
 }
