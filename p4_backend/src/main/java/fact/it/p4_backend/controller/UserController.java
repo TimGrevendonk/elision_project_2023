@@ -15,7 +15,7 @@ import fact.it.p4_backend.model.User;
  * Controller to allow CRUD functionality via standard REST queries.
  */
 @RestController
-@CrossOrigin(origins = {"http://18.212.78.57","http://developmentfrontend2-env.eba-dd6npxjk.us-east-1.elasticbeanstalk.com", "http://localhost:3000", "http://34.203.87.232:8080"})
+@CrossOrigin(origins = {"http://development.runemannaerts.com","http://18.212.78.57","http://developmentfrontend2-env.eba-dd6npxjk.us-east-1.elasticbeanstalk.com", "http://localhost:3000", "http://34.203.87.232:8080"})
 @RequestMapping("/api")
 public class UserController {
 
