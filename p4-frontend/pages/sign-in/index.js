@@ -31,6 +31,13 @@ export default function SingInPage() {
             <h1 className="text-xl font-bold leading-tight tracking-tight  md:text-2xl  text-white text-center">
               Sign in to your account
             </h1>
+            <p className="p-2 bg-slate-900 rounded-md border border-red-700">
+              If the sql is connected in the backend and the backend is running:
+              <br />
+              mail: &quot;TimGrevendonk@mail.com&quot;
+              <br />
+              password: &quot;tim&quot;
+            </p>
             <form className="space-y-4 md:space-y-6" onSubmit={submitHandler}>
               <div>
                 <label

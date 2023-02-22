@@ -62,7 +62,6 @@ export default function PaymentMethodPage(props) {
       const configuration = {
         environment: "test", // Change to one of the environment values specified in step 4.
         clientKey: process.env.ADYEN_CLIENT_KEY,
-        // clientKey: "nah",
         // disabled payment methods for the user (all).
         paymentMethodsResponse: paymentMethodsResponse,
         analytics: {
